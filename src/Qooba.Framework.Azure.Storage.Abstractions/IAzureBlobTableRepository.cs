@@ -12,8 +12,6 @@ namespace Qooba.Framework.Azure.Storage.Abstractions
 
         Task<IList<TResult>> Filtered<TResult>(Func<IQueryable<TModel>, IQueryable<TResult>> query);
 
-#if NET461
-
         Task<TResult> FirstOrDefault<TResult>(Func<IQueryable<TModel>, IQueryable<TResult>> query);
 
         Task<TModel> FirstOrDefault(Expression<Func<TModel, bool>> predicate);
@@ -39,7 +37,6 @@ namespace Qooba.Framework.Azure.Storage.Abstractions
         Task<IList<TResult>> Filtered<TResult>(string partitionKey, string rowKey, Func<TModel, bool> predicate, Expression<Func<TModel, TResult>> selector);
 
         Task<IList<TResult>> Filtered<TResult>(string partitionKey, Func<TModel, bool> predicate, Expression<Func<TModel, TResult>> selector);
-#endif
 
         Task Add(IList<TModel> model);
 

@@ -20,7 +20,8 @@
     "netstandard1.6": {
       "dependencies": {
         "NETStandard.Library": "1.6.0",
-        "Microsoft.NETCore.Portable.Compatibility": "1.0.1"
+        "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+        "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1"
       },
       "imports": [ "dnxcore50", "net46", "net461" ]
     }
@@ -30,6 +31,7 @@
     "Qooba.Framework.Configuration.Abstractions": "1.0.0-*",
     "Qooba.Framework.DependencyInjection.Abstractions": "1.0.0-*",
     "Qooba.Framework.Serialization.Abstractions": "1.0.0-*",
-    "Qooba.Framework.Azure.Storage.Abstractions": "1.0.0-*"
+    "Qooba.Framework.Azure.Storage.Abstractions": "1.0.0-*",
+    "Qooba.Framework.UnitOfWork.Abstractions": "1.0.0-*"
   }
 }

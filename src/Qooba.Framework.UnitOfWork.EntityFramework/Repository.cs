@@ -6,10 +6,11 @@ using Qooba.Framework.UnitOfWork.Abstractions;
 using Qooba.Framework.Specification.Abstractions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Qooba.Framework.UnitOfWork.EntityFramework
 {
-    public class Repository<TEntity, TContext> : IRepository<TEntity>
+    public class Repository<TEntity, TContext> : IRepository<TEntity>, IRepositoryCommands<TEntity>, IRepositoryQueries<TEntity>
         where TContext : DbContext
         where TEntity : class
     {
@@ -331,6 +332,83 @@ namespace Qooba.Framework.UnitOfWork.EntityFramework
             var names = GetEntityKeyNames();
             return entity.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).
                 Where(x => names.Contains(x.Name)).Select(x => x.GetValue(entity, null)).ToArray();
+        }
+
+        public async Task<TEntity> AddAndCommitAsync(TEntity entity)
+        {
+            var e = EntitySet.Add(entity);
+            await this.UnitOfWork.CommitAsync();
+            return e.Entity;
+        }
+
+        public async Task<TEntity> UpdateAndCommitAsync(TEntity entity)
+        {
+            EntitySet.Update(entity);
+            await this.UnitOfWork.CommitAsync();
+            return entity;
+        }
+
+        public async Task RemoveAndCommitAsync(TEntity entity)
+        {
+            EntitySet.Remove(entity);
+            await this.UnitOfWork.CommitAsync();
+        }
+
+        public Task<TEntity> MergeAndCommitAsync(TEntity entity)
+        {
+            //TODO: CORE
+            throw new NotImplementedException();
+        }
+
+        public async Task AddAndCommitMultipleAsync(IList<TEntity> entities)
+        {
+            EntitySet.AddRange(entities);
+            await this.UnitOfWork.CommitAsync();
+        }
+
+        public async Task UpdateAndCommitMultipleAsync(IList<TEntity> entities)
+        {
+            EntitySet.UpdateRange(entities);
+            await this.UnitOfWork.CommitAsync();
+        }
+
+        public async Task RemoveAndCommitMultipleAsync(IList<TEntity> entities)
+        {
+            EntitySet.RemoveRange(entities);
+            await this.UnitOfWork.CommitAsync();
+        }
+
+        public Task MergeAndCommitMultipleAsync(IList<TEntity> entities)
+        {
+            //TODO: CORE
+            throw new NotImplementedException();
+        }
+
+        public async Task<IList<TEntity>> AllAsync()
+        {
+            return await All().ToListAsync();
+        }
+
+        public async Task<IList<TEntity>> FilterAsync(ISpecification<TEntity> specification)
+        {
+            return await this.Filter(specification).ToListAsync();
+        }
+
+        public async Task<IList<TResult>> FilterAsync<TResult>(ISpecification<TEntity> specification, Expression<Func<TEntity, TResult>> selector) 
+            where TResult : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IList<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> condition)
+        {
+            return await this.Filter(condition).ToListAsync();
+        }
+
+        public Task<IList<TResult>> FilterAsync<TResult>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TResult>> selector) 
+            where TResult : class
+        {
+            throw new NotImplementedException();
         }
     }
 }

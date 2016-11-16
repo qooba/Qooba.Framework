@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Qooba.Framework.Azure.Storage.Abstractions;
 using Microsoft.WindowsAzure.Storage.Table.Queryable;
+using Qooba.Framework.UnitOfWork.Abstractions;
+using Qooba.Framework.Specification.Abstractions;
 
 namespace Qooba.Framework.Azure.Storage
 {
-    public class AzureBlobTableRepository<TModel> : IAzureBlobTableRepository<TModel>
+    public class AzureBlobTableRepository<TModel> : IAzureBlobTableRepository<TModel>, IRepositoryCommands<TModel>, IRepositoryQueries<TModel>
         where TModel : class, ITableEntity, new()
     {
         private readonly IConfig config;
@@ -29,6 +31,14 @@ namespace Qooba.Framework.Azure.Storage
             }
         }
 
+        public IUnitOfWork UnitOfWork
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public async Task<IList<TModel>> All()
         {
             return await ExecuteAsync(this.Set());
@@ -38,8 +48,6 @@ namespace Qooba.Framework.Azure.Storage
         {
             return await ExecuteAsync(query(this.Set()).AsTableQuery());
         }
-
-#if NET461
 
         public async Task<TResult> FirstOrDefault<TResult>(Func<IQueryable<TModel>, IQueryable<TResult>> query)
         {
@@ -77,7 +85,7 @@ namespace Qooba.Framework.Azure.Storage
         {
             return (await Filtered(x => x.Where(m => m.PartitionKey == partitionKey && predicate(m)).Select(selector))).FirstOrDefault();
         }
-        
+
         public async Task<IList<TModel>> Filtered(Expression<Func<TModel, bool>> predicate)
         {
             return await Filtered(x => x.Where(predicate));
@@ -107,8 +115,6 @@ namespace Qooba.Framework.Azure.Storage
         {
             return await Filtered(x => x.Where(m => m.PartitionKey == partitionKey && predicate(m)).Select(selector));
         }
-
-#endif
 
         public async Task Add(IList<TModel> model)
         {
@@ -184,6 +190,127 @@ namespace Qooba.Framework.Azure.Storage
             var tableClient = storageAccount.CreateCloudTableClient();
             CloudTable table = tableClient.GetTableReference(this.TableName);
             return table;
+        }
+
+        public async Task<TModel> AddAndCommitAsync(TModel entity)
+        {
+            await this.Add(entity);
+            return entity;
+        }
+
+        public async Task<TModel> UpdateAndCommitAsync(TModel entity)
+        {
+            await this.AddOrReplace(entity);
+            return entity;
+        }
+
+        public async Task RemoveAndCommitAsync(TModel entity)
+        {
+            await this.Delete(entity);
+        }
+
+        public async Task<TModel> MergeAndCommitAsync(TModel entity)
+        {
+            await this.AddOrMerge(entity);
+            return entity;
+        }
+
+        public async Task AddAndCommitMultipleAsync(IList<TModel> entities)
+        {
+            await Task.WhenAll(entities.Select(e => this.Add(e)));
+        }
+
+        public async Task UpdateAndCommitMultipleAsync(IList<TModel> entities)
+        {
+            await Task.WhenAll(entities.Select(e => this.AddOrReplace(e)));
+        }
+
+        public async Task RemoveAndCommitMultipleAsync(IList<TModel> entities)
+        {
+            await Task.WhenAll(entities.Select(e => this.Delete(e)));
+        }
+
+        public async Task MergeAndCommitMultipleAsync(IList<TModel> entities)
+        {
+            await Task.WhenAll(entities.Select(e => this.AddOrMerge(e)));
+        }
+
+        public async Task<IList<TModel>> AllAsync()
+        {
+            return await this.All();
+        }
+
+        public async Task<bool> AnyAsync()
+        {
+            return (await Filtered(x => x.Select(e => e.RowKey))).Any();
+        }
+
+        public Task<bool> AnyAsync(ISpecification<TModel> specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> AnyAsync(Expression<Func<TModel, bool>> condition)
+        {
+            return (await Filtered(x => x.Where(condition).Select(e => e.RowKey))).Any();
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return (await Filtered(x => x.Select(e => e.RowKey))).Count();
+        }
+
+        public Task<int> CountAsync(ISpecification<TModel> specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int> CountAsync(Expression<Func<TModel, bool>> condition)
+        {
+            return (await Filtered(x => x.Where(condition).Select(e => e.RowKey))).Count();
+        }
+
+        public Task<TModel> SingleAsync(ISpecification<TModel> specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<TModel> SingleAsync(Expression<Func<TModel, bool>> condition)
+        {
+            return (await Filtered(x => x.Where(condition))).Single();
+        }
+
+        public Task<TModel> SingleOrDefaultAsync(ISpecification<TModel> specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<TModel> SingleOrDefaultAsync(Expression<Func<TModel, bool>> condition)
+        {
+            return (await Filtered(x => x.Where(condition))).SingleOrDefault();
+        }
+
+        public Task<IList<TModel>> FilterAsync(ISpecification<TModel> specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IList<TModel>> FilterAsync(Expression<Func<TModel, bool>> condition)
+        {
+            return await Filtered(x => x.Where(condition));
+        }
+
+
+        public async Task<IList<TResult>> FilterAsync<TResult>(ISpecification<TModel> specification, Expression<Func<TModel, TResult>> selector)
+            where TResult : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IList<TResult>> FilterAsync<TResult>(Expression<Func<TModel, bool>> condition, Expression<Func<TModel, TResult>> selector)
+            where TResult : class
+        {
+            return await Filtered(x => x.Where(condition).Select(selector));
         }
     }
 }
