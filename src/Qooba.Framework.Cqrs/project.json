@@ -1,0 +1,23 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Qooba.Framework.Cqrs Class Library",
+  "authors": [ "qba" ],
+
+  "dependencies": {
+    "Qooba.Framework.Cqrs.Abstractions": "1.0.0-*",
+    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.0-*",
+    "Qooba.Framework.UnitOfWork.Abstractions": "1.0.0-*",
+    "Qooba.Framework.Mapping.Abstractions": "1.0.0-*",
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0"
+  },
+
+  "frameworks": {
+    "net461": {},
+    "netstandard1.6": {
+      "dependencies": {
+        "NETStandard.Library": "1.6.0"
+      },
+      "imports": [ "dnxcore50", "net46", "net461" ]
+    }
+  }
+}

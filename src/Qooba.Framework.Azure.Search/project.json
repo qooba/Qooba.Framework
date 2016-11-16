@@ -1,0 +1,18 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Qooba.Framework.Azure.Search Class Library",
+  "authors": [ "qba" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "frameworks": {
+    "net461": { }
+  },
+  "dependencies": {
+    "Microsoft.Azure.Search": "1.1.1",
+    "Qooba.Framework.Azure.Search.Abstractions": "1.0.0-*",
+    "Qooba.Framework.Configuration.Abstractions": "1.0.0-*",
+    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.0-*"
+  }
+}

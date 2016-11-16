@@ -1,0 +1,12 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Qooba.Framework.Azure.Search.Abstractions Class Library",
+  "authors": [ "qba" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "frameworks": {
+    "net461": { }
+  }
+}

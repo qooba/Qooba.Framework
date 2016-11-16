@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0-*",
+
+  "frameworks": {
+    "net461": {}
+  },
+
+  "dependencies": {
+    "System.Net.Http": "4.1.0"
+  }
+}
