@@ -7,9 +7,9 @@ namespace Qooba.Framework.Cqrs.QueryHandlers
     public class SingleQueryHandler<TParameter> : IQueryHandler<QueryFilterParameter<TParameter>, QueryResult<TParameter>>
         where TParameter : class
     {
-        private IRepository<TParameter> repository;
+        private IRepositoryQueries<TParameter> repository;
 
-        public SingleQueryHandler(IRepository<TParameter> repository)
+        public SingleQueryHandler(IRepositoryQueries<TParameter> repository)
         {
             this.repository = repository;
         }

@@ -8,12 +8,12 @@ namespace Qooba.Framework.Cqrs.QueryHandlers
         where TParameter : class, IQuery
         where TResult : IQueryResult
     {
-        public BaseQueryHandler(IRepository<TParameter> repository)
+        public BaseQueryHandler(IRepositoryQueries<TParameter> repository)
         {
             this.Repository = repository;
         }
 
-        public IRepository<TParameter> Repository { get; private set; }
+        public IRepositoryQueries<TParameter> Repository { get; private set; }
 
         public abstract Task<TResult> Retrieve(TParameter query);
     }

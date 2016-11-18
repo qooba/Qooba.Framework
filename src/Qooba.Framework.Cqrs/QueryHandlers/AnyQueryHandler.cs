@@ -7,9 +7,9 @@ namespace Qooba.Framework.Cqrs.QueryHandlers
     public class AnyQueryHandler<TParameter> : IQueryHandler<QueryFilterParameter<TParameter>, QueryResult<bool>>
         where TParameter : class
     {
-        private IRepository<TParameter> repository;
+        private IRepositoryQueries<TParameter> repository;
 
-        public AnyQueryHandler(IRepository<TParameter> repository)
+        public AnyQueryHandler(IRepositoryQueries<TParameter> repository)
         {
             this.repository = repository;
         }

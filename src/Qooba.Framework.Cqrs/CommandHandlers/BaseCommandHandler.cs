@@ -7,12 +7,12 @@ namespace Qooba.Framework.Cqrs.CommandHandlers
     public abstract class BaseCommandHandler<TCommand> : BaseHandler, ICommandHandler<TCommand>
         where TCommand : class, ICommand 
     {
-        public BaseCommandHandler(IRepository<TCommand> repository)
+        public BaseCommandHandler(IRepositoryCommands<TCommand> repository)
         {
             this.Repository = repository;
         }
 
-        public IRepository<TCommand> Repository { get; private set; }
+        public IRepositoryCommands<TCommand> Repository { get; private set; }
 
         public abstract Task<CommandResult> Execute(TCommand command);
 

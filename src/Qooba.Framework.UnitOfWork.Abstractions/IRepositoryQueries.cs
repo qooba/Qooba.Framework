@@ -9,7 +9,9 @@ namespace Qooba.Framework.UnitOfWork.Abstractions
     public interface IRepositoryQueries<T> : IRepository where T : class
     {
         Task<IList<T>> AllAsync();
-        
+
+        Task<IList<TResult>> AllAsync<TResult>(Expression<Func<T, TResult>> selector) where TResult : class;
+
         Task<bool> AnyAsync();
 
         Task<bool> AnyAsync(ISpecification<T> specification);

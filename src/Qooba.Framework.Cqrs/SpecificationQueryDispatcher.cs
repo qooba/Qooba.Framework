@@ -30,7 +30,7 @@ namespace Qooba.Framework.Cqrs
                 Specification = specification
             };
 
-            var result = await Task.Run(() => this.factory.Create<IRepository<TDtoParameter>>().Filter(specification).ToList());
+            var result = await Task.Run(() => this.factory.Create<IRepositoryQueries<TDtoParameter>>().FilterAsync(specification));
             var data = result.Select(p => this.mapper.Map<TDtoParameter, TParameter>(p)).ToList();
             return new QueryResult<List<TParameter>>
             {

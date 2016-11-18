@@ -1,4 +1,6 @@
 ﻿using Qooba.Framework.DependencyInjection.Abstractions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Qooba.Framework.DependencyInjection.ContainerFactory
 {
@@ -9,6 +11,11 @@ namespace Qooba.Framework.DependencyInjection.ContainerFactory
         {
             return ContainerManager.Current.Resolve<T>();
         }
+
+        public IList<T> CreateAll()
+        {
+            return ContainerManager.Current.ResolveAll<T>().ToList();
+        }
     }
 
     public class Factory : IFactory
@@ -17,6 +24,12 @@ namespace Qooba.Framework.DependencyInjection.ContainerFactory
             where T : class
         {
             return ContainerManager.Current.Resolve<T>();
+        }
+
+        public IList<T> CreateAll<T>()
+            where T : class
+        {
+            return ContainerManager.Current.ResolveAll<T>().ToList();
         }
     }
 }

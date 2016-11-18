@@ -7,9 +7,9 @@ namespace Qooba.Framework.Cqrs.QueryHandlers
     public class CountQueryHandler<TParameter> : IQueryHandler<QueryFilterParameter<TParameter>, QueryResult<int>>
         where TParameter : class
     {
-        private IRepository<TParameter> repository;
+        private IRepositoryQueries<TParameter> repository;
 
-        public CountQueryHandler(IRepository<TParameter> repository)
+        public CountQueryHandler(IRepositoryQueries<TParameter> repository)
         {
             this.repository = repository;
         }

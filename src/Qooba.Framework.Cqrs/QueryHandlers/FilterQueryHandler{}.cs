@@ -6,8 +6,9 @@ using System.Linq;
 
 namespace Qooba.Framework.Cqrs.QueryHandlers
 {
-    public class FilterQueryHandler<TParameter> : IQueryHandler<QueryFilterParameter<TParameter>, QueryResult<List<TParameter>>>
+    public class FilterQueryHandler<TParameter, TResult> : IQueryHandler<QueryFilterParameter<TParameter, TResult>, QueryResult<List<TResult>>>
         where TParameter : class
+        where TResult : class
     {
         private IRepositoryQueries<TParameter> repository;
 
@@ -15,12 +16,12 @@ namespace Qooba.Framework.Cqrs.QueryHandlers
         {
             this.repository = repository;
         }
-        
-        public async Task<QueryResult<List<TParameter>>> Retrieve(QueryFilterParameter<TParameter> query)
+
+        public async Task<QueryResult<List<TResult>>> Retrieve(QueryFilterParameter<TParameter, TResult> query)
         {
-            return new QueryResult<List<TParameter>>
+            return new QueryResult<List<TResult>>
             {
-                Data = (await Task.Run(() => query.Specification != null ? this.repository.FilterAsync(query.Specification) : this.repository.AllAsync())).ToList(),
+                Data = (await Task.Run(() => query.Specification != null ? this.repository.FilterAsync(query.Specification, query.Selector) : this.repository.AllAsync(query.Selector))).ToList(),
                 Success = true
             };
         }

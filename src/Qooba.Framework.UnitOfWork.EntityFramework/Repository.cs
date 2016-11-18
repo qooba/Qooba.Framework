@@ -389,12 +389,17 @@ namespace Qooba.Framework.UnitOfWork.EntityFramework
             return await All().ToListAsync();
         }
 
+        public async Task<IList<TResult>> AllAsync<TResult>(Expression<Func<TEntity, TResult>> selector) where TResult : class
+        {
+            return await All().Select(selector).ToListAsync();
+        }
+
         public async Task<IList<TEntity>> FilterAsync(ISpecification<TEntity> specification)
         {
             return await this.Filter(specification).ToListAsync();
         }
 
-        public async Task<IList<TResult>> FilterAsync<TResult>(ISpecification<TEntity> specification, Expression<Func<TEntity, TResult>> selector) 
+        public async Task<IList<TResult>> FilterAsync<TResult>(ISpecification<TEntity> specification, Expression<Func<TEntity, TResult>> selector)
             where TResult : class
         {
             throw new NotImplementedException();
@@ -405,7 +410,7 @@ namespace Qooba.Framework.UnitOfWork.EntityFramework
             return await this.Filter(condition).ToListAsync();
         }
 
-        public Task<IList<TResult>> FilterAsync<TResult>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TResult>> selector) 
+        public Task<IList<TResult>> FilterAsync<TResult>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TResult>> selector)
             where TResult : class
         {
             throw new NotImplementedException();

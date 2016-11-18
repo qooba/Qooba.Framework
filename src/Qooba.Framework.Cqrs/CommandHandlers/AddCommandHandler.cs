@@ -7,15 +7,14 @@ namespace Qooba.Framework.Cqrs.CommandHandlers
     public class AddCommandHandler<TCommand> : BaseCommandHandler<TCommand>
         where TCommand : class, ICommand 
     {
-        public AddCommandHandler(IRepository<TCommand> repository)
+        public AddCommandHandler(IRepositoryCommands<TCommand> repository)
             : base(repository)
         {
         }
 
         public override async Task<CommandResult> Execute(TCommand command)
         {
-            this.Repository.Add(command);
-            await this.Repository.UnitOfWork.CommitAsync();
+            await this.Repository.AddAndCommitAsync(command);
             return this.CreateSuccessResult();
         }
     }

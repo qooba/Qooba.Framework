@@ -7,15 +7,14 @@ namespace Qooba.Framework.Cqrs.CommandHandlers
     public class DeleteCommandHandler<TCommand> : BaseCommandHandler<TCommand>
         where TCommand : class, ICommand 
     {
-        public DeleteCommandHandler(IRepository<TCommand> repository)
+        public DeleteCommandHandler(IRepositoryCommands<TCommand> repository)
             : base(repository)
         {
         }
 
         public override async Task<CommandResult> Execute(TCommand command)
         {
-            this.Repository.Remove(command);
-            await this.Repository.UnitOfWork.CommitAsync();
+            await this.Repository.RemoveAndCommitAsync(command);
             return this.CreateSuccessResult();
         }
     }

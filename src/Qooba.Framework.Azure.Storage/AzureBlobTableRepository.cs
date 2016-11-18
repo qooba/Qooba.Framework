@@ -240,14 +240,19 @@ namespace Qooba.Framework.Azure.Storage
             return await this.All();
         }
 
+        public async Task<IList<TResult>> AllAsync<TResult>(Expression<Func<TModel, TResult>> selector) where TResult : class
+        {
+            return (await Filtered(x => x.Select(selector)));
+        }
+
         public async Task<bool> AnyAsync()
         {
             return (await Filtered(x => x.Select(e => e.RowKey))).Any();
         }
 
-        public Task<bool> AnyAsync(ISpecification<TModel> specification)
+        public async Task<bool> AnyAsync(ISpecification<TModel> specification)
         {
-            throw new NotImplementedException();
+            return (await Filtered(x => x.Where(specification.IsSatisfiedBy()).Select(e => e.RowKey))).Any();
         }
 
         public async Task<bool> AnyAsync(Expression<Func<TModel, bool>> condition)
@@ -260,9 +265,9 @@ namespace Qooba.Framework.Azure.Storage
             return (await Filtered(x => x.Select(e => e.RowKey))).Count();
         }
 
-        public Task<int> CountAsync(ISpecification<TModel> specification)
+        public async Task<int> CountAsync(ISpecification<TModel> specification)
         {
-            throw new NotImplementedException();
+            return (await Filtered(x => x.Where(specification.IsSatisfiedBy()).Select(e => e.RowKey))).Count();
         }
 
         public async Task<int> CountAsync(Expression<Func<TModel, bool>> condition)
@@ -270,9 +275,9 @@ namespace Qooba.Framework.Azure.Storage
             return (await Filtered(x => x.Where(condition).Select(e => e.RowKey))).Count();
         }
 
-        public Task<TModel> SingleAsync(ISpecification<TModel> specification)
+        public async Task<TModel> SingleAsync(ISpecification<TModel> specification)
         {
-            throw new NotImplementedException();
+            return (await Filtered(x => x.Where(specification.IsSatisfiedBy()))).Single();
         }
 
         public async Task<TModel> SingleAsync(Expression<Func<TModel, bool>> condition)
@@ -280,9 +285,9 @@ namespace Qooba.Framework.Azure.Storage
             return (await Filtered(x => x.Where(condition))).Single();
         }
 
-        public Task<TModel> SingleOrDefaultAsync(ISpecification<TModel> specification)
+        public async Task<TModel> SingleOrDefaultAsync(ISpecification<TModel> specification)
         {
-            throw new NotImplementedException();
+            return (await Filtered(x => x.Where(specification.IsSatisfiedBy()))).SingleOrDefault();
         }
 
         public async Task<TModel> SingleOrDefaultAsync(Expression<Func<TModel, bool>> condition)
@@ -290,9 +295,9 @@ namespace Qooba.Framework.Azure.Storage
             return (await Filtered(x => x.Where(condition))).SingleOrDefault();
         }
 
-        public Task<IList<TModel>> FilterAsync(ISpecification<TModel> specification)
+        public async Task<IList<TModel>> FilterAsync(ISpecification<TModel> specification)
         {
-            throw new NotImplementedException();
+            return await Filtered(x => x.Where(specification.IsSatisfiedBy()));
         }
 
         public async Task<IList<TModel>> FilterAsync(Expression<Func<TModel, bool>> condition)
@@ -304,7 +309,7 @@ namespace Qooba.Framework.Azure.Storage
         public async Task<IList<TResult>> FilterAsync<TResult>(ISpecification<TModel> specification, Expression<Func<TModel, TResult>> selector)
             where TResult : class
         {
-            throw new NotImplementedException();
+            return await Filtered(x => x.Where(specification.IsSatisfiedBy()).Select(selector));
         }
 
         public async Task<IList<TResult>> FilterAsync<TResult>(Expression<Func<TModel, bool>> condition, Expression<Func<TModel, TResult>> selector)
