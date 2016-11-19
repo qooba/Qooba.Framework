@@ -14,7 +14,7 @@ foreach($dir in $dirs)
 		echo $name
 		cd $name
 		dotnet pack -c Release
-		cp ./bin/Release/*.nupkg ../../NugetOut
+		cp ./bin/Release/*-alpha1.nupkg ../../NugetOut
 		cd ..
         #if(!(Test-Path -Path "NugetOut/$name" ))
         #{

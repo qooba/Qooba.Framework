@@ -1,15 +1,24 @@
 {
-  "version": "1.0.0-*",
-  "description": "Qooba.Framework.UnitOfWork.EntityFramework Class Library",
-  "authors": [ "qba" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
+  "version": "1.0.1-alpha1",
+  "authors": [ "Jakub So³tys" ],
+  "owners": [ "Jakub So³tys" ],
+  "projectUrl": "https://github.com/qooba/Qooba.Framework",
+  "description": ".NET helpers framework.",
+  "title": "Qooba.Framework.UnitOfWork.EntityFramework",
+  "iconUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png",
+  "packOptions": {
+    "owners": [ "Jakub So³tys" ],
+    "tags": [ "framework" ],
+    "licenseUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/LICENSE",
+    "requireLicenseAcceptance": false,
+    "iconUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png",
+    "summary": ".NET helpers framework."
+  },
 
   "dependencies": {
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
     "Qooba.Framework.UnitOfWork.Abstractions": "1.0.0-*",
-    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.0-*"
+    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.1-*"
   },
 
   "frameworks": {

@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-alpha1",
+  "version": "1.0.1-alpha1",
   "authors": [ "Jakub Sołtys" ],
   "owners": [ "Jakub Sołtys" ],
   "projectUrl": "https://github.com/qooba/Qooba.Framework",
@@ -29,7 +29,7 @@
   "dependencies": {
     "WindowsAzure.Storage": "6.2.0",
     "Qooba.Framework.Configuration.Abstractions": "1.0.0-*",
-    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.0-*",
+    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.1-*",
     "Qooba.Framework.Serialization.Abstractions": "1.0.0-*",
     "Qooba.Framework.Azure.Storage.Abstractions": "1.0.0-*",
     "Qooba.Framework.UnitOfWork.Abstractions": "1.0.0-*"
