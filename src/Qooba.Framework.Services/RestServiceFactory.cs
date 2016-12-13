@@ -27,7 +27,7 @@ namespace Qooba.Framework.Services
         }
 
         public void Register<TServiceInterface, TService>(Func<Uri, TService> serviceFactory)
-            where TService : ServiceClient<TService>
+            where TService : ServiceClient<TService>, TServiceInterface
             where TServiceInterface : IDisposable
         {
             var serviceType = typeof(TServiceInterface);
@@ -39,18 +39,16 @@ namespace Qooba.Framework.Services
                 return service;
             };
 
-            servicesFactory[serviceType] = func;
+            servicesFactory[serviceType] = new Lazy<TServiceInterface>(() => func());
         }
 
         public async Task<TResponse> Invoke<TServiceInterface, TResponse>(Func<TServiceInterface, Task<TResponse>> action)
             where TServiceInterface : IDisposable
         {
             var serviceType = typeof(TServiceInterface);
-            var serviceFactory = servicesFactory[serviceType] as Func<TServiceInterface>;
-            using (var service = serviceFactory())
-            {
-                return await action(service);
-            }
+            var serviceFactory = servicesFactory[serviceType] as Lazy<TServiceInterface>;
+            var service = serviceFactory.Value;
+            return await action(service);
         }
 
         public async Task<TOutput> Invoke<TServiceInterface, TInput, TRequest, TResponse, TOutput>(Func<TServiceInterface, TRequest, Task<TResponse>> action, TInput input)
@@ -58,13 +56,11 @@ namespace Qooba.Framework.Services
             where TOutput : BaseOutput
         {
             var serviceType = typeof(TServiceInterface);
-            var serviceFactory = servicesFactory[serviceType] as Func<TServiceInterface>;
-            using (var service = serviceFactory())
-            {
-                var request = this.mapper.Map<TInput, TRequest>(input);
-                var response = await action(service, request);
-                return this.mapper.Map<TResponse, TOutput>(response);
-            }
+            var serviceFactory = servicesFactory[serviceType] as Lazy<TServiceInterface>;
+            var service = serviceFactory.Value;
+            var request = this.mapper.Map<TInput, TRequest>(input);
+            var response = await action(service, request);
+            return this.mapper.Map<TResponse, TOutput>(response);
         }
 
         public async Task<TOutput> Invoke<TServiceInterface, TResponse, TOutput>(Func<TServiceInterface, Task<TResponse>> action)
@@ -72,12 +68,10 @@ namespace Qooba.Framework.Services
             where TOutput : BaseOutput
         {
             var serviceType = typeof(TServiceInterface);
-            var serviceFactory = servicesFactory[serviceType] as Func<TServiceInterface>;
-            using (var service = serviceFactory())
-            {
-                var response = await action(service);
-                return this.mapper.Map<TResponse, TOutput>(response);
-            }
+            var serviceFactory = servicesFactory[serviceType] as Lazy<TServiceInterface>;
+            var service = serviceFactory.Value;
+            var response = await action(service);
+            return this.mapper.Map<TResponse, TOutput>(response);
         }
 
         private void PrepareHeader<TService>(Type serviceType, TService service)

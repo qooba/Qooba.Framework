@@ -8,7 +8,7 @@ namespace Qooba.Framework.Services.Abstractions
     public interface IRestServiceFactory
     {
         void Register<TServiceInterface, TService>(Func<Uri, TService> serviceFactory)
-            where TService : ServiceClient<TService>
+            where TService : ServiceClient<TService>, TServiceInterface
             where TServiceInterface : IDisposable;
 
         Task<TResponse> Invoke<TServiceInterface, TResponse>(Func<TServiceInterface, Task<TResponse>> action)
