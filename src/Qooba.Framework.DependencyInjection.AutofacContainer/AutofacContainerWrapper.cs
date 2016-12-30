@@ -3,8 +3,6 @@ using Autofac.Builder;
 using Qooba.Framework.DependencyInjection.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Qooba.Framework.DependencyInjection.AutofacContainer
 {
@@ -35,22 +33,22 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
 
         public bool IsRegistered(Type typeToCheck)
         {
-            throw new NotImplementedException();
+            return container.Value.IsRegistered(typeToCheck);
         }
 
         public bool IsRegistered(Type typeToCheck, string nameToCheck)
         {
-            throw new NotImplementedException();
+            return container.Value.IsRegisteredWithKey(nameToCheck, typeToCheck);
         }
 
         public bool IsRegistered<T>()
         {
-            throw new NotImplementedException();
+            return container.Value.IsRegistered<T>();
         }
 
         public bool IsRegistered<T>(string nameToCheck)
         {
-            throw new NotImplementedException();
+            return container.Value.IsRegisteredWithKey<T>(nameToCheck);
         }
 
         public void Populate(object services)
