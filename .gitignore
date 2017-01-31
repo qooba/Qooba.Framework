@@ -9,3 +9,4 @@ packages
 *.lock.json
 project.lock.json
 *.user
+nugetpush.ps1

@@ -4,7 +4,7 @@
   "owners": [ "Jakub Sołtys" ],
   "projectUrl": "https://github.com/qooba/Qooba.Framework",
   "description": ".NET helpers framework.",
-  "title": "Qooba.Framework.DependencyInjection.DefaultContainer",
+  "title": "Qooba.Framework.Web.Bootstrapper",
   "iconUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png",
   "packOptions": {
     "owners": [ "Jakub Sołtys" ],
@@ -16,19 +16,15 @@
   },
 
   "dependencies": {
-    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
-    "Microsoft.Extensions.DependencyInjection": "1.0.0",
-    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.1-*"
+    "Qooba.Framework": "1.0.0-*"
   },
 
   "frameworks": {
-    "netstandard1.6": {
-      "dependencies": {
-        "NETStandard.Library": "1.6.0",
-        "Microsoft.Extensions.PlatformAbstractions": "1.0.0",
-        "Microsoft.Extensions.DependencyModel": "1.0.0"
-      },
-      "imports": [ "dnxcore50", "net46", "net461" ]
+    "net461": {
+      "frameworkAssemblies": {
+        "System.Web": "4.0.0.0",
+        "System.Configuration": "4.0.0.0"
+      }
     }
   }
 }

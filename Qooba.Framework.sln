@@ -148,6 +148,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Qooba.Framework.Mapping.Tes
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Qooba.Framework.DependencyInjection.AutofacContainer", "src\Qooba.Framework.DependencyInjection.AutofacContainer\Qooba.Framework.DependencyInjection.AutofacContainer.xproj", "{AA797FC1-5CE2-4745-9F2E-4FD39A91D6E0}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Qooba.Framework.Web.Bootstrapper", "src\Qooba.Framework.Web.Bootstrapper\Qooba.Framework.Web.Bootstrapper.xproj", "{5E90384A-06BE-4D79-BCBB-B81805E1B222}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -362,6 +364,10 @@ Global
 		{AA797FC1-5CE2-4745-9F2E-4FD39A91D6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA797FC1-5CE2-4745-9F2E-4FD39A91D6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA797FC1-5CE2-4745-9F2E-4FD39A91D6E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E90384A-06BE-4D79-BCBB-B81805E1B222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E90384A-06BE-4D79-BCBB-B81805E1B222}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E90384A-06BE-4D79-BCBB-B81805E1B222}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E90384A-06BE-4D79-BCBB-B81805E1B222}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -435,5 +441,6 @@ Global
 		{602DCA07-2F13-440F-A89C-126FBF89D278} = {19ADEC53-F91D-475C-82C4-81E6B60B5C8C}
 		{1AD1DB43-434B-49B9-8D6B-212C111FC675} = {A547140B-6887-4A06-85A8-CEB43D75B586}
 		{AA797FC1-5CE2-4745-9F2E-4FD39A91D6E0} = {136B7382-1EFD-44C6-9F08-91CC498DDB90}
+		{5E90384A-06BE-4D79-BCBB-B81805E1B222} = {D5B6B8E8-BFDA-496F-969E-99256469EC29}
 	EndGlobalSection
 EndGlobal

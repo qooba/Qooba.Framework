@@ -4,7 +4,10 @@
     {
         public static void SetContainer(IContainer container)
         {
-            Current = container;
+            if (Current == null)
+            {
+                Current = container;
+            }
         }
 
         public static IContainer Current { get; private set; }

@@ -1,8 +1,10 @@
-﻿using Qooba.Framework.Abstractions;
+﻿using Autofac;
+using Qooba.Framework.Abstractions;
+using Qooba.Framework.DependencyInjection.Abstractions;
 
 namespace Qooba.Framework.DependencyInjection.AutofacContainer
 {
-    public class DefaultContainerModule : IModule
+    public class AutofacContainerModule : IModule
     {
         public virtual string Name
         {
@@ -16,9 +18,8 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
 
         public void Bootstrapp()
         {
-            //var container = new ContainerWrapper(new ServiceCollection());
-            //container.RegisterInstance<IContainer>(container);
-            //ContainerManager.SetContainer(container);
+            var container = new AutofacContainerWrapper(new ContainerBuilder());
+            ContainerManager.SetContainer(container);
         }
     }
 }
