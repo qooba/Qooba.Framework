@@ -1,13 +1,13 @@
 {
   "version": "1.0.0-alpha1",
-  "authors": [ "Jakub So³tys" ],
-  "owners": [ "Jakub So³tys" ],
+  "authors": [ "Jakub Soï¿½tys" ],
+  "owners": [ "Jakub Soï¿½tys" ],
   "projectUrl": "https://github.com/qooba/Qooba.Framework",
   "description": ".NET helpers framework.",
   "title": "Qooba.Framework.Services.Abstractions",
   "iconUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png",
   "packOptions": {
-    "owners": [ "Jakub So³tys" ],
+    "owners": [ "Jakub Soï¿½tys" ],
     "tags": [ "framework" ],
     "licenseUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/LICENSE",
     "requireLicenseAcceptance": false,
@@ -16,7 +16,7 @@
   },
 
   "frameworks": {
-    "net461": {},
+    "net46": {},
     "netstandard1.6": {
       "dependencies": {
         "NETStandard.Library": "1.6.0"

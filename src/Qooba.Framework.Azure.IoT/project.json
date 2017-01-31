@@ -13,7 +13,7 @@
       },
       "imports": [ "dnxcore50", "net46", "net461" ]
     },
-    "net461": {}
+    "net46": {}
   },
   "dependencies": {
     "Microsoft.Azure.Devices": "1.0.0-preview-008",

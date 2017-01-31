@@ -20,7 +20,7 @@
   },
 
   "frameworks": {
-    "net461": {
+    "net46": {
       "frameworkAssemblies": {
         "System.Web": "4.0.0.0",
         "System.Configuration": "4.0.0.0"

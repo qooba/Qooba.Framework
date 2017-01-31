@@ -7,6 +7,6 @@
   "licenseUrl": "",
 
   "frameworks": {
-    "net461": { }
+    "net46": { }
   }
 }

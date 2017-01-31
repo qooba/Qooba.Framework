@@ -1,4 +1,4 @@
-﻿#if NET461
+﻿#if NET46
 #else
 using Microsoft.Extensions.DependencyModel;
 #endif
@@ -17,7 +17,7 @@ namespace Qooba.Framework
         
         public static void InitializeModules(params string[] includeModuleNamePattern)
         {
-#if NET461
+#if NET46
             var path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var d = new System.IO.DirectoryInfo(path);
             var assemblies = d.GetFiles("*.dll", System.IO.SearchOption.AllDirectories)
