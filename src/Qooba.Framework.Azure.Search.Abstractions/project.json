@@ -1,8 +1,0 @@
-﻿{
-  "version": "1.0.0-*",
-  "description": "Qooba.Framework.Azure.Search.Abstractions Class Library",
-  "authors": [ "qba" ],
-  "frameworks": {
-    "net46": { }
-  }
-}
