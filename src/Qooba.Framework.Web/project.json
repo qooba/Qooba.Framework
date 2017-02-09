@@ -2,14 +2,10 @@
   "version": "1.0.0-*",
   "description": "Qooba.Framework.Web Class Library",
   "authors": [ "qba" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
-
   "dependencies": {
     "Microsoft.AspNet.Http.Abstractions": "1.0.0-rc1-final",
     "Qooba.Framework.Web.Abstractions": "1.0.0-*",
-    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.0-*"
+    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.1-*"
   },
 
   "frameworks": {

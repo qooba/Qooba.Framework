@@ -1,12 +1,10 @@
 {
   "version": "1.0.0-alpha1",
-  "authors": [ "Jakub So�tys" ],
-  "owners": [ "Jakub So�tys" ],
-  "projectUrl": "https://github.com/qooba/Qooba.Framework",
-  "description": ".NET helpers framework.",
+  "authors": [ "Jakub Sołtys" ],
   "title": "Qooba.Framework.Services.Abstractions",
-  "iconUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png",
   "packOptions": {
+    "description": ".NET helpers framework.",
+    "projectUrl": "https://github.com/qooba/Qooba.Framework",
     "owners": [ "Jakub So�tys" ],
     "tags": [ "framework" ],
     "licenseUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/LICENSE",

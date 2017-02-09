@@ -1,17 +1,15 @@
 ﻿{
   "version": "1.0.0-alpha1",
   "authors": [ "Jakub Sołtys" ],
-  "owners": [ "Jakub Sołtys" ],
-  "projectUrl": "https://github.com/qooba/Qooba.Framework",
-  "description": ".NET helpers framework.",
   "title": "Qooba.Framework.Authentication.Abstractions",
-  "iconUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png",
   "packOptions": {
+    "description": ".NET helpers framework.",
+    "iconUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png",
+    "projectUrl": "https://github.com/qooba/Qooba.Framework",
     "owners": [ "Jakub Sołtys" ],
     "tags": [ "framework" ],
     "licenseUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/LICENSE",
     "requireLicenseAcceptance": false,
-    "iconUrl": "https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png",
     "summary": ".NET helpers framework."
   },
 

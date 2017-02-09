@@ -2,10 +2,6 @@
   "version": "1.0.0-*",
   "description": "Qooba.Tests Class Library",
   "authors": [ "qba" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
-
   "dependencies": {
     "Qooba.Framework": "1.0.0-*",
     "xunit": "2.1.0-*",
@@ -15,8 +11,8 @@
     "Qooba.Framework.Specification": "1.0.0-*",
     "Qooba.Framework.Specification.Abstractions": "1.0.0-*",
     "Qooba.Framework.DependencyInjection.SimpleContainer": "1.0.0-*",
-    "Qooba.Framework.DependencyInjection.ContainerFactory": "1.0.0-*",
-    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.0-*"
+    "Qooba.Framework.DependencyInjection.ContainerFactory": "1.0.1-*",
+    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.1-*"
   },
   "commands": {
     "test": "xunit.runner.dnx"

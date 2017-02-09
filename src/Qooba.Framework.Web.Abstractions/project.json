@@ -2,10 +2,6 @@
   "version": "1.0.0-*",
   "description": "Qooba.Framework.Web.Abstractions Class Library",
   "authors": [ "qba" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
-
   "frameworks": {
     "net46": { },
     "netstandard1.6": {

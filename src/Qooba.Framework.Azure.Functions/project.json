@@ -7,9 +7,9 @@
 
   "dependencies": {
     "Microsoft.AspNet.WebApi.Core": "5.2.3",
-    "Qooba.Framework": "1.0.2",
+    "Qooba.Framework": "1.0.0-*",
     "Qooba.Framework.Azure.Functions.Abstractions": "1.0.0-*",
-    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.0-*",
+    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.1-*",
     "Qooba.Framework.DependencyInjection.SimpleContainer": "1.0.0-*",
     "System.Net.Http": "4.1.0"
   }

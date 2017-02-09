@@ -2,9 +2,6 @@
   "version": "1.0.0-*",
   "description": "Qooba.Framework.Azure.IoT Class Library",
   "authors": [ "qba" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
   "frameworks": {
     "netstandard1.6": {
       "dependencies": {
@@ -19,7 +16,7 @@
     "Microsoft.Azure.Devices": "1.0.0-preview-008",
     "Qooba.Framework.Azure.IoT.Abstractions": "1.0.0-*",
     "Qooba.Framework.Configuration.Abstractions": "1.0.0-*",
-    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.0-*",
+    "Qooba.Framework.DependencyInjection.Abstractions": "1.0.1-*",
     "Qooba.Framework.Serialization.Abstractions": "1.0.0-*"
   }
 }
