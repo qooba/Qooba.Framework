@@ -40,6 +40,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{1FA5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Logging.Abstractions", "src\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj", "{22CCFB9C-2F9D-48F7-961E-E62E6C110DF6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{C9A57FF2-B42E-4240-9AA0-A8E1F56069E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Configuration.Abstractions", "src\Qooba.Framework.Configuration.Abstractions\Qooba.Framework.Configuration.Abstractions.csproj", "{805B72B1-F217-4DB9-9995-1235EF58B0A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -194,6 +198,18 @@ Global
 		{22CCFB9C-2F9D-48F7-961E-E62E6C110DF6}.Release|x64.Build.0 = Release|Any CPU
 		{22CCFB9C-2F9D-48F7-961E-E62E6C110DF6}.Release|x86.ActiveCfg = Release|Any CPU
 		{22CCFB9C-2F9D-48F7-961E-E62E6C110DF6}.Release|x86.Build.0 = Release|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Debug|x64.Build.0 = Debug|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Debug|x86.Build.0 = Debug|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Release|x64.ActiveCfg = Release|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Release|x64.Build.0 = Release|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Release|x86.ActiveCfg = Release|Any CPU
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -214,5 +230,7 @@ Global
 		{6B30701A-4FFB-496A-9FAA-22D864F6B531} = {BA5F342A-9FCF-4A6E-9D47-19592B669207}
 		{1FA59BD0-6808-45E8-88C4-B830AB6E64BE} = {35A6633D-383C-4FDD-92C4-0C169BAD94BD}
 		{22CCFB9C-2F9D-48F7-961E-E62E6C110DF6} = {1FA59BD0-6808-45E8-88C4-B830AB6E64BE}
+		{C9A57FF2-B42E-4240-9AA0-A8E1F56069E9} = {35A6633D-383C-4FDD-92C4-0C169BAD94BD}
+		{805B72B1-F217-4DB9-9995-1235EF58B0A2} = {C9A57FF2-B42E-4240-9AA0-A8E1F56069E9}
 	EndGlobalSection
 EndGlobal

@@ -22,13 +22,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Bot.Abstractions\Qooba.Framework.Bot.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Bot.Connector.Abstractions\Qooba.Framework.Bot.Connector.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Configuration.Abstractions\Qooba.Framework.Configuration.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj" />
   </ItemGroup>
 
