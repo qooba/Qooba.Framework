@@ -7,7 +7,7 @@ using System;
 
 namespace Qooba.Framework
 {
-    public class ModuleManager
+    internal class ModuleManager
     {
         internal IDictionary<IModule, Assembly> Modules { get; set; }
 
@@ -29,7 +29,16 @@ namespace Qooba.Framework
             var modules = GetModules();
             foreach (var module in modules)
             {
-                module.Bootstrapp();
+                if (ContainerManager.Container == null)
+                {
+                    var containerBootstrapper = (module as IContainerBootstrapper);
+                    if (containerBootstrapper != null)
+                    {
+                        ContainerManager.SetContainer(containerBootstrapper.BootstrappContainer());
+                    }
+                }
+
+                module.Bootstrapp(ContainerManager.Container);
             }
         }
     }

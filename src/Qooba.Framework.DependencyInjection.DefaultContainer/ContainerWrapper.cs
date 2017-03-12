@@ -1,9 +1,7 @@
-﻿using Qooba.Framework.DependencyInjection.Abstractions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Qooba.Framework.Abstractions;
 
 namespace Qooba.Framework.DependencyInjection.DefaultContainer
 {
@@ -14,45 +12,25 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
         {
             this.services = services;
         }
-
-        public static void SetupContainer(IServiceCollection services)
-        {
-            var container = new ContainerWrapper(services);
-            container.RegisterInstance<IContainer>(container);
-            ContainerManager.SetContainer(container);
-        }
-
-        public object BuildUp(Type t, object existing)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T BuildUp<T>(T existing)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T BuildUp<T>(T existing, string name)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public bool IsRegistered(Type typeToCheck)
         {
             throw new NotImplementedException();
         }
 
-        public bool IsRegistered(Type typeToCheck, string nameToCheck)
+        public bool IsRegistered(Type typeToCheck, object keyToCheck)
         {
             throw new NotImplementedException();
         }
 
         public bool IsRegistered<T>()
+            where T : class
         {
             throw new NotImplementedException();
         }
 
-        public bool IsRegistered<T>(string nameToCheck)
+        public bool IsRegistered<T>(object keyToCheck)
+            where T : class
         {
             throw new NotImplementedException();
         }
@@ -75,7 +53,7 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
             return this;
         }
 
-        public IContainer RegisterInstance(Type t, string name, object instance)
+        public IContainer RegisterInstance(Type t, object key, object instance)
         {
             throw new NotImplementedException();
         }
@@ -96,12 +74,12 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
             throw new NotImplementedException();
         }
 
-        public IContainer RegisterInstance<TInterface>(string name, TInterface instance)
+        public IContainer RegisterInstance<TInterface>(object key, TInterface instance)
         {
             throw new NotImplementedException();
         }
 
-        public IContainer RegisterInstance<TInterface>(string name, TInterface instance, Lifetime lifetime)
+        public IContainer RegisterInstance<TInterface>(object key, TInterface instance, Lifetime lifetime)
         {
             throw new NotImplementedException();
         }
@@ -117,7 +95,7 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
             return this;
         }
 
-        public IContainer RegisterType(Type t, string name)
+        public IContainer RegisterType(Type t, object key)
         {
             throw new NotImplementedException();
         }
@@ -136,7 +114,7 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
             return this;
         }
 
-        public IContainer RegisterType(Type from, Type to, string name)
+        public IContainer RegisterType(Type from, Type to, object key)
         {
             throw new NotImplementedException();
         }
@@ -146,17 +124,19 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
             throw new NotImplementedException();
         }
 
-        public IContainer RegisterType(Type t, string name, Lifetime lifetime)
+        public IContainer RegisterType(Type t, object key, Lifetime lifetime)
         {
             throw new NotImplementedException();
         }
 
         public IContainer RegisterType<T>()
+            where T : class
         {
             throw new NotImplementedException();
         }
 
-        public IContainer RegisterType<T>(string name)
+        public IContainer RegisterType<T>(object key)
+            where T : class
         {
             throw new NotImplementedException();
         }
@@ -166,7 +146,8 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
             throw new NotImplementedException();
         }
 
-        public IContainer RegisterType<T>(string name, Lifetime lifetime)
+        public IContainer RegisterType<T>(object key, Lifetime lifetime)
+            where T : class
         {
             throw new NotImplementedException();
         }
@@ -179,7 +160,7 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
             return this;
         }
 
-        public IContainer RegisterType<TFrom, TTo>(string name) where TTo : class, TFrom
+        public IContainer RegisterType<TFrom, TTo>(object key) where TTo : class, TFrom
         {
             throw new NotImplementedException();
         }
@@ -200,7 +181,7 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
             return this;
         }
 
-        public IContainer RegisterType<TFrom, TTo>(string name, Lifetime lifetime) where TTo : TFrom
+        public IContainer RegisterType<TFrom, TTo>(object key, Lifetime lifetime) where TTo : TFrom
         {
             throw new NotImplementedException();
         }
@@ -220,17 +201,19 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
             return this.services.BuildServiceProvider().GetService<T>();
         }
 
-        public T Resolve<T>(string name)
+        public T Resolve<T>(object key)
+            where T : class
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<T> ResolveAll<T>(string name)
+        public IEnumerable<T> ResolveAll<T>(object key)
         {
             return this.services.BuildServiceProvider().GetServices<T>();
         }
 
         public IEnumerable<T> ResolveAll<T>()
+            where T : class
         {
             throw new NotImplementedException();
         }

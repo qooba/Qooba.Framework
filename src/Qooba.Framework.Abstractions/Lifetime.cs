@@ -1,4 +1,4 @@
-﻿namespace Qooba.Framework.DependencyInjection.Abstractions
+﻿namespace Qooba.Framework.Abstractions
 {
     public enum Lifetime
     {

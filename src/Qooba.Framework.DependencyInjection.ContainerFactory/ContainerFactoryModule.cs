@@ -1,26 +1,18 @@
 ﻿using Qooba.Framework.Abstractions;
 using Qooba.Framework.DependencyInjection.Abstractions;
-using System;
-using System.Reflection;
 
 namespace Qooba.Framework.DependencyInjection.ContainerFactory
 {
     public class ContainerFactoryModule: IModule
     {
-        public string Name
-        {
-            get { return "ContainerFactoryModule"; }
-        }
+        public string Name => "ContainerFactoryModule";
         
-        public int Priority
-        {
-            get { return 10; }
-        }
+        public int Priority => 10;
 
-        public void Bootstrapp()
+        public void Bootstrapp(IContainer container)
         {
-            ContainerManager.Current.RegisterType<IFactory, Factory>();
-            ContainerManager.Current.RegisterType(typeof(IFactory<>), typeof(Factory<>));
+            container.RegisterType<IFactory, Factory>();
+            container.RegisterType(typeof(IFactory<>), typeof(Factory<>));
         }
     }
 }

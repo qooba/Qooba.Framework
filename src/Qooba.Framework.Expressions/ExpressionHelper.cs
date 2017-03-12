@@ -18,7 +18,7 @@ namespace Qooba.Framework.Expressions
             Func<object[], object> activator;
             if (!activatorsCache.TryGetValue(type, out activator))
             {
-                var constructor = type.GetConstructors().First();
+                var constructor = type.GetTypeInfo().GetConstructors().First();
                 activator = GetActivator(constructor);
                 activatorsCache[type] = activator;
             }

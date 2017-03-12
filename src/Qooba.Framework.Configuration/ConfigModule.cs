@@ -1,26 +1,18 @@
 ﻿using Qooba.Framework.Abstractions;
 using Qooba.Framework.Configuration;
 using Qooba.Framework.Configuration.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
-using System;
 
 namespace Qooba.Framework.Azure
 {
     public class ConfigModule : IModule
     {
-        public virtual string Name
-        {
-            get { return "ConfigModule"; }
-        }
-        
-        public int Priority
-        {
-            get { return 2; }
-        }
+        public virtual string Name => "ConfigModule";
 
-        public void Bootstrapp()
+        public int Priority => 2;
+
+        public void Bootstrapp(IContainer container)
         {
-            ContainerManager.Current.RegisterType<IConfig, Config>(Lifetime.Singleton);
+            container.RegisterType<IConfig, Config>(Lifetime.Singleton);
         }
     }
 }

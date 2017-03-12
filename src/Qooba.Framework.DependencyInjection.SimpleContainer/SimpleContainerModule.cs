@@ -1,26 +1,23 @@
-﻿using Qooba.Framework.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
-using System;
+﻿using System;
+using Qooba.Framework.Abstractions;
 
 namespace Qooba.Framework.DependencyInjection.SimpleContainer
 {
-    public class SimpleContainerModule : IModule
+    public class SimpleContainerModule : IContainerBootstrapper
     {
-        public virtual string Name
-        {
-            get { return "SimpleContainerModule"; }
-        }
+        public virtual string Name => "SimpleContainerModule";
+
+        public int Priority => 0;
         
-        public int Priority
+        public void Bootstrapp(IContainer container)
         {
-            get { return 0; }
         }
 
-        public void Bootstrapp()
+        public IContainer BootstrappContainer()
         {
             var container = new Container();
             container.RegisterInstance<IContainer>(container);
-            ContainerManager.SetContainer(container);
+            return container;
         }
     }
 }

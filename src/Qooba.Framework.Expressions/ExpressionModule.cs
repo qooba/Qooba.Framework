@@ -1,26 +1,18 @@
 ﻿using Qooba.Framework.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
 using Qooba.Framework.Expressions;
 using Qooba.Framework.Expressions.Abstractions;
-using System;
 
 namespace Qooba.Framework.Expression
 {
     public class ExpressionModule : IModule
     {
-        public virtual string Name
-        {
-            get { return "ExpressionModule"; }
-        }
-        
-        public int Priority
-        {
-            get { return 10; }
-        }
+        public virtual string Name => "ExpressionModule";
 
-        public void Bootstrapp()
+        public int Priority => 10;
+
+        public void Bootstrapp(IContainer container)
         {
-            ContainerManager.Current.RegisterType<IExpressionHelper, ExpressionHelper>();
+            container.RegisterType<IExpressionHelper, ExpressionHelper>();
         }
     }
 }

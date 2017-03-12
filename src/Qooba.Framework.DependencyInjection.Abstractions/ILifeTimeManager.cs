@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Qooba.Framework.Abstractions;
+using System;
 
 namespace Qooba.Framework.DependencyInjection.Abstractions
 {

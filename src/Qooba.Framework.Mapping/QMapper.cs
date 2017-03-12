@@ -67,15 +67,15 @@ namespace Qooba.Framework.Mapping
 
         public static Expression InitilizeMapper(Expression input, Type inputType, Type outputType)
         {
-            var ctor = outputType.GetConstructors().FirstOrDefault();
+            var ctor = outputType.GetTypeInfo().GetConstructors().FirstOrDefault();
             var outputInstance = Expression.New(ctor);
             var outputLocal = Expression.Parameter(outputType, "outputLocal");
             var assignExpressions = new List<Expression>();
             var localVariables = new List<ParameterExpression>();
             localVariables.Add(outputLocal);
             assignExpressions.Add(Expression.Assign(outputLocal, outputInstance));
-            var inputProperties = inputType.GetProperties();
-            var outputProperties = outputType.GetProperties();
+            var inputProperties = inputType.GetTypeInfo().GetProperties();
+            var outputProperties = outputType.GetTypeInfo().GetProperties();
 
             var properties = inputProperties.Where(x => outputProperties.Any(o => o.Name == x.Name));
 
@@ -92,11 +92,11 @@ namespace Qooba.Framework.Mapping
                 }
                 else if (outputPropertyType == typeof(string))
                 {
-                    var inputPropertyGetter = Expression.Call(Expression.Property(input, name), inputPropertyType.GetMethod("ToString", new Type[] { }));
+                    var inputPropertyGetter = Expression.Call(Expression.Property(input, name), inputPropertyType.GetTypeInfo().GetMethod("ToString", new Type[] { }));
                     var outputPropertyGetter = Expression.Property(outputLocal, name);
                     assignExpressions.Add(CheckIsNull(inputPropertyGetter, inputPropertyType, Expression.Assign(outputPropertyGetter, inputPropertyGetter)));
                 }
-                else if (outputPropertyType.GetInterfaces().Contains(typeof(IEnumerable)))
+                else if (outputPropertyType.GetTypeInfo().GetInterfaces().Contains(typeof(IEnumerable)))
                 {
                     var inputPropertyGetter = Expression.Property(input, name);
                     var outputPropertyGetter = Expression.Property(outputLocal, name);
@@ -106,11 +106,11 @@ namespace Qooba.Framework.Mapping
 
                     if (outputPropertyType.IsArray)
                     {
-                        meth = typeof(QMap).GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).FirstOrDefault(x => x.Name == "ParseArray").MakeGenericMethod(inputElementType, outputElementType);
+                        meth = typeof(QMap).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).FirstOrDefault(x => x.Name == "ParseArray").MakeGenericMethod(inputElementType, outputElementType);
                     }
                     else
                     {
-                        meth = typeof(QMap).GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).FirstOrDefault(x => x.Name == "ParseList").MakeGenericMethod(inputElementType, outputElementType);
+                        meth = typeof(QMap).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).FirstOrDefault(x => x.Name == "ParseList").MakeGenericMethod(inputElementType, outputElementType);
                     }
 
                     var parsingExpression = Expression.Call(null, meth, inputPropertyGetter);
@@ -129,10 +129,10 @@ namespace Qooba.Framework.Mapping
                     var outputPropertyGetter = Expression.Property(outputLocal, name);
                     var parsed = Expression.Parameter(outputPropertyType, string.Concat(name, "Parsed"));
                     localVariables.Add(parsed);
-                    var meth = outputPropertyType.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).FirstOrDefault(x => x.Name == "TryParse" && x.GetParameters().Length == 2).MakeGenericMethod(outputPropertyType);
+                    var meth = outputPropertyType.GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).FirstOrDefault(x => x.Name == "TryParse" && x.GetParameters().Length == 2).MakeGenericMethod(outputPropertyType);
                     if (meth != null)
                     {
-                        var parsingExpression = Expression.Call(null, meth, Expression.Call(inputPropertyGetter, inputPropertyType.GetMethod("ToString", new Type[] { })), parsed);
+                        var parsingExpression = Expression.Call(null, meth, Expression.Call(inputPropertyGetter, inputPropertyType.GetTypeInfo().GetMethod("ToString", new Type[] { })), parsed);
                         assignExpressions.Add(CheckIsNull(inputPropertyGetter, inputPropertyType, parsingExpression));
                         assignExpressions.Add(CheckIsNull(inputPropertyGetter, inputPropertyType, Expression.Assign(outputPropertyGetter, parsed)));
                     }
@@ -143,10 +143,10 @@ namespace Qooba.Framework.Mapping
                     var outputPropertyGetter = Expression.Property(outputLocal, name);
                     var parsed = Expression.Parameter(outputPropertyType, string.Concat(name, "Parsed"));
                     localVariables.Add(parsed);
-                    var meth = outputPropertyType.GetMethod("TryParse", new[] { typeof(string), outputPropertyType.MakeByRefType() });
+                    var meth = outputPropertyType.GetTypeInfo().GetMethod("TryParse", new[] { typeof(string), outputPropertyType.MakeByRefType() });
                     if (meth != null)
                     {
-                        var parsingExpression = Expression.Call(null, meth, Expression.Call(inputPropertyGetter, inputPropertyType.GetMethod("ToString", new Type[] { })), parsed);
+                        var parsingExpression = Expression.Call(null, meth, Expression.Call(inputPropertyGetter, inputPropertyType.GetTypeInfo().GetMethod("ToString", new Type[] { })), parsed);
                         assignExpressions.Add(CheckIsNull(inputPropertyGetter, inputPropertyType, parsingExpression));
                         assignExpressions.Add(CheckIsNull(inputPropertyGetter, inputPropertyType, Expression.Assign(outputPropertyGetter, parsed)));
                     }

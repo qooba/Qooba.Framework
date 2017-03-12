@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Qooba.Framework.Expressions.Abstractions\Qooba.Framework.Expressions.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.DependencyInjection.Abstractions\Qooba.Framework.DependencyInjection.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">

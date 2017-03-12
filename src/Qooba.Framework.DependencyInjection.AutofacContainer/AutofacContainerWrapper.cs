@@ -1,12 +1,13 @@
 ﻿using Autofac;
 using Autofac.Builder;
+using Qooba.Framework.Abstractions;
 using Qooba.Framework.DependencyInjection.Abstractions;
 using System;
 using System.Collections.Generic;
 
 namespace Qooba.Framework.DependencyInjection.AutofacContainer
 {
-    public class AutofacContainerWrapper : Abstractions.IContainer
+    public class AutofacContainerWrapper : Framework.Abstractions.IContainer
     {
         private static Lazy<Autofac.IContainer> container;
         private readonly Autofac.ContainerBuilder builder;
@@ -26,7 +27,7 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             return container.Value.InjectProperties(existing);
         }
 
-        public T BuildUp<T>(T existing, string name)
+        public T BuildUp<T>(T existing, object key)
         {
             throw new NotImplementedException();
         }
@@ -36,19 +37,21 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             return container.Value.IsRegistered(typeToCheck);
         }
 
-        public bool IsRegistered(Type typeToCheck, string nameToCheck)
+        public bool IsRegistered(Type typeToCheck, object keyToCheck)
         {
-            return container.Value.IsRegisteredWithKey(nameToCheck, typeToCheck);
+            return container.Value.IsRegisteredWithKey(keyToCheck, typeToCheck);
         }
 
         public bool IsRegistered<T>()
+            where T : class
         {
             return container.Value.IsRegistered<T>();
         }
 
-        public bool IsRegistered<T>(string nameToCheck)
+        public bool IsRegistered<T>(object keyToCheck)
+            where T : class
         {
-            return container.Value.IsRegisteredWithKey<T>(nameToCheck);
+            return container.Value.IsRegisteredWithKey<T>(keyToCheck);
         }
 
         public void Populate(object services)
@@ -56,114 +59,117 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             throw new NotImplementedException();
         }
 
-        public Abstractions.IContainer RegisterInstance(Type t, object instance)
+        public Framework.Abstractions.IContainer RegisterInstance(Type t, object instance)
         {
             BuilderAction(b => b.RegisterInstance(instance).As(t));
             return this;
         }
 
-        public Abstractions.IContainer RegisterInstance(Type t, string name, object instance)
+        public Framework.Abstractions.IContainer RegisterInstance(Type t, object key, object instance)
         {
-            BuilderAction(b => b.RegisterInstance(instance).Keyed(name, t));
+            BuilderAction(b => b.RegisterInstance(instance).Keyed(key, t));
             return this;
         }
 
-        public Abstractions.IContainer RegisterInstance(Type t, object instance, Lifetime lifetime)
+        public Framework.Abstractions.IContainer RegisterInstance(Type t, object instance, Lifetime lifetime)
         {
             AddLifetime(b => b.RegisterInstance(instance).As(t), lifetime);
             return this;
         }
 
-        public Abstractions.IContainer RegisterInstance<TInterface>(TInterface instance)
+        public Framework.Abstractions.IContainer RegisterInstance<TInterface>(TInterface instance)
         {
-            this.RegisterInstance(typeof(TInterface), instance);
+            this.RegisterInstance(t: typeof(TInterface), instance: instance);
             return this;
         }
 
-        public Abstractions.IContainer RegisterInstance<TInterface>(TInterface instance, Lifetime lifetime)
+        public Framework.Abstractions.IContainer RegisterInstance<TInterface>(TInterface instance, Lifetime lifetime)
         {
-            this.RegisterInstance(typeof(TInterface), instance, lifetime);
+            this.RegisterInstance(t: typeof(TInterface), instance: instance, lifetime: lifetime);
             return this;
         }
 
-        public Abstractions.IContainer RegisterInstance<TInterface>(string name, TInterface instance)
+        public Framework.Abstractions.IContainer RegisterInstance<TInterface>(object key, TInterface instance)
         {
-            this.RegisterInstance(typeof(TInterface), name, instance);
+            this.RegisterInstance(typeof(TInterface), key, instance);
             return this;
         }
 
-        public Abstractions.IContainer RegisterInstance<TInterface>(string name, TInterface instance, Lifetime lifetime)
+        public Framework.Abstractions.IContainer RegisterInstance<TInterface>(object key, TInterface instance, Lifetime lifetime)
         {
-            AddLifetime(b => b.RegisterInstance(instance as object).Keyed(name, typeof(TInterface)), lifetime);
+            AddLifetime(b => b.RegisterInstance(instance as object).Keyed(key, typeof(TInterface)), lifetime);
             return this;
         }
 
-        public Abstractions.IContainer RegisterType(Type t)
+        public Framework.Abstractions.IContainer RegisterType(Type t)
         {
             return this.RegisterType(t, Lifetime.Transistent);
         }
 
-        public Abstractions.IContainer RegisterType(Type from, Type to)
+        public Framework.Abstractions.IContainer RegisterType(Type from, Type to)
         {
             BuilderAction(b => b.RegisterType(to).As(from));
             return this;
         }
 
-        public Abstractions.IContainer RegisterType(Type t, string name)
+        public Framework.Abstractions.IContainer RegisterType(Type t, object key)
         {
-            BuilderAction(b => b.RegisterType(t).Named(name, t));
+            BuilderAction(b => b.RegisterType(t).Keyed(key, t));
             return this;
         }
 
-        public Abstractions.IContainer RegisterType(Type t, Lifetime lifetime)
+        public Framework.Abstractions.IContainer RegisterType(Type t, Lifetime lifetime)
         {
             AddLifetime(b => b.RegisterType(t), lifetime);
             return this;
         }
 
-        public Abstractions.IContainer RegisterType(Type from, Type to, string name)
+        public Framework.Abstractions.IContainer RegisterType(Type from, Type to, object key)
         {
-            BuilderAction(b => b.RegisterType(from).Keyed(name, to));
+            BuilderAction(b => b.RegisterType(from).Keyed(key, to));
             return this;
         }
 
-        public Abstractions.IContainer RegisterType(Type from, Type to, Lifetime lifetime)
+        public Framework.Abstractions.IContainer RegisterType(Type from, Type to, Lifetime lifetime)
         {
             AddLifetime(b => b.RegisterType(from).As(to), lifetime);
             return this;
         }
 
-        public Abstractions.IContainer RegisterType(Type t, string name, Lifetime lifetime)
+        public Framework.Abstractions.IContainer RegisterType(Type t, object key, Lifetime lifetime)
         {
-            AddLifetime(b => b.RegisterType(t).Keyed(name, t), lifetime);
+            AddLifetime(b => b.RegisterType(t).Keyed(key, t), lifetime);
             return this;
         }
 
-        public Abstractions.IContainer RegisterType<T>()
+        public Framework.Abstractions.IContainer RegisterType<T>()
+            where T : class
         {
             BuilderAction(b => b.RegisterType<T>());
             return this;
         }
 
-        public Abstractions.IContainer RegisterType<T>(string name)
+        public Framework.Abstractions.IContainer RegisterType<T>(object key)
+            where T : class
         {
-            BuilderAction(b => b.RegisterType<T>().Keyed<T>(name));
+            BuilderAction(b => b.RegisterType<T>().Keyed<T>(key));
             return this;
         }
 
-        public Abstractions.IContainer RegisterType<T>(Lifetime lifetime)
+        public Framework.Abstractions.IContainer RegisterType<T>(Lifetime lifetime)
         {
             AddLifetime(b => b.RegisterType<T>(), lifetime);
             return this;
         }
 
-        public Abstractions.IContainer RegisterType<T>(string name, Lifetime lifetime)
+        public Framework.Abstractions.IContainer RegisterType<T>(object key, Lifetime lifetime)
+            where T : class
         {
-            AddLifetime(b => b.RegisterType<T>().Keyed<T>(name), lifetime);
+            AddLifetime(b => b.RegisterType<T>().Keyed<T>(key), lifetime);
             return this;
         }
 
-        public Abstractions.IContainer RegisterType<TFrom, TTo>()
+        public Framework.Abstractions.IContainer RegisterType<TFrom, TTo>()
             where TTo : class, TFrom
             where TFrom : class
         {
@@ -171,13 +177,13 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             return this;
         }
 
-        public Abstractions.IContainer RegisterType<TFrom, TTo>(string name) where TTo : class, TFrom
+        public Framework.Abstractions.IContainer RegisterType<TFrom, TTo>(object key) where TTo : class, TFrom
         {
-            BuilderAction(b => b.RegisterType<TFrom>().Keyed<TTo>(name));
+            BuilderAction(b => b.RegisterType<TFrom>().Keyed<TTo>(key));
             return this;
         }
 
-        public Abstractions.IContainer RegisterType<TFrom, TTo>(Lifetime lifetime)
+        public Framework.Abstractions.IContainer RegisterType<TFrom, TTo>(Lifetime lifetime)
             where TTo : class, TFrom
             where TFrom : class
         {
@@ -185,9 +191,9 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             return this;
         }
 
-        public Abstractions.IContainer RegisterType<TFrom, TTo>(string name, Lifetime lifetime) where TTo : TFrom
+        public Framework.Abstractions.IContainer RegisterType<TFrom, TTo>(object key, Lifetime lifetime) where TTo : TFrom
         {
-            AddLifetime(b => b.RegisterType<TFrom>().Keyed<TTo>(name), lifetime);
+            AddLifetime(b => b.RegisterType<TFrom>().Keyed<TTo>(key), lifetime);
             return this;
         }
 
@@ -207,17 +213,19 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             return container.Value.Resolve<T>();
         }
 
-        public T Resolve<T>(string name)
+        public T Resolve<T>(object key)
+            where T : class
         {
-            return container.Value.ResolveKeyed<T>(name);
+            return container.Value.ResolveKeyed<T>(key);
         }
 
-        public IEnumerable<T> ResolveAll<T>(string name)
+        public IEnumerable<T> ResolveAll<T>(object key)
         {
-            return container.Value.ResolveKeyed<IEnumerable<T>>(name);
+            return container.Value.ResolveKeyed<IEnumerable<T>>(key);
         }
 
         public IEnumerable<T> ResolveAll<T>()
+            where T : class
         {
             return container.Value.Resolve<IEnumerable<T>>();
         }

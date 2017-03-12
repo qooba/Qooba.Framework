@@ -1,4 +1,5 @@
-﻿using Qooba.Framework.DependencyInjection.Abstractions;
+﻿using Qooba.Framework.Abstractions;
+using Qooba.Framework.DependencyInjection.Abstractions;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;

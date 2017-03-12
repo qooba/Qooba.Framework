@@ -1,25 +1,18 @@
 ﻿using Autofac;
 using Qooba.Framework.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
 
 namespace Qooba.Framework.DependencyInjection.AutofacContainer
 {
-    public class AutofacContainerModule : IModule
+    public class AutofacContainerModule : IContainerBootstrapper
     {
-        public virtual string Name
-        {
-            get { return "AutofacContainerModule"; }
-        }
+        public virtual string Name => "AutofacContainerModule";
         
-        public int Priority
+        public int Priority => 0;
+        
+        public void Bootstrapp(Framework.Abstractions.IContainer container)
         {
-            get { return 0; }
         }
 
-        public void Bootstrapp()
-        {
-            var container = new AutofacContainerWrapper(new ContainerBuilder());
-            ContainerManager.SetContainer(container);
-        }
+        public Framework.Abstractions.IContainer BootstrappContainer() => new AutofacContainerWrapper(new ContainerBuilder());
     }
 }

@@ -1,25 +1,17 @@
 ﻿using Qooba.Framework.Abstractions;
 using Qooba.Framework.Azure.IoT.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
-using System;
 
 namespace Qooba.Framework.Azure.IoT
 {
     public class AzureIoTModule : IModule
     {
-        public virtual string Name
-        {
-            get { return "AzureIoTModule"; }
-        }
-        
-        public int Priority
-        {
-            get { return 10; }
-        }
+        public virtual string Name => "AzureIoTModule";
 
-        public void Bootstrapp()
+        public int Priority => 10;
+
+        public void Bootstrapp(IContainer container)
         {
-            ContainerManager.Current.RegisterType<IIoTHub, IoTHub>();
+            container.RegisterType<IIoTHub, IoTHub>();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿//using Microsoft.Extensions.DependencyInjection;
-using Qooba.Framework.DependencyInjection.Abstractions;
+using Qooba.Framework.Abstractions;
 using Qooba.Framework.DependencyInjection.SimpleContainer.LifetimeManagers;
 using System;
 using System.Collections;
@@ -13,39 +13,16 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
 {
     public class Container : IContainer
     {
-        private static IDictionary<Type, IDictionary<string, Func<Type, object>>> container = new ConcurrentDictionary<Type, IDictionary<string, Func<Type, object>>>();
+        private static IDictionary<Type, IDictionary<object, Func<Type, object>>> container = new ConcurrentDictionary<Type, IDictionary<object, Func<Type, object>>>();
 
         private static IDictionary<Type, Func<IEnumerable<object>, object>> castingExpressions = new ConcurrentDictionary<Type, Func<IEnumerable<object>, object>>();
 
-        public T GetType<T>()
-        {
-            return default(T);
-            //return ObjectActivator.GetType<T>(container);
-        }
+        public bool IsRegistered<T>() where T : class => container.ContainsKey(typeof(T));
 
-        public T BuildUp<T>(T existing)
+        public bool IsRegistered<T>(object keyToCheck) 
+            where T : class
         {
-            throw new NotImplementedException();
-        }
-
-        public T BuildUp<T>(T existing, string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object BuildUp(Type t, object existing)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsRegistered<T>()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsRegistered<T>(string nameToCheck)
-        {
-            throw new NotImplementedException();
+            return container.TryGetValue(typeof(T), out IDictionary<object, Func<Type, object>> dictionary) && dictionary.ContainsKey(keyToCheck);
         }
 
         public bool IsRegistered(Type typeToCheck)
@@ -53,7 +30,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             throw new NotImplementedException();
         }
 
-        public bool IsRegistered(Type typeToCheck, string nameToCheck)
+        public bool IsRegistered(Type typeToCheck, object keyToCheck)
         {
             throw new NotImplementedException();
         }
@@ -67,7 +44,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return this;
         }
 
-        public IContainer RegisterInstance<TInterface>(string name, TInterface instance)
+        public IContainer RegisterInstance<TInterface>(object key, TInterface instance)
         {
             throw new NotImplementedException();
         }
@@ -82,15 +59,15 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return this.RegisterInstance(t, instance, "");
         }
 
-        public IContainer RegisterInstance(Type t, object instance, string name)
+        public IContainer RegisterInstance(Type t, object instance, object key)
         {
             InitializeContainer(t);
 
-            container[t][name] = (x) => instance;
+            container[t][key] = (x) => instance;
             return this;
         }
 
-        public IContainer RegisterInstance<TInterface>(string name, TInterface instance, Lifetime lifetime)
+        public IContainer RegisterInstance<TInterface>(object key, TInterface instance, Lifetime lifetime)
         {
             throw new NotImplementedException();
         }
@@ -100,12 +77,8 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             throw new NotImplementedException();
         }
 
-        public IContainer RegisterInstance(Type t, string name, object instance)
-        {
-            throw new NotImplementedException();
-        }
-
         public IContainer RegisterType<T>()
+            where T : class
         {
             throw new NotImplementedException();
         }
@@ -129,42 +102,45 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return this.RegisterType(typeof(TFrom), typeof(TTo), lifetime);
         }
 
-        public IContainer RegisterType<TFrom, TTo>(string name) where TTo : class, TFrom
+        public IContainer RegisterType<TFrom, TTo>(object key) where TTo : class, TFrom
         {
             var type = typeof(TFrom);
             InitializeContainer(type);
 
-            return RegisterType(typeof(TFrom), typeof(TTo), name);
+            return RegisterType(typeof(TFrom), typeof(TTo), key);
         }
 
-        public IContainer RegisterType<T>(string name)
+        public IContainer RegisterType<T>(object key)
+            where T : class
         {
-            throw new NotImplementedException();
+            return this.RegisterType<T, T>(key);
         }
 
         public IContainer RegisterType(Type t)
         {
-            throw new NotImplementedException();
+            return RegisterType(t, t);
         }
 
-        public IContainer RegisterType<T>(string name, Lifetime lifetime)
+        public IContainer RegisterType<T>(object key, Lifetime lifetime)
+            where T : class
         {
-            throw new NotImplementedException();
+            var type = typeof(T);
+            return RegisterType(type, type, key);
         }
 
-        public IContainer RegisterType<TFrom, TTo>(string name, Lifetime lifetime) where TTo : TFrom
+        public IContainer RegisterType<TFrom, TTo>(object key, Lifetime lifetime) where TTo : TFrom
         {
-            throw new NotImplementedException();
+            return RegisterType(typeof(TFrom), typeof(TTo), key, lifetime);
         }
 
         public IContainer RegisterType(Type t, Lifetime lifetime)
         {
-            throw new NotImplementedException();
+            return RegisterType(t, t, lifetime);
         }
 
-        public IContainer RegisterType(Type t, string name)
+        public IContainer RegisterType(Type t, object key)
         {
-            throw new NotImplementedException();
+            return RegisterType(t, t, key);
         }
 
         public IContainer RegisterType(Type from, Type to)
@@ -172,9 +148,9 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return RegisterType(from, to, "");
         }
 
-        public IContainer RegisterType(Type t, string name, Lifetime lifetime)
+        public IContainer RegisterType(Type t, object key, Lifetime lifetime)
         {
-            throw new NotImplementedException();
+            return RegisterType(t, t, key, lifetime);
         }
 
         public IContainer RegisterType(Type from, Type to, Lifetime lifetime)
@@ -182,28 +158,27 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return this.RegisterType(from, to, string.Empty, lifetime);
         }
 
-        public IContainer RegisterType(Type from, Type to, string name)
+        public IContainer RegisterType(Type from, Type to, object key)
         {
-            return this.RegisterType(from, to, name, Lifetime.Transistent);
+            return this.RegisterType(from, to, key, Lifetime.Transistent);
         }
 
-        public IContainer RegisterType(Type from, Type to, string name, Lifetime lifetime)
+        public IContainer RegisterType(Type from, Type to, object key, Lifetime lifetime)
         {
             InitializeContainer(from);
             var ctor = to.GetConstructors().First();
             if (!from.GetTypeInfo().IsGenericTypeDefinition)
             {
-
                 var activator = ObjectActivator.GetActivator(to, container, ctor);
-                container[from][name] = WrappWithLifetimeManager(lifetime, from, (Func<Type, object>)activator);
+                container[from][key] = WrappWithLifetimeManager(lifetime, from, (Func<Type, object>)activator);
             }
             else
             {
                 Func<Type, object> f = (t) =>
                 {
-                    IDictionary<string, Func<Type, object>> activator;
+                    IDictionary<object, Func<Type, object>> activator;
                     Func<Type, object> act;
-                    if (!(container.TryGetValue(t, out activator) && activator.TryGetValue(name, out act)))
+                    if (!(container.TryGetValue(t, out activator) && activator.TryGetValue(key, out act)))
                     {
                         var p = t.GetGenericArguments();
                         var ft = to.MakeGenericType(p);
@@ -211,16 +186,16 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
                         act = (Func<Type, object>)ObjectActivator.GetActivator(ft, container, ctor);
                         if (!container.ContainsKey(t))
                         {
-                            container[t] = new ConcurrentDictionary<string, Func<Type, object>>();
+                            container[t] = new ConcurrentDictionary<object, Func<Type, object>>();
                         }
 
-                        container[t][name] = WrappWithLifetimeManager(lifetime, t, act);
+                        container[t][key] = WrappWithLifetimeManager(lifetime, t, act);
                     }
 
                     return act(t);
                 };
 
-                container[from][name] = f;
+                container[from][key] = f;
             }
 
             return this;
@@ -254,10 +229,11 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return (T)Resolve(typeof(T));
         }
 
-        public T Resolve<T>(string name)
+        public T Resolve<T>(object key)
+            where T : class
         {
             var type = typeof(T);
-            return (T)container[type][name](type);
+            return (T)container[type][key](type);
         }
 
         public object Resolve(Type t)
@@ -265,11 +241,11 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return this.Resolve(t, string.Empty);
         }
 
-        public object Resolve(Type t, string name)
+        public object Resolve(Type t, object key)
         {
-            IDictionary<string, Func<Type, object>> df;
+            IDictionary<object, Func<Type, object>> df;
             Func<Type, object> f = null;
-            if (container.TryGetValue(t, out df) && df.TryGetValue(name, out f))
+            if (container.TryGetValue(t, out df) && df.TryGetValue(key, out f))
             {
                 return f(t);
             }
@@ -277,7 +253,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             if (t.GetTypeInfo().IsGenericType)
             {
                 var gt = t.GetGenericTypeDefinition();
-                if (container.TryGetValue(gt, out df) && df.TryGetValue(name, out f))
+                if (container.TryGetValue(gt, out df) && df.TryGetValue(key, out f))
                 {
                     InitializeContainer(t);
                     return f(t);
@@ -286,7 +262,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
 
             if (!t.GetTypeInfo().IsAbstract && !t.GetTypeInfo().IsInterface)
             {
-                this.RegisterType(t, t, name);
+                this.RegisterType(t, t, key);
                 return Resolve(t);
             }
 
@@ -303,9 +279,9 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
                     {
                         var meth = typeof(Container).GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).FirstOrDefault(x => x.Name == "CastList").MakeGenericMethod(arg);
                         var p = Expression.Parameter(typeof(IEnumerable<object>));
-                        castingExpression = Expression.Lambda<Func<IEnumerable<object>,object>>(Expression.Call(null, meth, p), p).Compile();
+                        castingExpression = Expression.Lambda<Func<IEnumerable<object>, object>>(Expression.Call(null, meth, p), p).Compile();
                         castingExpressions[arg] = castingExpression;
-                     }
+                    }
                     var i = df.ToList().Select(x => x.Value(arg)).ToList();
                     return castingExpression(i);
                 }
@@ -313,47 +289,14 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
 
             return null;
         }
-        
+
         public static IEnumerable<T> CastList<T>(IEnumerable<object> o)
         {
             return o.Cast<T>().ToList();
         }
 
-        public void Populate(object services)
-        {
-            //var servicesCollection = services as IServiceCollection;
-            //if (servicesCollection != null)
-            //{
-            //    this.RegisterInstance(servicesCollection);
-            //    this.RegisterType<IServiceProvider, ContainerServiceProvider>();
-            //    this.RegisterType<IServiceScopeFactory, ContainerServiceScopeFactory>();
-
-            //    foreach (var descriptor in servicesCollection)
-            //    {
-            //        this.RegisterDescriptor(descriptor);
-            //    }
-            //}
-        }
-
-        //private void RegisterDescriptor(ServiceDescriptor descriptor)
-        //{
-        //    if (descriptor.ImplementationType != null)
-        //    {
-        //        this.RegisterType(descriptor.ServiceType, descriptor.ImplementationType, MapLifetime(descriptor.Lifetime));
-        //    }
-
-        //    if (descriptor.ImplementationFactory != null)
-        //    {
-        //        this.RegisterFactory(descriptor.ServiceType, descriptor.ImplementationFactory, MapLifetime(descriptor.Lifetime));
-        //    }
-
-        //    if (descriptor.ImplementationInstance != null)
-        //    {
-        //        this.RegisterInstance(descriptor.ServiceType, descriptor.ImplementationInstance);
-        //    }
-        //}
-
         public IEnumerable<T> ResolveAll<T>()
+            where T : class
         {
             throw new NotImplementedException();
         }
@@ -362,7 +305,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
         {
             if (!container.ContainsKey(type))
             {
-                container[type] = new ConcurrentDictionary<string, Func<Type, object>>();
+                container[type] = new ConcurrentDictionary<object, Func<Type, object>>();
             }
         }
 
@@ -378,20 +321,5 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
                     return (new TransistentLifetimeManager()).Resolve(type, activator);
             }
         }
-
-        //private Lifetime MapLifetime(ServiceLifetime lifetime)
-        //{
-        //    switch (lifetime)
-        //    {
-        //        case ServiceLifetime.Transient:
-        //            return Lifetime.Transistent;
-        //        case ServiceLifetime.Singleton:
-        //            return Lifetime.Singleton;
-        //        case ServiceLifetime.Scoped:
-        //            return Lifetime.Transistent;
-        //        default:
-        //            return Lifetime.Transistent;
-        //    }
-        //}
     }
 }

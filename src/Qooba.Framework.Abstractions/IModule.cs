@@ -8,6 +8,6 @@ namespace Qooba.Framework.Abstractions
         
         int Priority { get; }
 
-        void Bootstrapp();
+        void Bootstrapp(IContainer container);
     }
 }

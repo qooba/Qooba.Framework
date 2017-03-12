@@ -1,26 +1,17 @@
-﻿using Microsoft.Azure.Documents.Client;
-using Qooba.Framework.Abstractions;
+﻿using Qooba.Framework.Abstractions;
 using Qooba.Framework.Azure.DocumentDb.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
-using System;
 
 namespace Qooba.Framework.Azure.IoT
 {
     public class AzureDocumentDbModule : IModule
     {
-        public virtual string Name
-        {
-            get { return "AzureDocumentDbModule"; }
-        }
-        
-        public int Priority
-        {
-            get { return 10; }
-        }
+        public virtual string Name => "AzureDocumentDbModule";
 
-        public void Bootstrapp()
+        public int Priority => 10;
+
+        public void Bootstrapp(IContainer container)
         {
-            ContainerManager.Current.RegisterType(typeof(IDocumentDbRepository<>), typeof(DocumentDbRepository<>));
+            container.RegisterType(typeof(IDocumentDbRepository<>), typeof(DocumentDbRepository<>));
         }
     }
 }

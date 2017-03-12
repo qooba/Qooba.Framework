@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices;
 using Qooba.Framework.Serialization.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
 using Qooba.Framework.Configuration.Abstractions;
 using System.Text;
 

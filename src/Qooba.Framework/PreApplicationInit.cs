@@ -11,7 +11,7 @@ using System.Reflection;
 //[assembly: PreApplicationStartMethod(typeof(Qooba.Framework.PreApplicationInit), "InitializeModules")]
 namespace Qooba.Framework
 {
-    public class PreApplicationInit
+    internal class PreApplicationInit
     {
         public const string MODULE_NAME_PATTERN = "Qooba";
         

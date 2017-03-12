@@ -12,8 +12,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Qooba.Framework\Qooba.Framework.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Azure.Functions.Abstractions\Qooba.Framework.Azure.Functions.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.DependencyInjection.Abstractions\Qooba.Framework.DependencyInjection.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.DependencyInjection.SimpleContainer\Qooba.Framework.DependencyInjection.SimpleContainer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

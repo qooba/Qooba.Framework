@@ -22,8 +22,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Services.Abstractions\Qooba.Framework.Services.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.DependencyInjection.Abstractions\Qooba.Framework.DependencyInjection.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Mapping.Abstractions\Qooba.Framework.Mapping.Abstractions.csproj" />
   </ItemGroup>
 

@@ -1,25 +1,17 @@
 ﻿using Qooba.Framework.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
 using Qooba.Framework.Serialization.Abstractions;
-using System;
 
 namespace Qooba.Framework.Serialization
 {
     public class SerializationModule : IModule
     {
-        public virtual string Name
-        {
-            get { return "SerializationModule"; }
-        }
-        
-        public int Priority
-        {
-            get { return 10; }
-        }
+        public virtual string Name => "SerializationModule";
 
-        public void Bootstrapp()
+        public int Priority => 10;
+
+        public void Bootstrapp(IContainer container)
         {
-            ContainerManager.Current.RegisterType<ISerializer, JsonSerializer>();
+            container.RegisterType<ISerializer, JsonSerializer>();
         }
     }
 }

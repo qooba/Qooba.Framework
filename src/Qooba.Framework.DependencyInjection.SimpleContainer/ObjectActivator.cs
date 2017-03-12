@@ -25,7 +25,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return ((Func<Type, T>)lambda.Compile())(paramType);
         }
 
-        public static Func<Type, T> GetActivator<T>(IDictionary<Type, IDictionary<string, Func<Type, object>>> container, ConstructorInfo constructor)
+        public static Func<Type, T> GetActivator<T>(IDictionary<Type, IDictionary<object, Func<Type, object>>> container, ConstructorInfo constructor)
         {
             var newExpression = GetNewExpresion(container, constructor);
             var lambda = Expression.Lambda(typeof(Func<Type, T>), newExpression);
@@ -33,7 +33,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return compiled;
         }
 
-        public static object GetActivator(Type type, IDictionary<Type, IDictionary<string, Func<Type, object>>> container, ConstructorInfo constructor)
+        public static object GetActivator(Type type, IDictionary<Type, IDictionary<object, Func<Type, object>>> container, ConstructorInfo constructor)
         {
             var newExpression = GetNewExpresion(container, constructor);
             var ft = typeof(Func<,>).MakeGenericType(new[] { typeof(Type), type });
@@ -46,7 +46,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return input.Select(x => (T)x(typeof(T)));
         }
 
-        private static NewExpression GetNewExpresion(IDictionary<Type, IDictionary<string, Func<Type, object>>> container, ConstructorInfo constructor)
+        private static NewExpression GetNewExpresion(IDictionary<Type, IDictionary<object, Func<Type, object>>> container, ConstructorInfo constructor)
         {
             var parameters = constructor.GetParameters();
             var numberOfParameters = parameters.Length;

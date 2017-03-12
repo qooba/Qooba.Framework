@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyTitle>Qooba.Framework.Bot</AssemblyTitle>
+    <VersionPrefix>1.0.0-alpha1</VersionPrefix>
+    <Authors>Jakub Sołtys</Authors>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <AssemblyName>Qooba.Framework.Bot</AssemblyName>
+    <PackageId>Qooba.Framework.Bot</PackageId>
+    <PackageTags>framework</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/qooba/Qooba.Framework</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/qooba/Qooba.Framework/master/LICENSE</PackageLicenseUrl>
+    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50;net46;net461</PackageTargetFallback>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Bot.Abstractions\Qooba.Framework.Bot.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Bot.Connector.Abstractions\Qooba.Framework.Bot.Connector.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

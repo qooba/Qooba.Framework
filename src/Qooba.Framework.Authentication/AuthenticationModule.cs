@@ -1,25 +1,17 @@
 ﻿using Qooba.Framework.Abstractions;
 using Qooba.Framework.Authentication.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
-using System;
 
 namespace Qooba.Framework.Authentication
 {
     public class AuthenticaitonModule : IModule
     {
-        public virtual string Name
-        {
-            get { return "AuthenticaitonModule"; }
-        }
-        
-        public int Priority
-        {
-            get { return 10; }
-        }
+        public virtual string Name => "AuthenticaitonModule";
 
-        public void Bootstrapp()
+        public int Priority => 10;
+
+        public void Bootstrapp(IContainer container)
         {
-            ContainerManager.Current.RegisterType<IAuthenticationFilter, AuthenticationFilter>(Lifetime.Singleton);
+            container.RegisterType<IAuthenticationFilter, AuthenticationFilter>(Lifetime.Singleton);
         }
     }
 }
