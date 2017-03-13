@@ -3,7 +3,7 @@ using Qooba.Framework.Bot.Abstractions.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Qooba.Framework.Bot
+namespace Qooba.Framework.Bot.Routing
 {
     public class Router : IRouter
     {

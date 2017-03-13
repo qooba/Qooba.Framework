@@ -1,4 +1,4 @@
-﻿namespace Qooba.Framework.Bot.Abstractions.Model.Buttons
+﻿namespace Qooba.Framework.Bot.Abstractions.Models.Buttons
 {
     public class ShareButton : Button
     {

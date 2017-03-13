@@ -1,23 +1,25 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
+using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Abstractions.Models;
+using Qooba.Framework.Bot.Context;
+using Qooba.Framework.Bot.Handlers;
+using Xunit;
 
-namespace AbacoosBotFunc.Tests.Handlers
+namespace Qooba.Framework.Bot.Tests.Handlers
 {
-    [TestClass]
     public class DispatchHandlerTests
     {
         private IHandler dispatchHandler;
 
         private Mock<IDispatcher> dispatcherMock;
-
-        [TestInitialize]
-        public void Initialize()
+        
+        public DispatchHandlerTests()
         {
             this.dispatcherMock = new Mock<IDispatcher>();
             this.dispatchHandler = new DispatchHandler(this.dispatcherMock.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void DispatchHandlingTest()
         {
             var reply = new Reply

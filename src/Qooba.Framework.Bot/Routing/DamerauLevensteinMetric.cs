@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Qooba.Framework.Bot
+namespace Qooba.Framework.Bot.Routing
 {
     public class DamerauLevensteinMetric
     {

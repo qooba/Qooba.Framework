@@ -1,22 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Handlers;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Xunit;
 
-namespace AbacoosBotFunc.Tests.Handlers
+namespace Qooba.Framework.Bot.Tests.Handlers
 {
-    [TestClass]
     public class HandlerManagerTests
     {
         private IHandlerManager handlerManager;
-
-        [TestInitialize]
-        public void Initialize()
+        
+        public HandlerManagerTests()
         {
-
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateTest()
         {
             var handlers = new List<IHandler>()
@@ -32,12 +29,12 @@ namespace AbacoosBotFunc.Tests.Handlers
 
             var handler = this.handlerManager.CreateAsync(null).Result;
 
-            Assert.IsTrue(handler is ContextHandler);
-            Assert.IsTrue(handler.NextHandler is RouteHandler);
-            Assert.IsTrue(handler.NextHandler.NextHandler is ReplyHandler);
-            Assert.IsTrue(handler.NextHandler.NextHandler.NextHandler is DispatchHandler);
-            Assert.IsTrue(handler.NextHandler.NextHandler.NextHandler.NextHandler is ContextKeeperHandler);
-            Assert.IsNull(handler.NextHandler.NextHandler.NextHandler.NextHandler.NextHandler);
+            Assert.True(handler is ContextHandler);
+            Assert.True(handler.NextHandler is RouteHandler);
+            Assert.True(handler.NextHandler.NextHandler is ReplyHandler);
+            Assert.True(handler.NextHandler.NextHandler.NextHandler is DispatchHandler);
+            Assert.True(handler.NextHandler.NextHandler.NextHandler.NextHandler is ContextKeeperHandler);
+            Assert.Null(handler.NextHandler.NextHandler.NextHandler.NextHandler.NextHandler);
         }
     }
 }

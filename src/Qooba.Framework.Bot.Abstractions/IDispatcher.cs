@@ -1,5 +1,4 @@
-﻿using Qooba.Framework.Bot.Abstractions.Model;
-using Qooba.Framework.Bot.Abstractions.Models;
+﻿using Qooba.Framework.Bot.Abstractions.Models;
 using System.Threading.Tasks;
 
 namespace Qooba.Framework.Bot.Abstractions

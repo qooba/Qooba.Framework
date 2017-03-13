@@ -2,7 +2,7 @@
 using Qooba.Framework.Configuration.Abstractions;
 using System.Threading.Tasks;
 
-namespace Qooba.Framework.Bot
+namespace Qooba.Framework.Bot.Context
 {
     public class StateManager : IStateManager
     {

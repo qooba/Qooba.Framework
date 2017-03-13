@@ -1,23 +1,24 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
+using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Context;
+using Qooba.Framework.Bot.Handlers;
+using Xunit;
 
-namespace AbacoosBotFunc.Tests.Handlers
+namespace Qooba.Framework.Bot.Tests.Handlers
 {
-    [TestClass]
     public class ContextKeeperHandlerTests
     {
         private IHandler contextKeeperHandler;
 
         private Mock<IStateManager> stateManager;
-
-        [TestInitialize]
-        public void Initialize()
+        
+        public ContextKeeperHandlerTests()
         {
             this.stateManager = new Mock<IStateManager>();
             this.contextKeeperHandler = new ContextKeeperHandler(this.stateManager.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContextKeepHandlingTest()
         {
             IConversationContext context = new ConversationContext
@@ -27,18 +28,18 @@ namespace AbacoosBotFunc.Tests.Handlers
 
             this.contextKeeperHandler.InvokeAsync(context).Wait();
 
-            Assert.IsNotNull(context);
+            Assert.NotNull(context);
             this.stateManager.Verify(x => x.SaveContext(context), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContextNoKeepHandlingTest()
         {
             IConversationContext context = new ConversationContext();
 
             this.contextKeeperHandler.InvokeAsync(context).Wait();
 
-            Assert.IsNotNull(context);
+            Assert.NotNull(context);
             this.stateManager.Verify(x => x.SaveContext(context), Times.Never);
         }
     }

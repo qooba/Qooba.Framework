@@ -1,25 +1,26 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
+using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Abstractions.Models;
+using Qooba.Framework.Bot.Routing;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xunit;
 
-namespace AbacoosBotFunc.Tests.Handlers
+namespace Qooba.Framework.Bot.Tests
 {
-    [TestClass]
     public class RouterTests
     {
         private IRouter router;
 
         private Mock<IReplyManager> replyManagerMock;
-
-        [TestInitialize]
-        public void Initialize()
+        
+        public RouterTests()
         {
             this.replyManagerMock = new Mock<IReplyManager>();
             this.router = new Router(this.replyManagerMock.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExactFindRouteTest()
         {
             var text = "hello world";
@@ -33,7 +34,7 @@ namespace AbacoosBotFunc.Tests.Handlers
 
             var route = this.router.FindRouteAsync(text).Result;
 
-            Assert.IsTrue(route.RouteId == id);
+            Assert.True(route.RouteId == id);
         }
     }
 }

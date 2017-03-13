@@ -1,12 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
+using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Abstractions.Models;
+using Qooba.Framework.Configuration.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xunit;
 
-namespace AbacoosBotFunc.Tests.Handlers
+namespace Qooba.Framework.Bot.Tests
 {
-    [TestClass]
     public class ReplyManagerTests
     {
         private IReplyManager replyManager;
@@ -14,26 +15,25 @@ namespace AbacoosBotFunc.Tests.Handlers
         private Mock<IConfig> configMock;
 
         private Mock<IReplyBuilder> replyBuilderMock;
-
-        [TestInitialize]
-        public void Initialize()
+        
+        public ReplyManagerTests()
         {
             this.configMock = new Mock<IConfig>();
-            this.configMock.Setup(x => x.Get(Constants.BotConfigurationPath)).Returns("Bot/bot.json");
+            this.configMock.Setup(x => x[Constants.BotConfigurationPath]).Returns("Bot/bot.json");
             this.replyBuilderMock = new Mock<IReplyBuilder>();
             Func<string, IReplyBuilder> func = s => s == "raw" ? replyBuilderMock.Object : null;
             this.replyManager = new ReplyManager(this.configMock.Object, func);
         }
 
-        [TestMethod]
+        [Fact]
         public void FetchRoutingTableTest()
         {
             var routingTable = this.replyManager.FetchRoutingTableAsync().Result;
 
-            Assert.IsTrue(routingTable.Count == 2);
+            Assert.True(routingTable.Count == 2);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateReplyTest()
         {
             var routeId = "hello";
@@ -53,7 +53,7 @@ namespace AbacoosBotFunc.Tests.Handlers
 
             var reply = this.replyManager.CreateAsync(contextMock.Object).Result;
 
-            Assert.IsTrue(reply.Message.Text == text);
+            Assert.True(reply.Message.Text == text);
             this.replyBuilderMock.Verify(x => x.BuildAsync(contextMock.Object, It.IsAny<ReplyItem>()), Times.Once);
         }
     }

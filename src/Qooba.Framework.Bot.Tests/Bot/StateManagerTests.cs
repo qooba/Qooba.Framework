@@ -1,25 +1,24 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Moq;
+using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Context;
+using Qooba.Framework.Configuration.Abstractions;
+using Xunit;
 
-namespace AbacoosBotFunc.Tests
+namespace Qooba.Framework.Bot.Tests
 {
-    [TestClass]
     public class StateManagerTests
     {
         private IStateManager stateManager;
 
         private Mock<IConfig> configMock;
-
-        [TestInitialize]
-        public void Initialize()
+        
+        public StateManagerTests()
         {
             this.configMock = new Mock<IConfig>();
             this.stateManager = new StateManager(this.configMock.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void FetchContextTest()
         {
             var context = new ConversationContext();

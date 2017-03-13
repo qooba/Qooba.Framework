@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Qooba.Framework.Bot
+namespace Qooba.Framework.Bot.Handlers
 {
     public class HandlerManager : IHandlerManager
     {

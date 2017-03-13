@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
+using Qooba.Framework.Bot.Context;
 using Qooba.Framework.Logging.Abstractions;
 using System.Threading.Tasks;
 

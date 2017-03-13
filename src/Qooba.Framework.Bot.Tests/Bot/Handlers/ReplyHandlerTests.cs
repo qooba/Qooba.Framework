@@ -1,24 +1,26 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
+using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Abstractions.Models;
+using Qooba.Framework.Bot.Context;
+using Qooba.Framework.Bot.Handlers;
 using System.Threading.Tasks;
+using Xunit;
 
-namespace AbacoosBotFunc.Tests.Handlers
+namespace Qooba.Framework.Bot.Tests.Handlers
 {
-    [TestClass]
     public class ReplyHandlerTests
     {
         private IHandler replyHandler;
 
         private Mock<IReplyManager> replyManagerMock;
-
-        [TestInitialize]
-        public void Initialize()
+        
+        public ReplyHandlerTests()
         {
             this.replyManagerMock = new Mock<IReplyManager>();
             this.replyHandler = new ReplyHandler(this.replyManagerMock.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void ReplyHandlingTest()
         {
             var text = "hello";
@@ -45,7 +47,7 @@ namespace AbacoosBotFunc.Tests.Handlers
 
             this.replyHandler.InvokeAsync(context).Wait();
 
-            Assert.IsTrue(context.Reply.Message.Text == text);
+            Assert.True(context.Reply.Message.Text == text);
             this.replyManagerMock.Verify(x => x.CreateAsync(context), Times.Once);
         }
     }

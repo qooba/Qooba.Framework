@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions;
 using System.Collections.Generic;
-using Qooba.Framework.Bot.Connector.Abstractions;
-using Qooba.Framework.Bot.Connector.Abstractions.Model;
 using System;
 using Qooba.Framework.Logging.Abstractions;
+using Qooba.Framework.Bot.Abstractions.Models;
 
 namespace Qooba.Framework.Bot
 {
@@ -25,7 +24,7 @@ namespace Qooba.Framework.Bot
             if (Enum.TryParse(path, true, out ConnectorType connectorType))
             {
                 var connector = this.connectorFactory(connectorType.ToString());
-                await connector.ReadAsync(headers, callback);
+                //await connector.Process( ReadAsync(headers, callback);
             }
             else
             {

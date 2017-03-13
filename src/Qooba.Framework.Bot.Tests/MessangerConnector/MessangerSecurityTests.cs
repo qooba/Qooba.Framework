@@ -1,27 +1,27 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Net.Http;
+using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Configuration.Abstractions;
+using Xunit;
 
-namespace AbacoosBotFunc.Tests
+namespace Qooba.Framework.Bot.Tests
 {
-    [TestClass]
     public class MessangerSecurityTests
     {
         private IMessangerSecurity messangerSecurity;
 
         private Mock<IConfig> configMock;
-
-        [TestInitialize]
-        public void Initialize()
+        
+        public MessangerSecurityTests()
         {
             this.configMock = new Mock<IConfig>();
-            this.configMock.Setup(x => x.Get(Constants.MessangerAppSecret)).Returns("1111");
-            this.configMock.Setup(x => x.Get(Constants.MessangerChallengeVerifyToken)).Returns("54321");
+            this.configMock.Setup(x => x[Constants.MessangerAppSecret]).Returns("1111");
+            this.configMock.Setup(x => x[Constants.MessangerChallengeVerifyToken]).Returns("54321");
             this.messangerSecurity = new MessangerSecurity(this.configMock.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void ValidateSignatureSuccessTest()
         {
             var request = new HttpRequestMessage();
@@ -30,10 +30,10 @@ namespace AbacoosBotFunc.Tests
 
             var isValid = this.messangerSecurity.ValidateSignature(request, content);
 
-            Assert.IsTrue(isValid);
+            Assert.True(isValid);
         }
 
-        [TestMethod]
+        [Fact]
         public void ValidateSignatureFalseTest()
         {
             var request = new HttpRequestMessage();
@@ -42,10 +42,10 @@ namespace AbacoosBotFunc.Tests
 
             var isValid = this.messangerSecurity.ValidateSignature(request, content);
 
-            Assert.IsFalse(isValid);
+            Assert.False(isValid);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsChallengeRequestTrueAndSuccessTest()
         {
             var challenge = "1234";
@@ -55,11 +55,11 @@ namespace AbacoosBotFunc.Tests
 
             var result = this.messangerSecurity.IsChallengeRequest(request);
 
-            Assert.IsTrue(result.IsChallenge);
-            Assert.IsTrue(result.Response.Content.ReadAsStringAsync().Result == challenge);
+            Assert.True(result.IsChallenge);
+            Assert.True(result.Response.Content.ReadAsStringAsync().Result == challenge);
         }
         
-        [TestMethod]
+        [Fact]
         public void IsChallengeRequestTrueAndFailedTest()
         {
             var challenge = "1234";
@@ -69,12 +69,12 @@ namespace AbacoosBotFunc.Tests
 
             var result = this.messangerSecurity.IsChallengeRequest(request);
 
-            Assert.IsTrue(result.IsChallenge);
-            Assert.IsFalse(result.Response.Content.ReadAsStringAsync().Result == challenge);
-            Assert.IsTrue(result.Response.StatusCode == System.Net.HttpStatusCode.BadRequest);
+            Assert.True(result.IsChallenge);
+            Assert.False(result.Response.Content.ReadAsStringAsync().Result == challenge);
+            Assert.True(result.Response.StatusCode == System.Net.HttpStatusCode.BadRequest);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsChallengeRequestFalseTest()
         {
             var challenge = "1234";
@@ -84,8 +84,8 @@ namespace AbacoosBotFunc.Tests
 
             var result = this.messangerSecurity.IsChallengeRequest(request);
 
-            Assert.IsFalse(result.IsChallenge);
-            Assert.IsNull(result.Response);
+            Assert.False(result.IsChallenge);
+            Assert.Null(result.Response);
         }
 
         private static HttpRequestMessage PrepareRequest(string challenge, string verifyToken, string mode)

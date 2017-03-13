@@ -8,7 +8,7 @@ using Qooba.Framework.Bot.Abstractions.Models;
 
 namespace Qooba.Framework.Bot
 {
-    public class MessangerConnector
+    public class MessangerConnector : IConnector
     {
         private readonly IMessangerSecurity messangerSecurity;
 
@@ -16,14 +16,17 @@ namespace Qooba.Framework.Bot
 
         private readonly ILogger logger;
 
-        public MessangerConnector(IMessangerSecurity messangerSecurity, ITelemetry telemetry, ILogger logger)
+        private readonly IMessageQueue<string> queue;
+
+        public MessangerConnector(IMessangerSecurity messangerSecurity, ITelemetry telemetry, ILogger logger, IMessageQueue<string> queue)
         {
             this.logger = logger;
             this.messangerSecurity = messangerSecurity;
             this.telemetry = telemetry;
+            this.queue = queue;
         }
         
-        private async Task<HttpResponseMessage> Process(HttpRequestMessage req, ICollector<string> myQueue)
+        public async Task<HttpResponseMessage> Process(HttpRequestMessage req)
         {
             var challengeResult = this.messangerSecurity.IsChallengeRequest(req);
             if (challengeResult.IsChallenge)
@@ -48,7 +51,7 @@ namespace Qooba.Framework.Bot
                 foreach (var message in messaging)
                 {
                     var m = new JObject(new JProperty("connectorType", ConnectorType.Messanger.ToString()), new JProperty("message", message));
-                    myQueue.Add(m.ToString());
+                    await this.queue.Enqueue(m.ToString());
                 }
             }
 

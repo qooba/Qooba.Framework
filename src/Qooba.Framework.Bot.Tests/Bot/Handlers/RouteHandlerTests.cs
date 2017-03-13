@@ -1,23 +1,25 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
+using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Abstractions.Models;
+using Qooba.Framework.Bot.Context;
+using Qooba.Framework.Bot.Handlers;
+using Xunit;
 
-namespace AbacoosBotFunc.Tests.Handlers
+namespace Qooba.Framework.Bot.Tests.Handlers
 {
-    [TestClass]
     public class RouteHandlerTests
     {
         private IHandler routeHandler;
 
         private Mock<IRouter> routerMock;
-
-        [TestInitialize]
-        public void Initialize()
+        
+        public RouteHandlerTests()
         {
             this.routerMock = new Mock<IRouter>();
             this.routeHandler = new RouteHandler(this.routerMock.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void FindRouteHandlingTest()
         {
             var text = "hello";

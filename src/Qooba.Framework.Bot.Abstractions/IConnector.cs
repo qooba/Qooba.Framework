@@ -1,12 +1,10 @@
 ﻿using System.Threading.Tasks;
-using System.Collections.Generic;
+using System.Net.Http;
 
 namespace Qooba.Framework.Bot.Abstractions
 {
     public interface IConnector
     {
-        Task<Callback> ReadAsync(IDictionary<string, string[]> headers, string callback);
-
-        Task Send(Reply reply);
+        Task<HttpResponseMessage> Process(HttpRequestMessage req);
     }
 }

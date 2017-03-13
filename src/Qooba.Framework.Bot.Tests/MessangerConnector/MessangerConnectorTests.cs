@@ -1,13 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using System.Net.Http;
-using Microsoft.Azure.WebJobs;
 using System.Threading.Tasks;
 using System;
+using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Logging.Abstractions;
+using Xunit;
+using Qooba.Framework.Bot.Abstractions.Models;
 
-namespace AbacoosBotFunc.Tests
+namespace Qooba.Framework.Bot.Tests
 {
-    [TestClass]
     public class MessangerConnectorTests
     {
         private MessangerConnector messangerConnector;
@@ -18,31 +19,30 @@ namespace AbacoosBotFunc.Tests
 
         private Mock<ILogger> loggerMock;
 
-        private Mock<ICollector<string>> collectorMock;
+        private Mock<IMessageQueue<string>> messageQueueMock;
 
-        [TestInitialize]
-        public void Initialize()
+        public MessangerConnectorTests()
         {
-            this.collectorMock = new Mock<ICollector<string>>();
+            this.messageQueueMock = new Mock<IMessageQueue<string>>();
             this.loggerMock = new Mock<ILogger>();
             this.telemetryMock = new Mock<ITelemetry>();
             this.telemetryMock.Setup(x => x.GlobalExceptionHandler(It.IsAny<Func<Task<HttpResponseMessage>>>(), It.IsAny<bool>())).Returns<Func<Task<HttpResponseMessage>>, bool>((x, b) => x());
             this.messangerSecurityMock = new Mock<IMessangerSecurity>();
-            this.messangerConnector = new MessangerConnector(this.messangerSecurityMock.Object, this.telemetryMock.Object, this.loggerMock.Object);
+            this.messangerConnector = new MessangerConnector(this.messangerSecurityMock.Object, this.telemetryMock.Object, this.loggerMock.Object, this.messageQueueMock.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void ChallengerHandlingTest()
         {
             this.messangerSecurityMock.Setup(x => x.IsChallengeRequest(It.IsAny<HttpRequestMessage>())).Returns(new ChallengeResult(true, new HttpResponseMessage(System.Net.HttpStatusCode.OK)));
 
-            var response = this.messangerConnector.Run(new HttpRequestMessage(), this.collectorMock.Object).Result;
+            var response = this.messangerConnector.Process(new HttpRequestMessage()).Result;
 
-            Assert.IsTrue(response.StatusCode == System.Net.HttpStatusCode.OK);
+            Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK);
             this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Challenge", "Challenge validation"), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void InvalidSignatureTest()
         {
             this.messangerSecurityMock.Setup(x => x.IsChallengeRequest(It.IsAny<HttpRequestMessage>())).Returns(new ChallengeResult(false, null));
@@ -50,14 +50,14 @@ namespace AbacoosBotFunc.Tests
             var request = new HttpRequestMessage();
             request.Content = new StringContent("{\"object\":\"page\",\"entry\":[{\"id\":\"1\",\"time\":2,\"messaging\":[{\"sender\":{\"id\":\"3\"},\"recipient\":{\"id\":\"4\"},\"timestamp\":5,\"delivery\":{\"mids\":[\"mid.5:7\"],\"watermark\":8,\"seq\":0}}]}]}");
 
-            var response = this.messangerConnector.Run(request, this.collectorMock.Object).Result;
+            var response = this.messangerConnector.Process(request).Result;
 
-            Assert.IsTrue(response.StatusCode == System.Net.HttpStatusCode.OK);
+            Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK);
             this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Signature", "Invalid signature"), Times.Once);
             this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Challenge", "Challenge validation"), Times.Never);
         }
 
-        [TestMethod]
+        [Fact]
         public void ProcessMessageTest()
         {
             var json = "{\"object\":\"page\",\"entry\":[{\"id\":\"1\",\"time\":2,\"messaging\":[{\"sender\":{\"id\":\"3\"},\"recipient\":{\"id\":\"4\"},\"timestamp\":5,\"delivery\":{\"mids\":[\"mid.6:7\"],\"watermark\":8,\"seq\":0}}]}]}";
@@ -66,13 +66,13 @@ namespace AbacoosBotFunc.Tests
             var request = new HttpRequestMessage();
             request.Content = new StringContent(json);
 
-            var response = this.messangerConnector.Run(request, this.collectorMock.Object).Result;
+            var response = this.messangerConnector.Process(request).Result;
 
-            Assert.IsTrue(response.StatusCode == System.Net.HttpStatusCode.OK);
+            Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK);
             this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Signature", "Invalid signature"), Times.Never);
             this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Challenge", "Challenge validation"), Times.Never);
             this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Request", json), Times.Once);
-            this.collectorMock.Verify(x => x.Add(It.IsAny<string>()), Times.Once);
+            this.messageQueueMock.Verify(x => x.Enqueue(It.IsAny<string>()), Times.Once);
         }
     }
 }

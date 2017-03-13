@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Bot.Abstractions\Qooba.Framework.Bot.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.Bot.Connector.Abstractions\Qooba.Framework.Bot.Connector.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Bot\Qooba.Framework.Bot.csproj" />
     <ProjectReference Include="..\Qooba.Framework.DependencyInjection.Abstractions\Qooba.Framework.DependencyInjection.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj" />
@@ -23,6 +22,12 @@
   
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="Bot\bot.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
 using System.Threading.Tasks;
 
-namespace Qooba.Framework.Bot
+namespace Qooba.Framework.Bot.Handlers
 {
     public class ContextKeeperHandler : BaseHandler, IHandler
     {
