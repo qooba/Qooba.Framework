@@ -12,14 +12,11 @@ namespace Qooba.Framework.Bot.Dispatch
     public class MessangerDispatcher : IDispatcher
     {
         private readonly ILogger logger;
-
-        private readonly ITelemetry telemetry;
-
+        
         private readonly IConfig config;
 
-        public MessangerDispatcher(ITelemetry telemetry, ILogger logger, IConfig config)
+        public MessangerDispatcher(ILogger logger, IConfig config)
         {
-            this.telemetry = telemetry;
             this.logger = logger;
             this.config = config;
         }

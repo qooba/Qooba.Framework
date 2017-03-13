@@ -8,9 +8,7 @@ namespace Qooba.Framework.Bot.Tests
     public class BotTests
     {
         private Bot bot;
-
-        private Mock<ITelemetry> telemetryMock;
-
+        
         private Mock<ILogger> loggerMock;
 
         private Mock<IHandler> handlerMock;
@@ -18,9 +16,8 @@ namespace Qooba.Framework.Bot.Tests
         public BotTests()
         {
             this.loggerMock = new Mock<ILogger>();
-            this.telemetryMock = new Mock<ITelemetry>();
             this.handlerMock = new Mock<IHandler>();
-            this.bot = new Bot(this.telemetryMock.Object, this.loggerMock.Object, this.handlerMock.Object);
+            this.bot = new Bot(this.loggerMock.Object, this.handlerMock.Object);
         }
 
         [Fact]

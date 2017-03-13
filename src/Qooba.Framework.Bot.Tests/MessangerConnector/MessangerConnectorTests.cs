@@ -1,7 +1,5 @@
 ﻿using Moq;
 using System.Net.Http;
-using System.Threading.Tasks;
-using System;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Logging.Abstractions;
 using Xunit;
@@ -15,8 +13,6 @@ namespace Qooba.Framework.Bot.Tests
 
         private Mock<IMessangerSecurity> messangerSecurityMock;
 
-        private Mock<ITelemetry> telemetryMock;
-
         private Mock<ILogger> loggerMock;
 
         private Mock<IMessageQueue<string>> messageQueueMock;
@@ -25,10 +21,8 @@ namespace Qooba.Framework.Bot.Tests
         {
             this.messageQueueMock = new Mock<IMessageQueue<string>>();
             this.loggerMock = new Mock<ILogger>();
-            this.telemetryMock = new Mock<ITelemetry>();
-            this.telemetryMock.Setup(x => x.GlobalExceptionHandler(It.IsAny<Func<Task<HttpResponseMessage>>>(), It.IsAny<bool>())).Returns<Func<Task<HttpResponseMessage>>, bool>((x, b) => x());
             this.messangerSecurityMock = new Mock<IMessangerSecurity>();
-            this.messangerConnector = new MessangerConnector(this.messangerSecurityMock.Object, this.telemetryMock.Object, this.loggerMock.Object, this.messageQueueMock.Object);
+            this.messangerConnector = new MessangerConnector(this.messangerSecurityMock.Object, this.loggerMock.Object, this.messageQueueMock.Object);
         }
 
         [Fact]
@@ -39,7 +33,7 @@ namespace Qooba.Framework.Bot.Tests
             var response = this.messangerConnector.Process(new HttpRequestMessage()).Result;
 
             Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK);
-            this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Challenge", "Challenge validation"), Times.Once);
+            this.loggerMock.Verify(x => x.Info("Challenge validation"), Times.Once);
         }
 
         [Fact]
@@ -53,8 +47,8 @@ namespace Qooba.Framework.Bot.Tests
             var response = this.messangerConnector.Process(request).Result;
 
             Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK);
-            this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Signature", "Invalid signature"), Times.Once);
-            this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Challenge", "Challenge validation"), Times.Never);
+            this.loggerMock.Verify(x => x.Info("Invalid signature"), Times.Once);
+            this.loggerMock.Verify(x => x.Info("Challenge validation"), Times.Never);
         }
 
         [Fact]
@@ -69,9 +63,9 @@ namespace Qooba.Framework.Bot.Tests
             var response = this.messangerConnector.Process(request).Result;
 
             Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK);
-            this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Signature", "Invalid signature"), Times.Never);
-            this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Challenge", "Challenge validation"), Times.Never);
-            this.telemetryMock.Verify(x => x.TrackEvent("MessangerConnector-Request", json), Times.Once);
+            this.loggerMock.Verify(x => x.Info("Invalid signature"), Times.Never);
+            this.loggerMock.Verify(x => x.Info("Challenge validation"), Times.Never);
+            this.loggerMock.Verify(x => x.Info(json), Times.Once);
             this.messageQueueMock.Verify(x => x.Enqueue(It.IsAny<string>()), Times.Once);
         }
     }

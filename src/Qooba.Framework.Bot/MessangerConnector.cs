@@ -12,37 +12,34 @@ namespace Qooba.Framework.Bot
     {
         private readonly IMessangerSecurity messangerSecurity;
 
-        private readonly ITelemetry telemetry;
-
         private readonly ILogger logger;
 
         private readonly IMessageQueue<string> queue;
 
-        public MessangerConnector(IMessangerSecurity messangerSecurity, ITelemetry telemetry, ILogger logger, IMessageQueue<string> queue)
+        public MessangerConnector(IMessangerSecurity messangerSecurity, ILogger logger, IMessageQueue<string> queue)
         {
             this.logger = logger;
             this.messangerSecurity = messangerSecurity;
-            this.telemetry = telemetry;
             this.queue = queue;
         }
-        
+
         public async Task<HttpResponseMessage> Process(HttpRequestMessage req)
         {
             var challengeResult = this.messangerSecurity.IsChallengeRequest(req);
             if (challengeResult.IsChallenge)
             {
-                this.telemetry.TrackEvent("MessangerConnector-Challenge", "Challenge validation");
+                this.logger.Info("Challenge validation");
                 return challengeResult.Response;
             }
 
             var json = await req.Content.ReadAsStringAsync();
             if (!this.messangerSecurity.ValidateSignature(req, json))
             {
-                this.telemetry.TrackEvent("MessangerConnector-Signature", "Invalid signature");
+                this.logger.Info("Invalid signature");
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }
 
-            this.telemetry.TrackEvent("MessangerConnector-Request", json);
+            this.logger.Info(json);
             var o = JObject.Parse(json);
             var entries = (JArray)o["entry"];
             foreach (var entry in entries)

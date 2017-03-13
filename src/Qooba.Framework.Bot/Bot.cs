@@ -9,15 +9,12 @@ namespace Qooba.Framework.Bot
 {
     public class Bot
     {
-        private readonly ITelemetry telemetry;
-
         private readonly ILogger logger;
 
         private readonly IHandler handler;
 
-        public Bot(ITelemetry telemetry, ILogger logger, IHandler handler)
+        public Bot(ILogger logger, IHandler handler)
         {
-            this.telemetry = telemetry;
             this.logger = logger;
             this.handler = handler;
         }
@@ -25,8 +22,7 @@ namespace Qooba.Framework.Bot
         public async Task Run(string myQueueItem)
         {
             var entry = JsonConvert.DeserializeObject<Entry>(myQueueItem, Serialization.Settings);
-            this.telemetry.TrackEvent("Bot-StartProcess", myQueueItem);
-            this.logger.Info($"C# Queue trigger function processed: {myQueueItem}");
+            this.logger.Info($"Bot-StartProcess: {myQueueItem}");
             IConversationContext context = new ConversationContext
             {
                 Entry = entry
