@@ -19,7 +19,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
 
         public bool IsRegistered<T>() where T : class => container.ContainsKey(typeof(T));
 
-        public bool IsRegistered<T>(object keyToCheck) 
+        public bool IsRegistered<T>(object keyToCheck)
             where T : class
         {
             return container.TryGetValue(typeof(T), out IDictionary<object, Func<Type, object>> dictionary) && dictionary.ContainsKey(keyToCheck);
@@ -35,29 +35,21 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             throw new NotImplementedException();
         }
 
-        public IContainer RegisterInstance<TInterface>(TInterface instance)
+        public IContainer RegisterInstance<TInterface>(TInterface instance) => this.RegisterInstance(string.Empty, instance);
+
+        public IContainer RegisterInstance<TInterface>(object key, TInterface instance)
         {
             var type = typeof(TInterface);
             InitializeContainer(type);
 
-            container[type][""] = (t) => instance;
+            container[type][key] = (t) => instance;
             return this;
         }
 
-        public IContainer RegisterInstance<TInterface>(object key, TInterface instance)
-        {
-            throw new NotImplementedException();
-        }
+        public IContainer RegisterInstance<TInterface>(TInterface instance, Lifetime lifetime) => this.RegisterType(typeof(TInterface), instance.GetType(), lifetime);
 
-        public IContainer RegisterInstance<TInterface>(TInterface instance, Lifetime lifetime)
-        {
-            throw new NotImplementedException();
-        }
+        public IContainer RegisterInstance(Type t, object instance) => this.RegisterInstance(t, instance, string.Empty);
 
-        public IContainer RegisterInstance(Type t, object instance)
-        {
-            return this.RegisterInstance(t, instance, "");
-        }
 
         public IContainer RegisterInstance(Type t, object instance, object key)
         {
@@ -67,40 +59,26 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return this;
         }
 
-        public IContainer RegisterInstance<TInterface>(object key, TInterface instance, Lifetime lifetime)
-        {
-            throw new NotImplementedException();
-        }
+        public IContainer RegisterInstance<TInterface>(object key, TInterface instance, Lifetime lifetime) => this.RegisterType(typeof(TInterface), instance.GetType(), key, lifetime);
 
-        public IContainer RegisterInstance(Type t, object instance, Lifetime lifetime)
-        {
-            throw new NotImplementedException();
-        }
+        public IContainer RegisterInstance(Type t, object instance, Lifetime lifetime) => this.RegisterType(t, instance.GetType(), lifetime);
 
         public IContainer RegisterType<T>()
-            where T : class
-        {
-            throw new NotImplementedException();
-        }
+            where T : class => this.RegisterType<T, T>(string.Empty);
+
 
         public IContainer RegisterType<T>(Lifetime lifetime)
-        {
-            throw new NotImplementedException();
-        }
+            where T : class => this.RegisterType<T, T>(string.Empty, lifetime);
 
         public IContainer RegisterType<TFrom, TTo>()
             where TTo : class, TFrom
-            where TFrom : class
-        {
-            return this.RegisterType<TFrom, TTo>("");
-        }
+            where TFrom : class => this.RegisterType<TFrom, TTo>(string.Empty);
+
 
         public IContainer RegisterType<TFrom, TTo>(Lifetime lifetime)
             where TTo : class, TFrom
-            where TFrom : class
-        {
-            return this.RegisterType(typeof(TFrom), typeof(TTo), lifetime);
-        }
+            where TFrom : class => this.RegisterType(typeof(TFrom), typeof(TTo), lifetime);
+
 
         public IContainer RegisterType<TFrom, TTo>(object key) where TTo : class, TFrom
         {
@@ -111,15 +89,11 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
         }
 
         public IContainer RegisterType<T>(object key)
-            where T : class
-        {
-            return this.RegisterType<T, T>(key);
-        }
+            where T : class => this.RegisterType<T, T>(key);
 
-        public IContainer RegisterType(Type t)
-        {
-            return RegisterType(t, t);
-        }
+
+        public IContainer RegisterType(Type t) => RegisterType(t, t);
+
 
         public IContainer RegisterType<T>(object key, Lifetime lifetime)
             where T : class
@@ -128,41 +102,20 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return RegisterType(type, type, key);
         }
 
-        public IContainer RegisterType<TFrom, TTo>(object key, Lifetime lifetime) where TTo : TFrom
-        {
-            return RegisterType(typeof(TFrom), typeof(TTo), key, lifetime);
-        }
-
-        public IContainer RegisterType(Type t, Lifetime lifetime)
-        {
-            return RegisterType(t, t, lifetime);
-        }
-
-        public IContainer RegisterType(Type t, object key)
-        {
-            return RegisterType(t, t, key);
-        }
-
-        public IContainer RegisterType(Type from, Type to)
-        {
-            return RegisterType(from, to, "");
-        }
-
-        public IContainer RegisterType(Type t, object key, Lifetime lifetime)
-        {
-            return RegisterType(t, t, key, lifetime);
-        }
-
-        public IContainer RegisterType(Type from, Type to, Lifetime lifetime)
-        {
-            return this.RegisterType(from, to, string.Empty, lifetime);
-        }
-
-        public IContainer RegisterType(Type from, Type to, object key)
-        {
-            return this.RegisterType(from, to, key, Lifetime.Transistent);
-        }
-
+        public IContainer RegisterType<TFrom, TTo>(object key, Lifetime lifetime) where TTo : TFrom => RegisterType(typeof(TFrom), typeof(TTo), key, lifetime);
+        
+        public IContainer RegisterType(Type t, Lifetime lifetime) => RegisterType(t, t, lifetime);
+        
+        public IContainer RegisterType(Type t, object key) => RegisterType(t, t, key);
+        
+        public IContainer RegisterType(Type from, Type to) => RegisterType(from, to, string.Empty);
+        
+        public IContainer RegisterType(Type t, object key, Lifetime lifetime) => RegisterType(t, t, key, lifetime);
+        
+        public IContainer RegisterType(Type from, Type to, Lifetime lifetime) => this.RegisterType(from, to, string.Empty, lifetime);
+        
+        public IContainer RegisterType(Type from, Type to, object key) => this.RegisterType(from, to, key, Lifetime.Transistent);
+        
         public IContainer RegisterType(Type from, Type to, object key, Lifetime lifetime)
         {
             InitializeContainer(from);
@@ -201,21 +154,12 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return this;
         }
 
-        public IContainer RegisterFactory(Type from, Func<IServiceProvider, object> implementationFactory)
-        {
-            return RegisterFactory(from, implementationFactory, "");
-        }
-
-        public IContainer RegisterFactory(Type from, Func<IServiceProvider, object> implementationFactory, string name)
-        {
-            return RegisterFactory(from, implementationFactory, name, Lifetime.Transistent);
-        }
-
-        public IContainer RegisterFactory(Type from, Func<IServiceProvider, object> implementationFactory, Lifetime lifetime)
-        {
-            return RegisterFactory(from, implementationFactory, string.Empty, lifetime);
-        }
-
+        public IContainer RegisterFactory(Type from, Func<IServiceProvider, object> implementationFactory) => RegisterFactory(from, implementationFactory, "");
+        
+        public IContainer RegisterFactory(Type from, Func<IServiceProvider, object> implementationFactory, string name) => RegisterFactory(from, implementationFactory, name, Lifetime.Transistent);
+        
+        public IContainer RegisterFactory(Type from, Func<IServiceProvider, object> implementationFactory, Lifetime lifetime) => RegisterFactory(from, implementationFactory, string.Empty, lifetime);
+        
         public IContainer RegisterFactory(Type from, Func<IServiceProvider, object> implementationFactory, string name, Lifetime lifetime)
         {
             InitializeContainer(from);
@@ -224,23 +168,25 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return this;
         }
 
-        public T Resolve<T>() where T : class
-        {
-            return (T)Resolve(typeof(T));
-        }
+        public IContainer RegisterType<T>(Func<IContainer, T> implementationFactory) where T : class => this.RegisterType(implementationFactory, Lifetime.Transistent);
 
-        public T Resolve<T>(object key)
-            where T : class
+        public IContainer RegisterType<T>(Func<IContainer, T> implementationFactory, Lifetime lifetime) where T : class => this.RegisterType(string.Empty, implementationFactory, lifetime);
+
+        public IContainer RegisterType<T>(object key, Func<IContainer, T> implementationFactory) where T : class => this.RegisterType(key, implementationFactory, Lifetime.Transistent);
+
+        public IContainer RegisterType<T>(object key, Func<IContainer, T> implementationFactory, Lifetime lifetime) where T : class
         {
             var type = typeof(T);
-            return (T)container[type][key](type);
+            container[type][key] = WrappWithLifetimeManager(lifetime, type, (t) => implementationFactory(this));
+            return this;
         }
 
-        public object Resolve(Type t)
-        {
-            return this.Resolve(t, string.Empty);
-        }
+        public T Resolve<T>() where T : class => (T)Resolve(typeof(T));
+        
+        public T Resolve<T>(object key) where T : class => (T)this.Resolve(typeof(T), key);
 
+        public object Resolve(Type t) => this.Resolve(t, string.Empty);
+        
         public object Resolve(Type t, object key)
         {
             IDictionary<object, Func<Type, object>> df;
@@ -290,15 +236,17 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return null;
         }
 
-        public static IEnumerable<T> CastList<T>(IEnumerable<object> o)
-        {
-            return o.Cast<T>().ToList();
-        }
-
+        public static IEnumerable<T> CastList<T>(IEnumerable<object> o) => o.Cast<T>().ToList();
+        
         public IEnumerable<T> ResolveAll<T>()
             where T : class
         {
-            throw new NotImplementedException();
+            var type = typeof(T);
+            var keys = container[type].Keys;
+            foreach (var key in keys)
+            {
+                yield return (T)this.Resolve(type, key);
+            }
         }
 
         private static void InitializeContainer(Type type)

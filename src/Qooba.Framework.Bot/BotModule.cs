@@ -33,6 +33,8 @@ namespace Qooba.Framework.Bot.Builder
             container.RegisterType<IRouter, Router>();
 
             container.RegisterType(typeof(IMessageQueue<>), typeof(MemoryMessageQueue<>));
+
+            container.RegisterType<IBot, QBot>();
         }
     }
 }

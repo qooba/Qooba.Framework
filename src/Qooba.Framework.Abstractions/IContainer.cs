@@ -17,13 +17,17 @@ namespace Qooba.Framework.Abstractions
         IContainer RegisterInstance(Type t, object instance, Lifetime lifetime);
         IContainer RegisterInstance(Type t, object key, object instance);
         IContainer RegisterType<T>() where T : class;
+        IContainer RegisterType<T>(Func<IContainer, T> implementationFactory) where T : class;
         IContainer RegisterType<TFrom, TTo>() where TTo : class, TFrom where TFrom : class;
-        IContainer RegisterType<T>(Lifetime lifetime);
+        IContainer RegisterType<T>(Lifetime lifetime) where T : class;
+        IContainer RegisterType<T>(Func<IContainer, T> implementationFactory, Lifetime lifetime) where T : class;
         IContainer RegisterType<TFrom, TTo>(Lifetime lifetime) where TTo : class, TFrom where TFrom : class;
         IContainer RegisterType<TFrom, TTo>(object key) where TTo : class, TFrom;
         IContainer RegisterType<T>(object key) where T : class;
+        IContainer RegisterType<T>(object key, Func<IContainer, T> implementationFactory) where T : class;
         IContainer RegisterType(Type t);
         IContainer RegisterType<T>(object key, Lifetime lifetime) where T : class;
+        IContainer RegisterType<T>(object key, Func<IContainer, T> implementationFactory, Lifetime lifetime) where T : class;
         IContainer RegisterType<TFrom, TTo>(object key, Lifetime lifetime) where TTo : TFrom;
         IContainer RegisterType(Type t, Lifetime lifetime);
         IContainer RegisterType(Type t, object key);

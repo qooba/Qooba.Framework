@@ -7,17 +7,17 @@ namespace Qooba.Framework.Bot.Tests
 {
     public class BotTests
     {
-        private Bot bot;
+        private QBot bot;
         
         private Mock<ILogger> loggerMock;
 
-        private Mock<IHandler> handlerMock;
+        private Mock<IHandlerManager> handlerManagerMock;
         
         public BotTests()
         {
             this.loggerMock = new Mock<ILogger>();
-            this.handlerMock = new Mock<IHandler>();
-            this.bot = new Bot(this.loggerMock.Object, this.handlerMock.Object);
+            this.handlerManagerMock = new Mock<IHandlerManager>();
+            this.bot = new QBot(this.loggerMock.Object, this.handlerManagerMock.Object);
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace Qooba.Framework.Bot.Tests
 
             this.bot.Run(queueItem).Wait();
 
-            this.handlerMock.Verify(x => x.InvokeAsync(It.IsAny<IConversationContext>()), Times.Once);
+            this.handlerManagerMock.Verify(x => x.InvokeAsync(It.IsAny<IConversationContext>()), Times.Once);
         }
     }
 }

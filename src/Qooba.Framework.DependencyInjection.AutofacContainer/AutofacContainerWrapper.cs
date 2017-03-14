@@ -9,12 +9,18 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
 {
     public class AutofacContainerWrapper : Framework.Abstractions.IContainer
     {
-        private static Lazy<Autofac.IContainer> container;
-        private readonly Autofac.ContainerBuilder builder;
+        private static Lazy<IComponentContext> container;
+        private readonly ContainerBuilder builder;
+
+        public AutofacContainerWrapper(IComponentContext componentContex)
+        {
+            container = new Lazy<IComponentContext>(() => componentContex);
+        }
+
         public AutofacContainerWrapper(Autofac.ContainerBuilder builder)
         {
             this.builder = builder;
-            container = new Lazy<Autofac.IContainer>(() => this.builder.Build());
+            container = new Lazy<IComponentContext>(() => this.builder.Build());
         }
 
         public object BuildUp(Type t, object existing)
@@ -157,6 +163,7 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
         }
 
         public Framework.Abstractions.IContainer RegisterType<T>(Lifetime lifetime)
+            where T : class
         {
             AddLifetime(b => b.RegisterType<T>(), lifetime);
             return this;
@@ -230,13 +237,57 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             return container.Value.Resolve<IEnumerable<T>>();
         }
 
+        public Framework.Abstractions.IContainer RegisterType<T>(Func<Framework.Abstractions.IContainer, T> implementationFactory) where T : class
+        {
+            BuilderAction(b => b.Register<T>(c =>
+            {
+                var ctx = c.Resolve<IComponentContext>();
+                var container = new AutofacContainerWrapper(ctx);
+                return implementationFactory(container);
+            }));
+            return this;
+        }
+
+        public Framework.Abstractions.IContainer RegisterType<T>(Func<Framework.Abstractions.IContainer, T> implementationFactory, Lifetime lifetime) where T : class
+        {
+            AddLifetime(b => b.Register<T>(c =>
+            {
+                var ctx = c.Resolve<IComponentContext>();
+                var container = new AutofacContainerWrapper(ctx);
+                return implementationFactory(container);
+            }), lifetime);
+            return this;
+        }
+
+        public Framework.Abstractions.IContainer RegisterType<T>(object key, Func<Framework.Abstractions.IContainer, T> implementationFactory) where T : class
+        {
+            BuilderAction(b => b.Register<T>(c =>
+            {
+                var ctx = c.Resolve<IComponentContext>();
+                var container = new AutofacContainerWrapper(ctx);
+                return implementationFactory(container);
+            }).Keyed<T>(key));
+            return this;
+        }
+
+        public Framework.Abstractions.IContainer RegisterType<T>(object key, Func<Framework.Abstractions.IContainer, T> implementationFactory, Lifetime lifetime) where T : class
+        {
+            AddLifetime(b => b.Register<T>(c =>
+            {
+                var ctx = c.Resolve<IComponentContext>();
+                var container = new AutofacContainerWrapper(ctx);
+                return implementationFactory(container);
+            }).Keyed<T>(key), lifetime);
+            return this;
+        }
+
         private void BuilderAction(Action<Autofac.ContainerBuilder> builderAction)
         {
             if (container.IsValueCreated)
             {
                 ContainerBuilder builder = new ContainerBuilder();
                 builderAction(builder);
-                builder.Update(container.Value);
+                builder.Update(container.Value as Autofac.IContainer);
             }
             else
             {

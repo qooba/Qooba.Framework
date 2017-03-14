@@ -142,6 +142,7 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
         }
 
         public IContainer RegisterType<T>(Lifetime lifetime)
+            where T : class
         {
             throw new NotImplementedException();
         }
@@ -214,6 +215,26 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
 
         public IEnumerable<T> ResolveAll<T>()
             where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainer RegisterType<T>(Func<IContainer, T> implementationFactory) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainer RegisterType<T>(Func<IContainer, T> implementationFactory, Lifetime lifetime) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainer RegisterType<T>(object key, Func<IContainer, T> implementationFactory) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainer RegisterType<T>(object key, Func<IContainer, T> implementationFactory, Lifetime lifetime) where T : class
         {
             throw new NotImplementedException();
         }

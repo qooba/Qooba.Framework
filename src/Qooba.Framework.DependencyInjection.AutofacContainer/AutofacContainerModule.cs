@@ -13,6 +13,11 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
         {
         }
 
-        public Framework.Abstractions.IContainer BootstrappContainer() => new AutofacContainerWrapper(new ContainerBuilder());
+        public Framework.Abstractions.IContainer BootstrappContainer()
+        {
+            var container = new AutofacContainerWrapper(new ContainerBuilder());
+            container.RegisterInstance<Framework.Abstractions.IContainer>(container);
+            return container;
+        }
     }
 }

@@ -10,13 +10,13 @@ namespace Qooba.Framework.Bot
     public class BotMiddleware
     {
         private readonly RequestDelegate _next;
-
+        
         public BotMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context, IBot bot)
+        public async Task Invoke(HttpContext context, IBot bot, IConnector connector)
         {
             var stream = context.Request.Body;
             var data = new byte[stream.Length];
@@ -25,7 +25,8 @@ namespace Qooba.Framework.Bot
             var path = context.Request.Path.ToString();
             var headers = context.Request?.Headers?.ToDictionary(x => x.Key, x => x.Value.ToArray());
             var callback = Encoding.UTF8.GetString(data);
-            Task.Run(() => bot.ProcessAsync(path, headers, callback)).ConfigureAwait(false);
+            
+            //Task.Run(() => bot.ProcessAsync(path, headers, callback)).ConfigureAwait(false);
             context.Response.StatusCode = 200;
             await context.Response.WriteAsync("OK");
         }
