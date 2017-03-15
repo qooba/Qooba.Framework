@@ -11,7 +11,7 @@ namespace Qooba.Framework.Bot.Tests
 {
     public class BotMiddlewareTests
     {
-        private readonly Mock<IBot> botMock;
+        private readonly Mock<IConnector> connectorMock;
 
         private readonly Mock<RequestDelegate> requestDelegateMock;
 
@@ -19,7 +19,7 @@ namespace Qooba.Framework.Bot.Tests
 
         public BotMiddlewareTests()
         {
-            this.botMock = new Mock<IBot>();
+            this.connectorMock = new Mock<IConnector>();
             this.requestDelegateMock = new Mock<RequestDelegate>();
             this.botMiddleware = new BotMiddleware(this.requestDelegateMock.Object);
         }
@@ -38,7 +38,7 @@ namespace Qooba.Framework.Bot.Tests
                 context.Setup(x => x.Request).Returns(request.Object);
                 context.Setup(x => x.Response).Returns(response.Object);
 
-                await this.botMiddleware.Invoke(context.Object, this.botMock.Object);
+                await this.botMiddleware.Invoke(context.Object, this.connectorMock.Object);
             }
         }
     }

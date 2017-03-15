@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Logging.Abstractions;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Qooba.Framework.Bot.Tests
@@ -8,15 +9,19 @@ namespace Qooba.Framework.Bot.Tests
     public class BotTests
     {
         private QBot bot;
-        
+
         private Mock<ILogger> loggerMock;
 
         private Mock<IHandlerManager> handlerManagerMock;
-        
+
+        private Mock<IHandler> handlerMock;
+
         public BotTests()
         {
             this.loggerMock = new Mock<ILogger>();
             this.handlerManagerMock = new Mock<IHandlerManager>();
+            this.handlerMock = new Mock<IHandler>();
+            this.handlerManagerMock.Setup(x => x.CreateAsync(It.IsAny<IConversationContext>())).Returns(Task.FromResult(this.handlerMock.Object));
             this.bot = new QBot(this.loggerMock.Object, this.handlerManagerMock.Object);
         }
 
@@ -27,7 +32,8 @@ namespace Qooba.Framework.Bot.Tests
 
             this.bot.Run(queueItem).Wait();
 
-            this.handlerManagerMock.Verify(x => x.InvokeAsync(It.IsAny<IConversationContext>()), Times.Once);
+            this.handlerManagerMock.Verify(x => x.CreateAsync(It.IsAny<IConversationContext>()));
+            this.handlerMock.Verify(x => x.InvokeAsync(It.IsAny<IConversationContext>()), Times.Once);
         }
     }
 }
