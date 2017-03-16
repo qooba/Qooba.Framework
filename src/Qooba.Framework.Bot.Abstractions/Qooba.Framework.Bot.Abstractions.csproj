@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <AssemblyTitle>Qooba.Framework.Bot.Abstractions</AssemblyTitle>
-    <VersionPrefix>2.0.0-alpha1</VersionPrefix>
+    <VersionPrefix>2.0.1-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
     <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Bot.Abstractions</AssemblyName>
