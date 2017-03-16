@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
+﻿#if NET46
+#else
+using Microsoft.AspNetCore.WebUtilities;
+#endif
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Configuration.Abstractions;
@@ -22,7 +25,12 @@ namespace Qooba.Framework.Bot
 
         public ChallengeResult IsChallengeRequest(HttpRequestMessage request)
         {
+#if NET46
+            var queries = request.RequestUri.ParseQueryString();
+#else
             var queries = QueryHelpers.ParseQuery(request.RequestUri.Query);
+#endif
+
             var hubMode = queries["hub.mode"];
             var hubChallenge = queries["hub.challenge"];
             var hubVerifyToken = queries["hub.verify_token"];

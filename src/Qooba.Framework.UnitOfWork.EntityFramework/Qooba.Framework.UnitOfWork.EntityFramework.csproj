@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <AssemblyTitle>Qooba.Framework.UnitOfWork.EntityFramework</AssemblyTitle>
-    <VersionPrefix>1.0.1-alpha1</VersionPrefix>
-    <Authors>Jakub So�tys</Authors>
+    <VersionPrefix>2.0.0-alpha1</VersionPrefix>
+    <Authors>Jakub Sołtys</Authors>
     <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
     <AssemblyName>Qooba.Framework.UnitOfWork.EntityFramework</AssemblyName>
     <PackageId>Qooba.Framework.UnitOfWork.EntityFramework</PackageId>
