@@ -2,7 +2,7 @@
 using Qooba.Framework.Configuration;
 using Qooba.Framework.Configuration.Abstractions;
 
-namespace Qooba.Framework.Azure
+namespace Qooba.Framework.Configuration
 {
     public class ConfigModule : IModule
     {

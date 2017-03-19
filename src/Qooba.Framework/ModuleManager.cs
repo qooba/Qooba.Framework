@@ -34,7 +34,7 @@ namespace Qooba.Framework
                     var containerBootstrapper = (module as IContainerBootstrapper);
                     if (containerBootstrapper != null)
                     {
-                        ContainerManager.SetContainer(containerBootstrapper.BootstrappContainer());
+                        ContainerManager.Container = containerBootstrapper.BootstrappContainer();
                     }
                 }
 

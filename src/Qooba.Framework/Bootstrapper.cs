@@ -23,7 +23,7 @@ namespace Qooba.Framework
             return this;
         }
 
-        public IBootstrapper Bootstrapp(params IModule[] includeModules)
+        public IBootstrapper Bootstrapp(IModule[] includeModules)
         {
             if (bootstrapped.IsEmpty)
             {

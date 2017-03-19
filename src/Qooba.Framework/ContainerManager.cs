@@ -4,14 +4,10 @@
     {
         private static IContainer container;
 
-        public static void SetContainer(IContainer container)
+        public static IContainer Container
         {
-            if (container == null)
-            {
-                ContainerManager.container = container;
-            }
+            get { return container; }
+            set { container = value; }
         }
-
-        public static IContainer Container => container;
     }
 }

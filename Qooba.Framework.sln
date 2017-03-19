@@ -18,8 +18,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.SimpleContainer", "src\Qooba.Framework.DependencyInjection.SimpleContainer\Qooba.Framework.DependencyInjection.SimpleContainer.csproj", "{2FF2659D-8B29-4448-BA91-1569451D4575}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B53DD7F3-5B5F-4B4A-8774-51FC3E2E8B5D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DependencyInjection", "DependencyInjection", "{136B7382-1EFD-44C6-9F08-91CC498DDB90}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.ContainerFactory", "src\Qooba.Framework.DependencyInjection.ContainerFactory\Qooba.Framework.DependencyInjection.ContainerFactory.csproj", "{02F52D3D-9224-4466-966C-C1FABC393DCC}"
@@ -142,8 +140,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Web.Bootstrapper", "src\Qooba.Framework.Web.Bootstrapper\Qooba.Framework.Web.Bootstrapper.csproj", "{5E90384A-06BE-4D79-BCBB-B81805E1B222}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Tests", "test\Qooba.Framework.Tests\Qooba.Framework.Tests.csproj", "{7D611513-0F4F-42F3-A356-2CF1785C281B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bot", "Bot", "{4F6514A9-8C84-4D7B-8FA4-BDA46DAF9DC8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Bot.Abstractions", "src\Qooba.Framework.Bot.Abstractions\Qooba.Framework.Bot.Abstractions.csproj", "{E47A3605-C142-4908-B99B-04079E4197A3}"
@@ -157,6 +153,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Logging.Abstractions", "src\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj", "{92EC9378-22B5-4A7E-83F0-9EAEAAD23A73}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.SimpleContainer.Tests", "src\Qooba.Framework.DependencyInjection.SimpleContainer.Tests\Qooba.Framework.DependencyInjection.SimpleContainer.Tests.csproj", "{EE1E7E82-A9F0-45A1-ABBB-04DBBAC0C157}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Tests", "src\Qooba.Framework.Tests\Qooba.Framework.Tests.csproj", "{2B444BEA-C57A-4855-8742-6BFBA35AD124}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -768,18 +766,6 @@ Global
 		{5E90384A-06BE-4D79-BCBB-B81805E1B222}.Release|x64.Build.0 = Release|Any CPU
 		{5E90384A-06BE-4D79-BCBB-B81805E1B222}.Release|x86.ActiveCfg = Release|Any CPU
 		{5E90384A-06BE-4D79-BCBB-B81805E1B222}.Release|x86.Build.0 = Release|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Debug|x64.Build.0 = Debug|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Debug|x86.Build.0 = Debug|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Release|x64.ActiveCfg = Release|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Release|x64.Build.0 = Release|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Release|x86.ActiveCfg = Release|Any CPU
-		{7D611513-0F4F-42F3-A356-2CF1785C281B}.Release|x86.Build.0 = Release|Any CPU
 		{E47A3605-C142-4908-B99B-04079E4197A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E47A3605-C142-4908-B99B-04079E4197A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E47A3605-C142-4908-B99B-04079E4197A3}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -840,6 +826,18 @@ Global
 		{EE1E7E82-A9F0-45A1-ABBB-04DBBAC0C157}.Release|x64.Build.0 = Release|Any CPU
 		{EE1E7E82-A9F0-45A1-ABBB-04DBBAC0C157}.Release|x86.ActiveCfg = Release|Any CPU
 		{EE1E7E82-A9F0-45A1-ABBB-04DBBAC0C157}.Release|x86.Build.0 = Release|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Debug|x64.Build.0 = Debug|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Debug|x86.Build.0 = Debug|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Release|x64.ActiveCfg = Release|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Release|x64.Build.0 = Release|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -910,7 +908,6 @@ Global
 		{1AD1DB43-434B-49B9-8D6B-212C111FC675} = {A547140B-6887-4A06-85A8-CEB43D75B586}
 		{AA797FC1-5CE2-4745-9F2E-4FD39A91D6E0} = {136B7382-1EFD-44C6-9F08-91CC498DDB90}
 		{5E90384A-06BE-4D79-BCBB-B81805E1B222} = {D5B6B8E8-BFDA-496F-969E-99256469EC29}
-		{7D611513-0F4F-42F3-A356-2CF1785C281B} = {B53DD7F3-5B5F-4B4A-8774-51FC3E2E8B5D}
 		{4F6514A9-8C84-4D7B-8FA4-BDA46DAF9DC8} = {35A6633D-383C-4FDD-92C4-0C169BAD94BD}
 		{E47A3605-C142-4908-B99B-04079E4197A3} = {4F6514A9-8C84-4D7B-8FA4-BDA46DAF9DC8}
 		{767BF545-6104-4EE3-A38B-358989B54824} = {4F6514A9-8C84-4D7B-8FA4-BDA46DAF9DC8}
@@ -918,5 +915,6 @@ Global
 		{00DA0173-6DE5-451E-95C8-5ECDEB50040A} = {35A6633D-383C-4FDD-92C4-0C169BAD94BD}
 		{92EC9378-22B5-4A7E-83F0-9EAEAAD23A73} = {00DA0173-6DE5-451E-95C8-5ECDEB50040A}
 		{EE1E7E82-A9F0-45A1-ABBB-04DBBAC0C157} = {136B7382-1EFD-44C6-9F08-91CC498DDB90}
+		{2B444BEA-C57A-4855-8742-6BFBA35AD124} = {35A6633D-383C-4FDD-92C4-0C169BAD94BD}
 	EndGlobalSection
 EndGlobal
