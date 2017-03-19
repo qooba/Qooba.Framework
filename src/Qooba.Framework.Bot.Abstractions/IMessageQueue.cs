@@ -2,13 +2,8 @@
 
 namespace Qooba.Framework.Bot.Abstractions
 {
-    public interface IMessageQueue<TMessage>
-        where TMessage : class
+    public interface IMessageQueue
     {
-        Task Enqueue(TMessage message);
-
-        Task<TMessage> Dequeue();
-
-        Task<TMessage> Peak();
+        Task Enqueue(string message);
     }
 }

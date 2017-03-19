@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Bot.Context;
 using Qooba.Framework.Configuration.Abstractions;
 using Xunit;

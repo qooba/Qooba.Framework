@@ -7,7 +7,7 @@ using Qooba.Framework.Bot.Handlers;
 using Qooba.Framework.Bot.Queue;
 using Qooba.Framework.Bot.Routing;
 
-namespace Qooba.Framework.Bot.Builder
+namespace Qooba.Framework.Bot
 {
     public class BotModule : IModule
     {
@@ -32,7 +32,7 @@ namespace Qooba.Framework.Bot.Builder
             container.RegisterType<IReplyManager, ReplyManager>();
             container.RegisterType<IRouter, Router>();
 
-            container.RegisterType(typeof(IMessageQueue<>), typeof(MemoryMessageQueue<>));
+            container.RegisterType<IMessageQueue, MemoryMessageQueue>();
 
             container.RegisterType<IBot, QBot>();
         }

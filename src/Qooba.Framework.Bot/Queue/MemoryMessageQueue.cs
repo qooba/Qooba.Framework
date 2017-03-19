@@ -4,15 +4,10 @@ using System.Threading.Tasks;
 
 namespace Qooba.Framework.Bot.Queue
 {
-    public class MemoryMessageQueue<TMessage> : IMessageQueue<TMessage>
-        where TMessage : class
+    public class MemoryMessageQueue : IMessageQueue
     {
-        private static ConcurrentQueue<TMessage> queue = new ConcurrentQueue<TMessage>();
-
-        public async Task<TMessage> Dequeue() => queue.TryDequeue(out TMessage message) ? message : null;
-
-        public async Task Enqueue(TMessage message) => queue.Enqueue(message);
-
-        public async Task<TMessage> Peak() => queue.TryPeek(out TMessage message) ? message : null;
+        private static ConcurrentQueue<string> queue = new ConcurrentQueue<string>();
+        
+        public async Task Enqueue(string message) => queue.Enqueue(message);
     }
 }

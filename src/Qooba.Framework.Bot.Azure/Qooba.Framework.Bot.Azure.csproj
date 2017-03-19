@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <AssemblyTitle>Qooba.Framework.Bot</AssemblyTitle>
-    <VersionPrefix>2.0.3-alpha1</VersionPrefix>
+    <VersionPrefix>2.0.1-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
+    <TargetFramework>net46</TargetFramework>
     <AssemblyName>Qooba.Framework.Bot</AssemblyName>
     <PackageId>Qooba.Framework.Bot</PackageId>
     <PackageTags>framework</PackageTags>
@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="WindowsAzure.Storage" Version="6.2.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
@@ -37,6 +38,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Azure.Storage.Abstractions\Qooba.Framework.Azure.Storage.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Bot.Abstractions\Qooba.Framework.Bot.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Configuration.Abstractions\Qooba.Framework.Configuration.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj" />

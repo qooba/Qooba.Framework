@@ -14,9 +14,9 @@ namespace Qooba.Framework.Bot
 
         private readonly ILogger logger;
 
-        private readonly IMessageQueue<string> queue;
+        private readonly IMessageQueue queue;
 
-        public MessangerConnector(IMessangerSecurity messangerSecurity, ILogger logger, IMessageQueue<string> queue)
+        public MessangerConnector(IMessangerSecurity messangerSecurity, ILogger logger, IMessageQueue queue)
         {
             this.logger = logger;
             this.messangerSecurity = messangerSecurity;

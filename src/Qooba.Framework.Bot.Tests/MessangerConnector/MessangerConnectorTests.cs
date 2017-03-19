@@ -15,11 +15,11 @@ namespace Qooba.Framework.Bot.Tests
 
         private Mock<ILogger> loggerMock;
 
-        private Mock<IMessageQueue<string>> messageQueueMock;
+        private Mock<IMessageQueue> messageQueueMock;
 
         public MessangerConnectorTests()
         {
-            this.messageQueueMock = new Mock<IMessageQueue<string>>();
+            this.messageQueueMock = new Mock<IMessageQueue>();
             this.loggerMock = new Mock<ILogger>();
             this.messangerSecurityMock = new Mock<IMessangerSecurity>();
             this.messangerConnector = new MessangerConnector(this.messangerSecurityMock.Object, this.loggerMock.Object, this.messageQueueMock.Object);
