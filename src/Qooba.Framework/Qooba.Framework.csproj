@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <AssemblyTitle>Qooba.Framework</AssemblyTitle>
-    <VersionPrefix>2.0.2-alpha1</VersionPrefix>
+    <VersionPrefix>2.0.3-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
     <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
     <AssemblyName>Qooba.Framework</AssemblyName>
