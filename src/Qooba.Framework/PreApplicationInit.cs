@@ -14,7 +14,7 @@ namespace Qooba.Framework
     internal class PreApplicationInit
     {
         public const string MODULE_NAME_PATTERN = "Qooba";
-        
+
         public static void InitializeModules(params string[] includeModuleNamePattern)
         {
 #if NET46
@@ -43,7 +43,8 @@ namespace Qooba.Framework
                 {
                     var a = Assembly.Load(assembly);
                     var type = a.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IModule))).FirstOrDefault();
-                    if (type != null)
+                    var typeInfo = type?.GetTypeInfo();
+                    if (type != null && typeInfo != null && !typeInfo.IsAbstract && !typeInfo.IsInterface)
                     {
                         var module = (IModule)Activator.CreateInstance(type);
                         ModuleManager.Current.Modules.Add(module, a);
@@ -57,27 +58,27 @@ namespace Qooba.Framework
 
             //var assemblies1 = PlatformServices.Default.LibraryManager.GetLibraries().Where(x => x.Name.StartsWith("Qooba")).Select(x => x.Name);
             //var assemblies = assemblyNames.Select(x => Assembly.Load(new AssemblyName(x)));
-//#if DNX46
-//            var assemblies = Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.LibraryManager.GetLibraries().Where(x => x.Name.StartsWith("Qooba")).SelectMany(x => x.Assemblies)
-//                .Where(x => x.Name.StartsWith(MODULE_NAME_PATTERN));
+            //#if DNX46
+            //            var assemblies = Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.LibraryManager.GetLibraries().Where(x => x.Name.StartsWith("Qooba")).SelectMany(x => x.Assemblies)
+            //                .Where(x => x.Name.StartsWith(MODULE_NAME_PATTERN));
 
-//            foreach (var assembly in assemblies)
-//            {
-//                try
-//                {
-//                    var a = Assembly.Load(assembly);
-//                    var type = a.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IModule))).FirstOrDefault();
-//                    if (type != null)
-//                    {
-//                        var module = (IModule)Activator.CreateInstance(type);
-//                        ModuleManager.Current.Modules.Add(module, a);
-//                    }
-//                }
-//                catch(ReflectionTypeLoadException ex)
-//                {
-//                    throw new Exception(string.Concat("Upps ... cannot load : ", assembly.FullName), ex);
-//                }
-//            }
+            //            foreach (var assembly in assemblies)
+            //            {
+            //                try
+            //                {
+            //                    var a = Assembly.Load(assembly);
+            //                    var type = a.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IModule))).FirstOrDefault();
+            //                    if (type != null)
+            //                    {
+            //                        var module = (IModule)Activator.CreateInstance(type);
+            //                        ModuleManager.Current.Modules.Add(module, a);
+            //                    }
+            //                }
+            //                catch(ReflectionTypeLoadException ex)
+            //                {
+            //                    throw new Exception(string.Concat("Upps ... cannot load : ", assembly.FullName), ex);
+            //                }
+            //            }
 
 #endif
         }

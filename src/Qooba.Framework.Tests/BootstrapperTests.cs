@@ -17,9 +17,21 @@ namespace Qooba.Framework.Tests
         }
 
         [Fact]
+        public void BootstrappModulesTest()
+        {
+            var serializer = this.bootstrapper.BootstrappModules(new SimpleContainerModule(), new SerializationModule()).Container.Resolve<ISerializer>();
+            var i = new TestClass { Test = "value" };
+
+            var o = serializer.Serialize(i);
+            var ii = serializer.Deserialize<TestClass>(o);
+
+            Assert.Equal(i.Test, ii.Test);
+        }
+
+        [Fact]
         public void BootstrappTest()
         {
-            var serializer = this.bootstrapper.Bootstrapp(new SimpleContainerModule(), new SerializationModule()).Container.Resolve<ISerializer>();
+            var serializer = this.bootstrapper.Bootstrapp().Container.Resolve<ISerializer>();
             var i = new TestClass { Test = "value" };
 
             var o = serializer.Serialize(i);

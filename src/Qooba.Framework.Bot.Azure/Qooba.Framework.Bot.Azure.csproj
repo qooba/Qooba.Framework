@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyTitle>Qooba.Framework.Bot</AssemblyTitle>
+    <AssemblyTitle>Qooba.Framework.Bot.Azure</AssemblyTitle>
     <VersionPrefix>2.0.1-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
     <TargetFramework>net46</TargetFramework>
-    <AssemblyName>Qooba.Framework.Bot</AssemblyName>
-    <PackageId>Qooba.Framework.Bot</PackageId>
+    <AssemblyName>Qooba.Framework.Bot.Azure</AssemblyName>
+    <PackageId>Qooba.Framework.Bot.Azure</PackageId>
     <PackageTags>framework</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/qooba/Qooba.Framework</PackageProjectUrl>

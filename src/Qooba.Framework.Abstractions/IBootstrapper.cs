@@ -6,6 +6,6 @@
 
         IBootstrapper Bootstrapp(params string[] includeModuleNamePattern);
 
-        IBootstrapper Bootstrapp(params IModule[] includeModules);
+        IBootstrapper BootstrappModules(params IModule[] includeModules);
     }
 }
