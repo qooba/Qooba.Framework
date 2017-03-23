@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <AssemblyTitle>Qooba.Framework.Web.Bootstrapper</AssemblyTitle>
-    <VersionPrefix>1.0.0-alpha1</VersionPrefix>
+    <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
     <TargetFramework>net46</TargetFramework>
     <AssemblyName>Qooba.Framework.Web.Bootstrapper</AssemblyName>
