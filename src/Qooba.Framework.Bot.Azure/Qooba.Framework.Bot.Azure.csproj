@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Bot.Azure</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Bot.Azure</AssemblyName>
     <PackageId>Qooba.Framework.Bot.Azure</PackageId>
     <PackageTags>framework</PackageTags>
@@ -21,12 +21,6 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.WebJobs" Version="2.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="WindowsAzure.Storage" Version="6.2.0" />
-  </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <Reference Include="System.Net.Http" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
@@ -35,6 +29,7 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="1.1.1" />
+    <ProjectReference Include="..\Qooba.Framework.Configuration\Qooba.Framework.Configuration.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,7 +39,7 @@
     <ProjectReference Include="..\Qooba.Framework.Bot.Abstractions\Qooba.Framework.Bot.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Bot\Qooba.Framework.Bot.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Configuration.Abstractions\Qooba.Framework.Configuration.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.Configuration.AppConfiguration\Qooba.Framework.Configuration.AppConfiguration.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Configuration\Qooba.Framework.Configuration.csproj" />
     <ProjectReference Include="..\Qooba.Framework.DependencyInjection.Abstractions\Qooba.Framework.DependencyInjection.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.DependencyInjection.ContainerFactory\Qooba.Framework.DependencyInjection.ContainerFactory.csproj" />
     <ProjectReference Include="..\Qooba.Framework.DependencyInjection.SimpleContainer\Qooba.Framework.DependencyInjection.SimpleContainer.csproj" />

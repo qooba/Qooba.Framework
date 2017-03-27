@@ -1,6 +1,6 @@
 ﻿using Qooba.Framework.Abstractions;
 using Qooba.Framework.Azure.Storage;
-using Qooba.Framework.Configuration.AppConfiguration;
+using Qooba.Framework.Configuration;
 using Qooba.Framework.DependencyInjection.ContainerFactory;
 using Qooba.Framework.DependencyInjection.SimpleContainer;
 using Qooba.Framework.Logging.AzureApplicationInsights;
@@ -12,7 +12,7 @@ namespace Qooba.Framework.Bot.Azure
     {
         protected static IContainer Container => Bootstrapper.Instance.BootstrappModules(
                 new SimpleContainerModule(),
-                new AppConfigModule(),
+                new ConfigModule(),
                 new SerializationModule(),
                 new AzureStorageModule(),
                 new BotModule(),

@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Qooba.Framework.Configuration.Abstractions;
 using System;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -12,9 +11,9 @@ namespace Qooba.Framework.Azure.Storage
 {
     public class AzureBlob : IAzureBlob
     {
-        private readonly IConfig config;
+        private readonly IAzureStorageConfig config;
 
-        public AzureBlob(IConfig config)
+        public AzureBlob(IAzureStorageConfig config)
         {
             this.config = config;
         }

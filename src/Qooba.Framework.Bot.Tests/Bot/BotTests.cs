@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Logging.Abstractions;
+using Qooba.Framework.Serialization.Abstractions;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -16,13 +17,16 @@ namespace Qooba.Framework.Bot.Tests
 
         private Mock<IHandler> handlerMock;
 
+        private Mock<ISerializer> serializerMock;
+
         public BotTests()
         {
             this.loggerMock = new Mock<ILogger>();
             this.handlerManagerMock = new Mock<IHandlerManager>();
             this.handlerMock = new Mock<IHandler>();
             this.handlerManagerMock.Setup(x => x.CreateAsync(It.IsAny<IConversationContext>())).Returns(Task.FromResult(this.handlerMock.Object));
-            this.bot = new QBot(this.loggerMock.Object, this.handlerManagerMock.Object);
+            this.serializerMock = new Mock<ISerializer>();
+            this.bot = new QBot(this.loggerMock.Object, this.handlerManagerMock.Object, this.serializerMock.Object);
         }
 
         [Fact]

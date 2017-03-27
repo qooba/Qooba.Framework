@@ -29,7 +29,7 @@ namespace Qooba.Framework.Bot
             container.RegisterType<IHandler, ContextKeeperHandler>(HandlerType.ContextKeeper);
 
             container.RegisterType<IHandlerManager, HandlerManager>();
-            container.RegisterType<IReplyManager, ReplyManager>();
+            container.RegisterType<IReplyManager, ReplyManager>(Lifetime.Singleton);
             container.RegisterType<IRouter, Router>();
 
             container.RegisterType<IMessageQueue, MemoryMessageQueue>();

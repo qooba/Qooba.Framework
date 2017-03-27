@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
@@ -10,8 +9,6 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
 {
     public class ObjectActivator
     {
-        IDictionary<Type, object> cached = new ConcurrentDictionary<Type, object>();
-
         public static T GetType<T>(IDictionary<Type, Func<Type, object>> container)
         {
             var paramType = typeof(T);

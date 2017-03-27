@@ -13,9 +13,9 @@ namespace Qooba.Framework.Azure.Storage
 {
     public class AzureBlobQueue : IAzureBlobQueue
     {
-        private readonly IConfig config;
+        private readonly IAzureStorageConfig config;
 
-        public AzureBlobQueue(IConfig config)
+        public AzureBlobQueue(IAzureStorageConfig config)
         {
             this.config = config;
         }

@@ -11,6 +11,7 @@ namespace Qooba.Framework.Azure.IoT
 
         public void Bootstrapp(IContainer container)
         {
+            container.RegisterType<IIoTHubConfig, IoTHubConfig>(Lifetime.Singleton);
             container.RegisterType<IIoTHub, IoTHub>();
         }
     }

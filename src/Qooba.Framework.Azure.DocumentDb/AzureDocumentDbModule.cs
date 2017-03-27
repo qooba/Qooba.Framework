@@ -1,4 +1,5 @@
 ﻿using Qooba.Framework.Abstractions;
+using Qooba.Framework.Azure.DocumentDb;
 using Qooba.Framework.Azure.DocumentDb.Abstractions;
 
 namespace Qooba.Framework.Azure.IoT
@@ -11,6 +12,7 @@ namespace Qooba.Framework.Azure.IoT
 
         public void Bootstrapp(IContainer container)
         {
+            container.RegisterType<IDocumentDbConfig, DocumentDbConfig>(Lifetime.Singleton);
             container.RegisterType(typeof(IDocumentDbRepository<>), typeof(DocumentDbRepository<>));
         }
     }

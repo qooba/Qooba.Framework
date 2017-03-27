@@ -2,6 +2,7 @@
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Configuration.Abstractions;
+using Qooba.Framework.Serialization.Abstractions;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -15,14 +16,29 @@ namespace Qooba.Framework.Bot.Tests
         private Mock<IConfig> configMock;
 
         private Mock<IReplyBuilder> replyBuilderMock;
-        
+
+        private Mock<ISerializer> seriazlierMock;
+
         public ReplyManagerTests()
         {
             this.configMock = new Mock<IConfig>();
             this.configMock.Setup(x => x[Constants.BotConfigurationPath]).Returns("Bot/bot.json");
             this.replyBuilderMock = new Mock<IReplyBuilder>();
+            this.seriazlierMock = new Mock<ISerializer>();
+            this.seriazlierMock.Setup(x => x.Deserialize<ReplyConfiguration>(It.IsAny<string>())).Returns(new ReplyConfiguration
+            {
+                Items = new []
+                {
+                    new ReplyItem
+                    {
+                        Routes = new [] {"hello", "test" },
+                        ReplyType = "raw"
+                    }
+                }
+            });
+
             Func<string, IReplyBuilder> func = s => s == "raw" ? replyBuilderMock.Object : null;
-            this.replyManager = new ReplyManager(this.configMock.Object, func);
+            this.replyManager = new ReplyManager(this.configMock.Object, this.seriazlierMock.Object, func);
         }
 
         [Fact]

@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using Qooba.Framework.Bot.Abstractions;
+﻿using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Configuration.Abstractions;
+using Qooba.Framework.Serialization.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,34 +12,30 @@ namespace Qooba.Framework.Bot
 {
     public class ReplyManager : IReplyManager
     {
-        private static string botConfigurationPath;
+        private Func<string, IReplyBuilder> replyBuilders;
 
-        private static Lazy<ReplyConfiguration> configuration = new Lazy<ReplyConfiguration>(() =>
-        {
-            var config = File.ReadAllText(botConfigurationPath);
-            var configuration = JsonConvert.DeserializeObject<ReplyConfiguration>(config, Serialization.Settings);
-            return configuration;
-        });
+        private readonly ISerializer serializer;
 
-        private static Lazy<IList<Route>> routeTable = new Lazy<IList<Route>>(() =>
+        public ReplyManager(IConfig config, ISerializer serializer, Func<string, IReplyBuilder> replyBuilders)
         {
-            return configuration.Value.Items.SelectMany(x => x.Routes.Select(r => new Route
+            var botConfigurationPath = config[Constants.BotConfigurationPath];
+            var botConfig = File.ReadAllText(botConfigurationPath);
+            this.serializer = serializer;
+
+            this.Configuration = this.serializer.Deserialize<ReplyConfiguration>(botConfig); ;
+
+            this.RouteTable = this.Configuration.Items.SelectMany(x => x.Routes.Select(r => new Route
             {
                 RouteId = x.ReplyId,
                 RouteText = r
             })).ToList();
-        });
 
-        private Func<string, IReplyBuilder> replyBuilders;
-
-        public ReplyManager(IConfig config, Func<string, IReplyBuilder> replyBuilders)
-        {
-            botConfigurationPath = config[Constants.BotConfigurationPath];
-            this.Configuration = configuration.Value;
             this.replyBuilders = replyBuilders;
         }
 
         public ReplyConfiguration Configuration { get; private set; }
+
+        public IList<Route> RouteTable { get; private set; }
 
         public async Task<Reply> CreateAsync(IConversationContext context)
         {
@@ -49,6 +45,6 @@ namespace Qooba.Framework.Bot
             return reply;
         }
 
-        public async Task<IList<Route>> FetchRoutingTableAsync() => routeTable.Value;
+        public async Task<IList<Route>> FetchRoutingTableAsync() => RouteTable;
     }
 }

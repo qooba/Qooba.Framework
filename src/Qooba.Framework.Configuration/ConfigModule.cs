@@ -1,5 +1,4 @@
 ﻿using Qooba.Framework.Abstractions;
-using Qooba.Framework.Configuration;
 using Qooba.Framework.Configuration.Abstractions;
 
 namespace Qooba.Framework.Configuration

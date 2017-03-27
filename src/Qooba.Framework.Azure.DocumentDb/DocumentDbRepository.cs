@@ -10,7 +10,7 @@ namespace Qooba.Framework.Azure.DocumentDb.Abstractions
 {
     public class DocumentDbRepository<TModel> : IDocumentDbRepository<TModel>
     {
-        private IConfig config;
+        private IDocumentDbConfig config;
 
         private static string documentDbUri;
 
@@ -25,7 +25,7 @@ namespace Qooba.Framework.Azure.DocumentDb.Abstractions
 
         private static Lazy<DocumentClient> client = new Lazy<DocumentClient>(() => new DocumentClient(new Uri(documentDbUri), documentDbPrimaryKey));
 
-        public DocumentDbRepository(IConfig config)
+        public DocumentDbRepository(IDocumentDbConfig config)
         {
             this.config = config;
             documentDbUri = this.config.DocumentDbUri;

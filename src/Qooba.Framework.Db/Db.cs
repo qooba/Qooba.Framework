@@ -1,5 +1,4 @@
-﻿using Qooba.Framework.Configuration.Abstractions;
-using Dapper;
+﻿using Dapper;
 using System.Data;
 using System;
 using System.Collections.Generic;
@@ -10,13 +9,13 @@ namespace Qooba.Framework.Db
 {
     public class Db : IDb
     {
-        private readonly IConfig config;
+        private readonly IDbConfig config;
 
         private string connectionString;
 
         private Lazy<IDbConnection> connection;
 
-        public Db(IConfig config)
+        public Db(IDbConfig config)
         {
             this.config = config;
             this.connectionString = this.config.ConnectionString;

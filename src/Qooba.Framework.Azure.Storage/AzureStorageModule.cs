@@ -12,6 +12,7 @@ namespace Qooba.Framework.Azure.Storage
 
         public void Bootstrapp(IContainer container)
         {
+            container.RegisterType<IAzureStorageConfig, AzureStorageConfig>(Lifetime.Singleton);
             container.RegisterType<IAzureBlob, AzureBlob>();
             container.RegisterType<IAzureBlobQueue, AzureBlobQueue>();
             container.RegisterType<IAzureBlobTable, AzureBlobTable>();

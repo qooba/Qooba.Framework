@@ -1,6 +1,5 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-using Qooba.Framework.Configuration.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +15,9 @@ namespace Qooba.Framework.Azure.Storage
     public class AzureBlobTableRepository<TModel> : IAzureBlobTableRepository<TModel>, IRepositoryCommands<TModel>, IRepositoryQueries<TModel>
         where TModel : class, ITableEntity, new()
     {
-        private readonly IConfig config;
+        private readonly IAzureStorageConfig config;
 
-        public AzureBlobTableRepository(IConfig config)
+        public AzureBlobTableRepository(IAzureStorageConfig config)
         {
             this.config = config;
         }

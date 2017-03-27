@@ -8,9 +8,9 @@ namespace Qooba.Framework.Azure.Storage
 {
     public class AzureBlobTable : IAzureBlobTable
     {
-        private readonly IConfig config;
+        private readonly IAzureStorageConfig config;
 
-        public AzureBlobTable(IConfig config)
+        public AzureBlobTable(IAzureStorageConfig config)
         {
             this.config = config;
         }

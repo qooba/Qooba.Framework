@@ -13,6 +13,7 @@ namespace Qooba.Framework.Azure.IoT
 
         public void Bootstrapp(IContainer container)
         {
+            container.RegisterType<IAzureSearchConfig, AzureSearchConfig>(Lifetime.Singleton);
             container.RegisterType<IAzureSearch, AzureSearch>();
         }
     }

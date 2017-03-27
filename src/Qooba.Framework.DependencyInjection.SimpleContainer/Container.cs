@@ -189,9 +189,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
         
         public object Resolve(Type t, object key)
         {
-            IDictionary<object, Func<Type, object>> df;
-            Func<Type, object> f = null;
-            if (container.TryGetValue(t, out df) && df.TryGetValue(key, out f))
+            if (container.TryGetValue(t, out IDictionary<object, Func<Type, object>> df) && df.TryGetValue(key, out Func<Type, object> f))
             {
                 return f(t);
             }

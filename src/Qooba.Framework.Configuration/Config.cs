@@ -1,11 +1,17 @@
-﻿using System;
+﻿using Qooba.Framework.Configuration.Abstractions;
+#if NET46
+using System.Configuration;
+#else
 using Microsoft.Extensions.Configuration;
-using Qooba.Framework.Configuration.Abstractions;
+#endif
 
 namespace Qooba.Framework.Configuration
 {
     public class Config : IConfig
     {
+#if NET46
+        public string this[string key] => ConfigurationManager.AppSettings[key];
+#else
         private IConfigurationRoot configuration;
 
         public Config(IConfigurationRoot configuration)
@@ -13,76 +19,8 @@ namespace Qooba.Framework.Configuration
             this.configuration = configuration;
         }
 
-        public string ConnectionString
-        {
-            get
-            {
-                return this.configuration["Data:DefaultConnection:ConnectionString"];
-            }
-        }
+        public string this[string key] => this.configuration[key];
+#endif
 
-        public string StorageConnectionString
-        {
-            get
-            {
-                return this.configuration["Data:DefaultConnection:StorageConnectionString"];
-            }
-        }
-
-        public string SearchApiKey
-        {
-            get
-            {
-                return this.configuration["Data:DefaultConnection:SearchApiKey"];
-            }
-        }
-
-        public string SearchServiceName
-        {
-            get
-            {
-                return this.configuration["Data:DefaultConnection:SearchServiceName"];
-            }
-        }
-
-        public string DocumentDbUri
-        {
-            get
-            {
-                return this.configuration["Data:DefaultConnection:DocumentDbUri"];
-            }
-        }
-
-        public string DocumentDbPrimaryKey
-        {
-            get
-            {
-                return this.configuration["Data:DefaultConnection:DocumentDbPrimaryKey"];
-            }
-        }
-
-        public string DocumentDbDatabaseName
-        {
-            get
-            {
-                return this.configuration["Data:DefaultConnection:DocumentDbDatabaseName"];
-            }
-        }
-
-        public string DocumentDbCollectionName
-        {
-            get
-            {
-                return this.configuration["Data:DefaultConnection:DocumentDbCollectionName"];
-            }
-        }
-
-        public string this[string key]
-        {
-            get
-            {
-                return this.configuration[key];
-            }
-        }
     }
 }

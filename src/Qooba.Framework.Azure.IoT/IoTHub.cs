@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices;
 using Qooba.Framework.Serialization.Abstractions;
-using Qooba.Framework.Configuration.Abstractions;
 using System.Text;
 
 namespace Qooba.Framework.Azure.IoT
@@ -11,9 +10,9 @@ namespace Qooba.Framework.Azure.IoT
     {
         private readonly ISerializer serializer;
 
-        private readonly IConfig config;
+        private readonly IIoTHubConfig config;
 
-        public IoTHub(ISerializer serializer, IConfig config)
+        public IoTHub(ISerializer serializer, IIoTHubConfig config)
         {
             this.serializer = serializer;
             this.config = config;

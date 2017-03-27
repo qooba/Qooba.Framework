@@ -11,9 +11,9 @@ namespace Qooba.Framework.Azure.Search
 {
     public class AzureSearch : IAzureSearch
     {
-        private readonly IConfig config;
+        private readonly IAzureSearchConfig config;
 
-        public AzureSearch(IConfig config)
+        public AzureSearch(IAzureSearchConfig config)
         {
             this.config = config;
         }
