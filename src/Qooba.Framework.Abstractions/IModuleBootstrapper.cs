@@ -4,8 +4,8 @@ namespace Qooba.Framework.Abstractions
 {
     public interface IModuleBootstrapper
     {
-        void BootstrappModules(params string[] includeModuleNamePattern);
-
         IList<IModule> GetModules();
+
+        IModuleManager AddModule(IModule module);
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace Qooba.Framework.Abstractions
-{
-    public interface IModuleManager
-    {
-        IModuleManager AddModule(IModule module);
+﻿using System;
 
-        IModule GetModule(string name);
+namespace Qooba.Framework.Abstractions
+{
+    public interface IModuleManager : IModuleProvider
+    {
+        IModuleManager AddModule(Func<IModuleDescriptor, IModuleDescriptor> moduleDescriptorFactory);
     }
 }

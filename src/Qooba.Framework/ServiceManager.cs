@@ -4,27 +4,23 @@ namespace Qooba.Framework.Abstractions
 {
     internal class ServiceManager : IServiceBootstrapper, IServiceManager
     {
-        private static IServiceManager serviceManager;
+        private static IServiceManager manager;
 
-        public static IServiceManager ServiceManager
+        internal static IServiceManager Manager
         {
-            get { return serviceManager; }
-            set { serviceManager = value; }
+            get { return manager; }
+            set { manager = value; }
         }
-
-        private static Lazy<ServiceManager> current = new Lazy<ServiceManager>(() => new ServiceManager());
-
-        public static ServiceManager Current => current.Value;
 
         public void SetServiceManager(IServiceManager serviceManager)
         {
-            ServiceManager = serviceManager;
+            Manager = serviceManager;
         }
 
-        public TService GetService<TService>() where TService : class => ServiceManager.GetService<TService>();
+        public TService GetService<TService>() where TService : class => Manager.GetService<TService>();
 
-        public IServiceManager AddService<TFrom, TTo>() where TTo : class, TFrom where TFrom : class => ServiceManager.AddService<TFrom, TTo>();
+        public IServiceManager AddService(Func<IServiceDescriptor, IServiceDescriptor> serviceDescriptorFactory) => Manager.AddService(serviceDescriptorFactory);
 
-        public IServiceManager AddService<TFrom, TTo>(TTo service) where TTo : class, TFrom where TFrom : class => ServiceManager.AddService<TFrom, TTo>(service);
+        public object GetService(Type serviceType) => Manager.GetService(serviceType);
     }
 }

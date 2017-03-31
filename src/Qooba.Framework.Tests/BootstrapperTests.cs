@@ -17,6 +17,17 @@ namespace Qooba.Framework.Tests
         }
 
         [Fact]
+        public void ttt()
+        {
+            Q.Create()
+                .AddAssembly(a => a.All())
+                .AddModule(m => m.Module(new SerializationModule()))
+                .AddService(s => s.Service<ISerializer>().As<JsonSerializer>())
+                .Bootstrapp()
+                .GetService<ISerializer>();
+        }
+
+        [Fact]
         public void BootstrappModulesTest()
         {
             var serializer = this.bootstrapper.BootstrappModules(new SimpleContainerModule(), new SerializationModule()).Container.Resolve<ISerializer>();

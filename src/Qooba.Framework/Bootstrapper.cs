@@ -1,6 +1,8 @@
 ﻿using Qooba.Framework.Abstractions;
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Reflection;
 
 namespace Qooba.Framework
 {
@@ -10,49 +12,22 @@ namespace Qooba.Framework
 
         private readonly IServiceBootstrapper serviceBootstrapper;
 
+        private readonly IAssemblyBootstrapper assemblyBootstrapper;
+
         private readonly IFramework framework;
 
         private static ConcurrentBag<bool> bootstrapped = new ConcurrentBag<bool>();
 
-        public static IBootstrapper Instance => new Bootstrapper(ModuleManager.Current, ServiceManager.Current, new Q(ModuleManager.Current, ServiceManager.Current));
-
-        public Bootstrapper(IModuleBootstrapper moduleBootstrapper, IServiceBootstrapper serviceBootstrapper, IFramework framework)
+        public Bootstrapper(IModuleBootstrapper moduleBootstrapper, IServiceBootstrapper serviceBootstrapper, IAssemblyBootstrapper assemblyBootstrapper)
         {
             this.moduleBootstrapper = moduleBootstrapper;
             this.serviceBootstrapper = serviceBootstrapper;
-            this.framework = framework;
+            this.assemblyBootstrapper = assemblyBootstrapper;
         }
 
-        public IFramework Bootstrapp(params string[] includeModuleNamePattern)
+        public void Bootstrapp()
         {
-            if (bootstrapped.IsEmpty)
-            {
-                bootstrapped.Add(true);
-                this.moduleBootstrapper.BootstrappModules(includeModuleNamePattern);
-                this.Bootstrapp();
-            }
-
-            return this.framework;
-        }
-
-        public IFramework BootstrappModules(params IModule[] includeModules)
-        {
-            if (bootstrapped.IsEmpty)
-            {
-                bootstrapped.Add(true);
-                for (int i = 0; i < includeModules.Length; i++)
-                {
-                    ModuleManager.Current.Modules.Add(includeModules[i], null);
-                }
-
-                this.Bootstrapp();
-            }
-
-            return this.framework;
-        }
-
-        private void Bootstrapp()
-        {
+            this.PrepareModules();
             IServiceManager serviceManager;
             var modules = this.moduleBootstrapper.GetModules();
             var containerBootstrapper = modules.FirstOrDefault(x => x is IServiceManagerModule);
@@ -65,6 +40,30 @@ namespace Qooba.Framework
             foreach (var module in modules)
             {
                 module.Bootstrapp(this.framework);
+            }
+        }
+
+        private void PrepareModules()
+        {
+            var assemblies = this.assemblyBootstrapper.GetAssemblies();
+
+            foreach (var assembly in assemblies)
+            {
+                try
+                {
+                    var a = Assembly.Load(assembly.GetName());
+                    var type = a.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IModule))).FirstOrDefault();
+                    var typeInfo = type?.GetTypeInfo();
+                    if (type != null && typeInfo != null && !typeInfo.IsAbstract && !typeInfo.IsInterface)
+                    {
+                        var module = (IModule)Activator.CreateInstance(type);
+                        this.moduleBootstrapper.AddModule(module);
+                    }
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    throw new Exception(string.Concat("Upps ... cannot load : ", assembly.FullName), ex);
+                }
             }
         }
     }

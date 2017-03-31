@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace Qooba.Framework.Abstractions
+﻿namespace Qooba.Framework.Abstractions
 {
-    public interface IServiceProvider
+    public interface IServiceProvider : System.IServiceProvider
     {
-        object GetService(Type serviceType);
-
         TService GetService<TService>() where TService : class;
     }
 }

@@ -4,9 +4,13 @@ namespace Qooba.Framework.Abstractions
 {
     public interface IAssemblyDescriptor
     {
+        IAssemblyDescriptor All();
+
+        IAssemblyDescriptor All(string assembliesPath);
+
         IAssemblyDescriptor Assembly(Assembly assembly);
 
-        IAssemblyDescriptor Path(string assemblyPath);
+        IAssemblyDescriptor AssemblyPath(string assemblyPath);
 
         IAssemblyDescriptor Pattern(string assemblyPattern);
     }
