@@ -3,9 +3,7 @@
     public enum Lifetime
     {
         Transistent,
-        PerSession,
-        PerRequest,
-        PerThread,
         Singleton,
+        Scoped
     }
 }

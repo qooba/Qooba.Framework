@@ -3,7 +3,7 @@ using Qooba.Framework.Abstractions;
 
 namespace Qooba.Framework.DependencyInjection.AutofacContainer
 {
-    public class AutofacContainerModule : IContainerBootstrapper
+    public class AutofacContainerModule : IServiceBootstrapper
     {
         public virtual string Name => "AutofacContainerModule";
         

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Qooba.Framework.Abstractions
+﻿namespace Qooba.Framework.Abstractions
 {
     public interface IModule
     {
@@ -8,6 +6,6 @@ namespace Qooba.Framework.Abstractions
         
         int Priority { get; }
 
-        void Bootstrapp(IContainer container);
+        void Bootstrapp(IFramework framework);
     }
 }

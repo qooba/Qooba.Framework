@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Qooba.Framework.Abstractions
+namespace Qooba.Framework.DependencyInjection.Abstractions
 {
     public interface IContainer
     {

@@ -1,29 +1,41 @@
 ﻿using Qooba.Framework.Abstractions;
 using System.Collections.Concurrent;
+using System.Linq;
 
 namespace Qooba.Framework
 {
     public class Bootstrapper : IBootstrapper
     {
+        private readonly IModuleBootstrapper moduleBootstrapper;
+
+        private readonly IServiceBootstrapper serviceBootstrapper;
+
+        private readonly IFramework framework;
+
         private static ConcurrentBag<bool> bootstrapped = new ConcurrentBag<bool>();
 
-        public static IBootstrapper Instance => new Bootstrapper();
+        public static IBootstrapper Instance => new Bootstrapper(ModuleManager.Current, ServiceManager.Current, new Q(ModuleManager.Current, ServiceManager.Current));
 
-        public IContainer Container => ContainerManager.Container;
+        public Bootstrapper(IModuleBootstrapper moduleBootstrapper, IServiceBootstrapper serviceBootstrapper, IFramework framework)
+        {
+            this.moduleBootstrapper = moduleBootstrapper;
+            this.serviceBootstrapper = serviceBootstrapper;
+            this.framework = framework;
+        }
 
-        public IBootstrapper Bootstrapp(params string[] includeModuleNamePattern)
+        public IFramework Bootstrapp(params string[] includeModuleNamePattern)
         {
             if (bootstrapped.IsEmpty)
             {
                 bootstrapped.Add(true);
-                PreApplicationInit.InitializeModules(includeModuleNamePattern);
-                ModuleManager.Current.Bootstrapp();
+                this.moduleBootstrapper.BootstrappModules(includeModuleNamePattern);
+                this.Bootstrapp();
             }
 
-            return this;
+            return this.framework;
         }
 
-        public IBootstrapper BootstrappModules(params IModule[] includeModules)
+        public IFramework BootstrappModules(params IModule[] includeModules)
         {
             if (bootstrapped.IsEmpty)
             {
@@ -33,10 +45,27 @@ namespace Qooba.Framework
                     ModuleManager.Current.Modules.Add(includeModules[i], null);
                 }
 
-                ModuleManager.Current.Bootstrapp();
+                this.Bootstrapp();
             }
 
-            return this;
+            return this.framework;
+        }
+
+        private void Bootstrapp()
+        {
+            IServiceManager serviceManager;
+            var modules = this.moduleBootstrapper.GetModules();
+            var containerBootstrapper = modules.FirstOrDefault(x => x is IServiceManagerModule);
+            if (containerBootstrapper != null)
+            {
+                serviceManager = ((IServiceManagerModule)containerBootstrapper).CreateServiceManager();
+                this.serviceBootstrapper.SetServiceManager(serviceManager);
+            }
+
+            foreach (var module in modules)
+            {
+                module.Bootstrapp(this.framework);
+            }
         }
     }
 }

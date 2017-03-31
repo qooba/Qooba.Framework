@@ -9,9 +9,9 @@ namespace Qooba.Framework.Configuration
 
         public int Priority => 2;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IConfig, Config>(Lifetime.Singleton);
+            framework.AddService<IConfig, Config>();
         }
     }
 }

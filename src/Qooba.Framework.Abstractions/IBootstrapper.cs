@@ -2,10 +2,8 @@
 {
     public interface IBootstrapper
     {
-        IContainer Container { get; }
+        IFramework Bootstrapp(params string[] includeModuleNamePattern);
 
-        IBootstrapper Bootstrapp(params string[] includeModuleNamePattern);
-
-        IBootstrapper BootstrappModules(params IModule[] includeModules);
+        IFramework BootstrappModules(params IModule[] includeModules);
     }
 }
