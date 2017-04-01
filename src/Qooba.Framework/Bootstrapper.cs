@@ -49,20 +49,12 @@ namespace Qooba.Framework
 
             foreach (var assembly in assemblies)
             {
-                try
+                var type = assembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IModule))).FirstOrDefault();
+                var typeInfo = type?.GetTypeInfo();
+                if (type != null && typeInfo != null && !typeInfo.IsAbstract && !typeInfo.IsInterface)
                 {
-                    var a = Assembly.Load(assembly.GetName());
-                    var type = a.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IModule))).FirstOrDefault();
-                    var typeInfo = type?.GetTypeInfo();
-                    if (type != null && typeInfo != null && !typeInfo.IsAbstract && !typeInfo.IsInterface)
-                    {
-                        var module = (IModule)Activator.CreateInstance(type);
-                        this.moduleBootstrapper.AddModule(module);
-                    }
-                }
-                catch (ReflectionTypeLoadException ex)
-                {
-                    throw new Exception(string.Concat("Upps ... cannot load : ", assembly.FullName), ex);
+                    var module = (IModule)Activator.CreateInstance(type);
+                    this.moduleBootstrapper.AddModule(module);
                 }
             }
         }

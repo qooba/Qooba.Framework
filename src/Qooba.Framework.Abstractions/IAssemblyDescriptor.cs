@@ -10,6 +10,8 @@ namespace Qooba.Framework.Abstractions
 
         IAssemblyDescriptor Assembly(Assembly assembly);
 
+        IAssemblyDescriptor Assembly(AssemblyName assemblyName);
+
         IAssemblyDescriptor AssemblyPath(string assemblyPath);
 
         IAssemblyDescriptor Pattern(string assemblyPattern);

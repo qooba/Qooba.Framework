@@ -12,7 +12,17 @@ namespace Qooba.Framework
 {
     internal class AssemblyDescriptor : IAssemblyDescriptor
     {
-        internal static IList<Assembly> Assemblies = new List<Assembly>();
+        internal const string MODULE_NAME_PATTERN = "Qooba";
+
+        public AssemblyDescriptor()
+        {
+            this.Assemblies = new List<Assembly>();
+            this.Patterns = new List<string>() { MODULE_NAME_PATTERN };
+        }
+
+        public IList<Assembly> Assemblies { get; }
+
+        public IList<string> Patterns { get; }
 
         public IAssemblyDescriptor All()
         {
@@ -26,18 +36,31 @@ namespace Qooba.Framework
 
         public IAssemblyDescriptor All(string assembliesPath)
         {
-            throw new NotImplementedException();
+#if NET46
+
+#endif
+            return this;
         }
 
         public IAssemblyDescriptor Assembly(Assembly assembly)
         {
-            Assemblies.Add(assembly);
+            if (this.Patterns.Any(p => assembly.FullName.StartsWith(p)))
+            {
+                Assemblies.Add(assembly);
+            }
+
             return this;
         }
 
+        public IAssemblyDescriptor Assembly(AssemblyName assemblyName) => this.Assembly(System.Reflection.Assembly.Load(assemblyName));
+
         public IAssemblyDescriptor AssemblyPath(string assemblyPath)
         {
-            Assembly
+#if NET46
+
+#endif
+            return this;
+
 
             var path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var d = new System.IO.DirectoryInfo(path);
@@ -49,15 +72,25 @@ namespace Qooba.Framework
 
         public IAssemblyDescriptor Pattern(string assemblyPattern)
         {
-            throw new NotImplementedException();
+            this.Patterns.Add(assemblyPattern);
+            return this;
         }
-        
+
+        public IAssemblyDescriptor Pattern(params string[] assemblyPatterns)
+        {
+            assemblyPatterns.ToList().ForEach(p => this.Patterns.Add(p));
+            return this;
+        }
+
         public void BootstrappModules(params string[] includeModuleNamePattern)
         {
+            IList<AssemblyName> assemblies;
+
+            Assembly.Load()
 #if NET46
             var path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var d = new System.IO.DirectoryInfo(path);
-            var assemblies = d.GetFiles("*.dll", System.IO.SearchOption.AllDirectories)
+            assemblies = d.GetFiles("*.dll", System.IO.SearchOption.AllDirectories)
                 .Where(x => x.FullName.Contains(MODULE_NAME_PATTERN) || includeModuleNamePattern.Any(i => x.FullName.Contains(i)))
                 .Select(x => AssemblyName.GetAssemblyName(x.FullName)).Where(x => x.FullName.StartsWith(MODULE_NAME_PATTERN) || includeModuleNamePattern.Any(i => x.FullName.Contains(i)))
                 .Select(x => Assembly.Load(x.FullName));
@@ -94,5 +127,7 @@ namespace Qooba.Framework
             }
 #endif
         }
+
+        private IEnumerable<Assembly> GetAssemblies(IList<AssemblyName> assemblyNames) => assemblyNames.Select(a => System.Reflection.Assembly.Load(a));
     }
 }

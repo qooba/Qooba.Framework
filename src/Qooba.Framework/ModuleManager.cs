@@ -14,8 +14,6 @@ namespace Qooba.Framework
 {
     internal class ModuleManager : IModuleManager, IModuleBootstrapper
     {
-        public const string MODULE_NAME_PATTERN = "Qooba";
-
         internal static IDictionary<IModule, Assembly> Modules = new ConcurrentDictionary<IModule, Assembly>();
         
         public IModuleManager AddModule(IModule module)
