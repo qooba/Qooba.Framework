@@ -6,19 +6,19 @@ namespace Qooba.Framework.Azure.Storage
 {
     public class AzureStorageModule : IModule
     {
-        public virtual string Name =>"AzureStorageModule";
+        public virtual string Name => "AzureStorageModule";
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IAzureStorageConfig, AzureStorageConfig>(Lifetime.Singleton);
-            container.RegisterType<IAzureBlob, AzureBlob>();
-            container.RegisterType<IAzureBlobQueue, AzureBlobQueue>();
-            container.RegisterType<IAzureBlobTable, AzureBlobTable>();
-            container.RegisterType(typeof(IAzureBlobTableRepository<>), typeof(AzureBlobTableRepository<>));
-            container.RegisterType(typeof(IRepositoryCommands<>), typeof(AzureBlobTableRepository<>));
-            container.RegisterType(typeof(IRepositoryQueries<>), typeof(AzureBlobTableRepository<>));
+            framework.AddSingletonService<IAzureStorageConfig, AzureStorageConfig>();
+            framework.AddTransientService<IAzureBlob, AzureBlob>();
+            framework.AddTransientService<IAzureBlobQueue, AzureBlobQueue>();
+            framework.AddTransientService<IAzureBlobTable, AzureBlobTable>();
+            framework.AddTransientService(typeof(IAzureBlobTableRepository<>), typeof(AzureBlobTableRepository<>));
+            framework.AddTransientService(typeof(IRepositoryCommands<>), typeof(AzureBlobTableRepository<>));
+            framework.AddTransientService(typeof(IRepositoryQueries<>), typeof(AzureBlobTableRepository<>));
         }
     }
 }

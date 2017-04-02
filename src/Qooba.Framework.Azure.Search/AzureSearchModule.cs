@@ -11,10 +11,10 @@ namespace Qooba.Framework.Azure.IoT
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IAzureSearchConfig, AzureSearchConfig>(Lifetime.Singleton);
-            container.RegisterType<IAzureSearch, AzureSearch>();
+            framework.AddSingletonService<IAzureSearchConfig, AzureSearchConfig>();
+            framework.AddTransientService<IAzureSearch, AzureSearch>();
         }
     }
 }

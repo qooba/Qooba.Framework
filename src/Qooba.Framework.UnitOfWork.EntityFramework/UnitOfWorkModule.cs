@@ -9,10 +9,10 @@ namespace Qooba.Framework.UnitOfWork.EntityFramework
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType(typeof(UnitOfWork<>));
-            container.RegisterType(typeof(IFetchStrategy<>), typeof(EFFetchStrategy<>));
+            framework.AddTransientService(typeof(UnitOfWork<>));
+            framework.AddTransientService(typeof(IFetchStrategy<>), typeof(EFFetchStrategy<>));
         }
     }
 }

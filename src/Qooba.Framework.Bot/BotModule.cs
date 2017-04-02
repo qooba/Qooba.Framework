@@ -15,26 +15,24 @@ namespace Qooba.Framework.Bot
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IConnector, MessangerConnector>(ConnectorType.Messanger);
-            container.RegisterType<IMessangerSecurity, MessangerSecurity>();
-            container.RegisterType<IStateManager, StateManager>();
-            container.RegisterType<IDispatcher, MessangerDispatcher>(ConnectorType.Messanger);
+            framework.AddService(s => s.Service<IConnector>().As<MessangerConnector>().Keyed(ConnectorType.Messanger));
+            framework.AddTransientService<IMessangerSecurity, MessangerSecurity>();
+            framework.AddTransientService<IStateManager, StateManager>();
+            framework.AddService(s => s.Service<IDispatcher>().As<MessangerDispatcher>().Keyed(ConnectorType.Messanger));
 
-            container.RegisterType<IHandler, ContextHandler>(HandlerType.Context);
-            container.RegisterType<IHandler, RouteHandler>(HandlerType.Route);
-            container.RegisterType<IHandler, ReplyHandler>(HandlerType.Reply);
-            container.RegisterType<IHandler, DispatchHandler>(HandlerType.Dispatch);
-            container.RegisterType<IHandler, ContextKeeperHandler>(HandlerType.ContextKeeper);
+            framework.AddService(s => s.Service<IHandler>().As<ContextHandler>().Keyed(HandlerType.Context));
+            framework.AddService(s => s.Service<IHandler>().As<RouteHandler>().Keyed(HandlerType.Route));
+            framework.AddService(s => s.Service<IHandler>().As<ReplyHandler>().Keyed(HandlerType.Reply));
+            framework.AddService(s => s.Service<IHandler>().As<DispatchHandler>().Keyed(HandlerType.Dispatch));
+            framework.AddService(s => s.Service<IHandler>().As<ContextKeeperHandler>().Keyed(HandlerType.ContextKeeper));
 
-            container.RegisterType<IHandlerManager, HandlerManager>();
-            container.RegisterType<IReplyManager, ReplyManager>(Lifetime.Singleton);
-            container.RegisterType<IRouter, Router>();
-
-            container.RegisterType<IMessageQueue, MemoryMessageQueue>();
-
-            container.RegisterType<IBot, QBot>();
+            framework.AddTransientService<IHandlerManager, HandlerManager>();
+            framework.AddSingletonService<IReplyManager, ReplyManager>();
+            framework.AddTransientService<IRouter, Router>();
+            framework.AddTransientService<IMessageQueue, MemoryMessageQueue>();
+            framework.AddTransientService<IBot, QBot>();
         }
     }
 }

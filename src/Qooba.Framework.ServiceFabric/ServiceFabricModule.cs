@@ -8,7 +8,7 @@ namespace Qooba.Framework.ServiceFabric
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
             //ContainerManager.Current.RegisterType<ISerializer, JsonSerializer>();
         }

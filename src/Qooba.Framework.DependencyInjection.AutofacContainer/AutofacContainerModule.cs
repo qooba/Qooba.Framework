@@ -3,20 +3,20 @@ using Qooba.Framework.Abstractions;
 
 namespace Qooba.Framework.DependencyInjection.AutofacContainer
 {
-    public class AutofacContainerModule : IServiceBootstrapper
+    public class AutofacContainerModule : IServiceManagerModule
     {
         public virtual string Name => "AutofacContainerModule";
         
         public int Priority => 0;
         
-        public void Bootstrapp(Framework.Abstractions.IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
         }
 
-        public Framework.Abstractions.IContainer BootstrappContainer()
+        public IServiceManager CreateServiceManager()
         {
             var container = new AutofacContainerWrapper(new ContainerBuilder());
-            container.RegisterInstance<Framework.Abstractions.IContainer>(container);
+            container.RegisterInstance<Abstractions.IContainer>(container);
             return container;
         }
     }

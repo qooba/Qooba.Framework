@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Qooba.Framework.DependencyInjection.AutofacContainer
 {
-    public class AutofacContainerWrapper : Framework.Abstractions.IContainer
+    public class AutofacContainerWrapper : Abstractions.IContainer
     {
         private static Lazy<IComponentContext> container;
         private readonly ContainerBuilder builder;

@@ -9,9 +9,9 @@ namespace Qooba.Framework.Services
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IRestServiceFactory, RestServiceFactory>();
+            framework.AddTransientService<IRestServiceFactory, RestServiceFactory>();
         }
     }
 }

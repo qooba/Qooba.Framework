@@ -9,9 +9,9 @@ namespace Qooba.Framework.Db
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IDbConfig, DbConfig>(Lifetime.Singleton);
+            framework.AddSingletonService<IDbConfig, DbConfig>();
         }
     }
 }

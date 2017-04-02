@@ -9,10 +9,10 @@ namespace Qooba.Framework.DependencyInjection.ContainerFactory
         
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IFactory, Factory>();
-            container.RegisterType(typeof(IFactory<>), typeof(Factory<>));
+            framework.AddTransientService<IFactory, Factory>();
+            framework.AddTransientService(typeof(IFactory<>), typeof(Factory<>));
         }
     }
 }

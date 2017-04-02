@@ -10,10 +10,10 @@ namespace Qooba.Framework.Serialization
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<ISpecificationFactory, SpecificationFactory>();
-            //ContainerManager.Current.RegisterType(typeof(IFetchStrategy<>), typeof(FetchStrategy<>));
+            framework.AddTransientService<ISpecificationFactory, SpecificationFactory>();
+            //framework.AddTransientService(typeof(IFetchStrategy<>), typeof(FetchStrategy<>));
         }
     }
 }

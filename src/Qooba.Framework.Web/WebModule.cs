@@ -9,9 +9,9 @@ namespace Qooba.Framework.Web
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IHeaderReader, HeaderReader>();
+            framework.AddTransientService<IHeaderReader, HeaderReader>();
         }
     }
 }

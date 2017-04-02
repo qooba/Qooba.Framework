@@ -10,10 +10,10 @@ namespace Qooba.Framework.Azure.IoT
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IDocumentDbConfig, DocumentDbConfig>(Lifetime.Singleton);
-            container.RegisterType(typeof(IDocumentDbRepository<>), typeof(DocumentDbRepository<>));
+            framework.AddSingletonService<IDocumentDbConfig, DocumentDbConfig>();
+            framework.AddTransientService(typeof(IDocumentDbRepository<>), typeof(DocumentDbRepository<>));
         }
     }
 }

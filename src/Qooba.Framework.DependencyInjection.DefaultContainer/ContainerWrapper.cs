@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Qooba.Framework.Abstractions;
+using Qooba.Framework.DependencyInjection.Abstractions;
 
 namespace Qooba.Framework.DependencyInjection.DefaultContainer
 {

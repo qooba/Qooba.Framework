@@ -11,7 +11,7 @@ namespace Qooba.Framework.Configuration
 
         public void Bootstrapp(IFramework framework)
         {
-            framework.AddService<IConfig, Config>();
+            framework.AddSingletonService<IConfig, Config>();
         }
     }
 }

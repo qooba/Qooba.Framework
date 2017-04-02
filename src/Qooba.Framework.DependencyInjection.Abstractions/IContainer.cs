@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Qooba.Framework.Abstractions;
+using System;
 using System.Collections.Generic;
 
 namespace Qooba.Framework.DependencyInjection.Abstractions
 {
-    public interface IContainer
+    public interface IContainer : IServiceManager
     {
         bool IsRegistered<T>() where T : class;
         bool IsRegistered<T>(object keyToCheck) where T : class;

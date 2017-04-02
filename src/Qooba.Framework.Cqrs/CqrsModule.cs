@@ -9,11 +9,11 @@ namespace Qooba.Framework.Cqrs
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<ICommandDispatcher, CommandDispatcher>();
-            container.RegisterType<IQueryDispatcher, QueryDispatcher>();
-            container.RegisterType<ISpecificationQueryDispatcher, SpecificationQueryDispatcher>();
+            framework.AddTransientService<ICommandDispatcher, CommandDispatcher>();
+            framework.AddTransientService<IQueryDispatcher, QueryDispatcher>();
+            framework.AddTransientService<ISpecificationQueryDispatcher, SpecificationQueryDispatcher>();
         }
     }
 }

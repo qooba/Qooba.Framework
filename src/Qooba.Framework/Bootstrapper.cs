@@ -30,6 +30,7 @@ namespace Qooba.Framework
             this.PrepareModules();
             IServiceManager serviceManager;
             var modules = this.moduleBootstrapper.GetModules();
+            
             var containerBootstrapper = modules.FirstOrDefault(x => x is IServiceManagerModule);
             if (containerBootstrapper != null)
             {

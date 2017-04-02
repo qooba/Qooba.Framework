@@ -9,10 +9,10 @@ namespace Qooba.Framework.Azure.IoT
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IIoTHubConfig, IoTHubConfig>(Lifetime.Singleton);
-            container.RegisterType<IIoTHub, IoTHub>();
+            framework.AddSingletonService<IIoTHubConfig, IoTHubConfig>();
+            framework.AddTransientService<IIoTHub, IoTHub>();
         }
     }
 }

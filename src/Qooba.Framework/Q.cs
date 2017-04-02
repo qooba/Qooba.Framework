@@ -30,19 +30,19 @@ namespace Qooba.Framework
             return new Q(assemblyManager, moduleManager, serviceManager, bootstrapper);
         }
 
-        IFramework IFramework.AddAssembly(Func<IAssemblyDescriptor, IAssemblyDescriptor> assemblyDescriptorFactory)
+        public IFramework AddAssembly(Func<IAssemblyDescriptor, IAssemblyDescriptor> assemblyDescriptorFactory)
         {
             this.assemblyManager.AddAssembly(assemblyDescriptorFactory);
             return this;
         }
 
-        IFramework IFramework.AddModule(Func<IModuleDescriptor, IModuleDescriptor> moduleDescriptorFactory)
+        public IFramework AddModule(Func<IModuleDescriptor, IModuleDescriptor> moduleDescriptorFactory)
         {
             this.moduleManager.AddModule(moduleDescriptorFactory);
             return this;
         }
 
-        IFramework IFramework.AddService(Func<IServiceDescriptor, IServiceDescriptor> serviceDescriptorFactory)
+        public IFramework AddService(Func<IServiceDescriptor, IServiceDescriptor> serviceDescriptorFactory)
         {
             this.serviceManager.AddService(serviceDescriptorFactory);
             return this;
@@ -77,5 +77,87 @@ namespace Qooba.Framework
             this.bootstrapper.Bootstrapp();
             return this;
         }
+
+        public Abstractions.IServiceProvider BootstrappAuto()
+        {
+            this.assemblyManager.AddAssembly(a => a.All());
+            return this.Bootstrapp();
+        }
+
+        public IFramework AddScopedService<TService>() where TService : class => this.AddService(s => s.Service<TService>().Lifetime(Lifetime.Scoped));
+
+        public IFramework AddScopedService(Type serviceType, Type implementationType) => this.AddService(s => s.Service(serviceType).As(implementationType).Lifetime(Lifetime.Scoped));
+
+        public IFramework AddScopedService(Type serviceType, Func<Abstractions.IServiceProvider, object> implementationFactory) => this.AddService(s => s.Service(serviceType).As(implementationFactory).Lifetime(Lifetime.Scoped));
+
+        public IFramework AddScopedService(Type serviceType) => this.AddService(s => s.Service(serviceType).Lifetime(Lifetime.Scoped));
+
+        public IFramework AddScopedService<TService>(Func<Abstractions.IServiceProvider, object> implementationFactory)
+            where TService : class
+            => this.AddService(s => s.Service<TService>().As(implementationFactory).Lifetime(Lifetime.Scoped));
+
+        public IFramework AddScopedService<TService, TImplementation>()
+            where TService : class
+            where TImplementation : class, TService
+            => this.AddService(s => s.Service<TService>().As<TImplementation>().Lifetime(Lifetime.Scoped));
+
+        public IFramework AddScopedService<TService, TImplementation>(Func<Abstractions.IServiceProvider, TImplementation> implementationFactory)
+            where TService : class
+            where TImplementation : class, TService
+            => this.AddService(s => s.Service<TService>().As(implementationFactory).Lifetime(Lifetime.Scoped));
+
+        public IFramework AddSingletonService<TService, TImplementation>()
+            where TService : class
+            where TImplementation : class, TService
+            => this.AddService(s => s.Service<TService>().As<TImplementation>().Lifetime(Lifetime.Singleton));
+
+        public IFramework AddSingletonService<TService, TImplementation>(Func<Abstractions.IServiceProvider, TImplementation> implementationFactory)
+            where TService : class
+            where TImplementation : class, TService
+            => this.AddService(s => s.Service<TService>().As(implementationFactory).Lifetime(Lifetime.Singleton));
+
+        public IFramework AddSingletonService<TService>()
+            where TService : class
+            => this.AddService(s => s.Service<TService>().Lifetime(Lifetime.Singleton));
+
+        public IFramework AddSingletonService(Type serviceType, Type implementationType) => this.AddService(s => s.Service(serviceType).As(implementationType).Lifetime(Lifetime.Singleton));
+
+        public IFramework AddSingletonService(Type serviceType, Func<Abstractions.IServiceProvider, object> implementationFactory) => this.AddService(s => s.Service(serviceType).As(implementationFactory).Lifetime(Lifetime.Singleton));
+
+        public IFramework AddSingletonService(Type serviceType) => this.AddService(s => s.Service(serviceType).Lifetime(Lifetime.Singleton));
+
+        public IFramework AddSingletonService<TService>(Func<Abstractions.IServiceProvider, object> implementationFactory)
+            where TService : class
+            => this.AddService(s => s.Service<TService>().As(implementationFactory).Lifetime(Lifetime.Singleton));
+
+        public IFramework AddSingletonService<TService>(TService implementationInstance)
+            where TService : class
+            => this.AddService(s => s.Service<TService>().As(implementationInstance).Lifetime(Lifetime.Singleton));
+
+        public IFramework AddSingletonService(Type serviceType, object implementationInstance) => this.AddService(s => s.Service(serviceType).As(implementationInstance).Lifetime(Lifetime.Singleton));
+
+        public IFramework AddTransientService<TService>()
+            where TService : class
+            => this.AddService(s => s.Service<TService>().Lifetime(Lifetime.Transistent));
+
+        public IFramework AddTransientService(Type serviceType, Type implementationType) => this.AddService(s => s.Service(serviceType).As(implementationType).Lifetime(Lifetime.Transistent));
+
+        public IFramework AddTransientService(Type serviceType, Func<Abstractions.IServiceProvider, object> implementationFactory) => this.AddService(s => s.Service(serviceType).As(implementationFactory).Lifetime(Lifetime.Transistent));
+
+        public IFramework AddTransientService(Type serviceType) => this.AddService(s => s.Service(serviceType).Lifetime(Lifetime.Transistent));
+
+        public IFramework AddTransientService<TService>(Func<Abstractions.IServiceProvider, object> implementationFactory)
+            where TService : class
+            => this.AddService(s => s.Service<TService>().As(implementationFactory).Lifetime(Lifetime.Transistent));
+
+        public IFramework AddTransientService<TService, TImplementation>()
+            where TService : class
+            where TImplementation : class, TService
+            => this.AddService(s => s.Service<TService>().As<TImplementation>().Lifetime(Lifetime.Transistent));
+
+        public IFramework AddTransientService<TService, TImplementation>(Func<Abstractions.IServiceProvider, TImplementation> implementationFactory)
+            where TService : class
+            where TImplementation : class, TService
+            => this.AddService(s => s.Service<TService>().As(implementationFactory).Lifetime(Lifetime.Transistent));
     }
 }

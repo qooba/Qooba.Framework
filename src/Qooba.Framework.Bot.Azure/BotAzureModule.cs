@@ -9,10 +9,10 @@ namespace Qooba.Framework.Bot.Azure
 
         public int Priority => 20;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IStateManager, AzureStateManager>();
-            container.RegisterType<IMessageQueue,AzureMessageQueue>();
+            framework.AddTransientService<IStateManager, AzureStateManager>();
+            framework.AddTransientService<IMessageQueue, AzureMessageQueue>();
         }
     }
 }

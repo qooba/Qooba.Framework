@@ -1,5 +1,6 @@
 ﻿//using Microsoft.Extensions.DependencyInjection;
 using Qooba.Framework.Abstractions;
+using Qooba.Framework.DependencyInjection.Abstractions;
 using Qooba.Framework.DependencyInjection.SimpleContainer.LifetimeManagers;
 using System;
 using System.Collections;

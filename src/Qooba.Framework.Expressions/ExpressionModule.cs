@@ -10,9 +10,9 @@ namespace Qooba.Framework.Expression
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IExpressionHelper, ExpressionHelper>();
+            framework.AddTransientService<IExpressionHelper, ExpressionHelper>();
         }
     }
 }

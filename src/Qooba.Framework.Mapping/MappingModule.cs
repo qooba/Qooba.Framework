@@ -9,9 +9,9 @@ namespace Qooba.Framework.Mapping
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IMapper, QMap>();
+            framework.AddTransientService<IMapper, QMap>();
         }
     }
 }

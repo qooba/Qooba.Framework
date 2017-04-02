@@ -9,9 +9,9 @@ namespace Qooba.Framework.Logging.AzureApplicationInsights
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<ILogger, AzureApplicationInsightsLogger>();
+            framework.AddTransientService<ILogger, AzureApplicationInsightsLogger>();
         }
     }
 }
