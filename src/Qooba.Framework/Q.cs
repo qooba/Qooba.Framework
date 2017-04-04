@@ -72,6 +72,10 @@ namespace Qooba.Framework
 
         public object GetService(Type serviceType) => this.serviceManager.GetService(serviceType);
 
+        public TService GetService<TService>(object key) where TService : class => this.serviceManager.GetService<TService>(key);
+
+        public object GetService(object key, Type serviceType) => this.serviceManager.GetService(key, serviceType);
+
         public Abstractions.IServiceProvider Bootstrapp()
         {
             this.bootstrapper.Bootstrapp();

@@ -7,7 +7,7 @@ namespace Qooba.Framework.Bot.Azure
     {
         public static async Task Run(string item)
         {
-            await Container.Resolve<IBot>().Run(item);
+            await ServiceProvider.GetService<IBot>().Run(item);
         }
     }
 }

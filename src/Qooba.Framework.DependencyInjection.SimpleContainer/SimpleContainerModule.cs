@@ -8,7 +8,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
         public virtual string Name => "SimpleContainerModule";
 
         public int Priority => 0;
-        
+
         public void Bootstrapp(IFramework framework)
         {
         }
@@ -16,7 +16,8 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
         public IServiceManager CreateServiceManager()
         {
             var container = new Container();
-            container.RegisterInstance<IContainer>(container);
+            container.RegisterInstance(null, typeof(IServiceProvider), container);
+            container.RegisterInstance(null, typeof(IContainer), container);
             return container;
         }
     }

@@ -8,12 +8,12 @@ namespace Qooba.Framework.Authentication.OAuth
         public virtual string Name => "OAuthModule";
 
         public int Priority => 10;
-        
-        public void Bootstrapp(IContainer container)
+
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IOAuthServer, OAuthServer>(Lifetime.Singleton);
-            container.RegisterType<IOAuthSecurityKeyProvider, OAuthSecurityKeyProvider>(Lifetime.Singleton);
-            container.RegisterType<IOAuthBearerToken, OAuthBearerToken>(Lifetime.Singleton);
+            framework.AddSingletonService<IOAuthServer, OAuthServer>();
+            framework.AddSingletonService<IOAuthSecurityKeyProvider, OAuthSecurityKeyProvider>();
+            framework.AddSingletonService<IOAuthBearerToken, OAuthBearerToken>();
         }
     }
 }

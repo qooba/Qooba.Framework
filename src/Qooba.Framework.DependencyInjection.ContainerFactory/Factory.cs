@@ -15,11 +15,11 @@ namespace Qooba.Framework.DependencyInjection.ContainerFactory
             this.container = container;
         }
 
-        public T Create() => this.container.Resolve<T>();
-        
-        public T Create(string key) => this.container.Resolve<T>(key);
-        
-        public IList<T> CreateAll() => this.container.ResolveAll<T>().ToList();
+        public T Create() => this.Create(null);
+
+        public T Create(string key) => this.container.Resolve(key, typeof(T)) as T;
+
+        public IList<T> CreateAll() => this.container.ResolveAll(typeof(T)).Cast<T>().ToList();
     }
 
     public class Factory : IFactory
@@ -31,10 +31,10 @@ namespace Qooba.Framework.DependencyInjection.ContainerFactory
             this.container = container;
         }
 
-        public T Create<T>() where T : class => this.container.Resolve<T>();
-        
-        public T Create<T>(string key) where T : class => this.container.Resolve<T>(key);
-        
-        public IList<T> CreateAll<T>() where T : class => this.container.ResolveAll<T>().ToList();
+        public T Create<T>() where T : class => this.Create<T>(null);
+
+        public T Create<T>(string key) where T : class => this.container.Resolve(key, typeof(T)) as T;
+
+        public IList<T> CreateAll<T>() where T : class => this.container.ResolveAll(typeof(T)).Cast<T>().ToList();
     }
 }

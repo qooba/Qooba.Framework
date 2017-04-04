@@ -11,9 +11,9 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer.Tests
         public void IsRegisteredTest()
         {
             var container = new Container();
-            container.RegisterType<IService, SomeService>();
+            container.RegisterType(null, typeof(IService), typeof(SomeService), Framework.Abstractions.Lifetime.Transistent);
 
-            var o = container.IsRegistered<IService>();
+            var o = container.IsRegistered(typeof(IService), null);
 
             Assert.True(o);
         }
@@ -23,9 +23,9 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer.Tests
         {
             var key = "key";
             var container = new Container();
-            container.RegisterType<IService, SomeService>(key);
+            container.RegisterType(key, typeof(IService), typeof(SomeService), Framework.Abstractions.Lifetime.Transistent);
 
-            var o = container.IsRegistered<IService>(key);
+            var o = container.IsRegistered(typeof(IService), key);
 
             Assert.True(o);
         }
@@ -34,10 +34,10 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer.Tests
         public void RegisterTypeTest()
         {
             var container = new Container();
-            container.RegisterType<IService, SomeService>();
-            container.RegisterType<IClient, SomeClient>();
+            container.RegisterType(null, typeof(IService), typeof(SomeService), Framework.Abstractions.Lifetime.Transistent);
+            container.RegisterType(null, typeof(IClient), typeof(SomeClient), Framework.Abstractions.Lifetime.Transistent);
 
-            var o = container.Resolve<IClient>();
+            var o = container.Resolve(null, typeof(IClient));
 
             Assert.True(o is IClient);
         }
@@ -47,10 +47,10 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer.Tests
         {
             var key = "key";
             var container = new Container();
-            container.RegisterType<IService, SomeService>();
-            container.RegisterType<IClient, SomeClient>(key);
+            container.RegisterType(null, typeof(IService), typeof(SomeService), Framework.Abstractions.Lifetime.Transistent);
+            container.RegisterType(key, typeof(IClient), typeof(SomeClient), Framework.Abstractions.Lifetime.Transistent);
 
-            var o = container.Resolve<IClient>(key);
+            var o = container.Resolve(key, typeof(IClient));
 
             Assert.True(o is IClient);
         }
@@ -59,11 +59,11 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer.Tests
         public void RegisterGenericTest()
         {
             var container = new Container();
-            container.RegisterType<IService, SomeService>();
-            container.RegisterType<IClient, SomeClient>();
-            container.RegisterType(typeof(IRepository<>), typeof(Repository<>));
+            container.RegisterType(null, typeof(IService), typeof(SomeService), Framework.Abstractions.Lifetime.Transistent);
+            container.RegisterType(null, typeof(IClient), typeof(SomeClient), Framework.Abstractions.Lifetime.Transistent);
+            container.RegisterType(null, typeof(IRepository<>), typeof(Repository<>), Framework.Abstractions.Lifetime.Transistent);
 
-            var o = container.Resolve<IRepository<IClient>>();
+            var o = container.Resolve(null, typeof(IRepository<IClient>)) as IRepository<IClient>;
 
             Assert.True(o.Create() is IClient);
         }
@@ -72,16 +72,16 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer.Tests
         public void ResolveEnumerablesTest()
         {
             var container = new Container();
-            container.RegisterType<IService, SomeService>();
-            container.RegisterType<IService, SomeService2>();
-            container.RegisterType<IClient, SomeClient2>();
-            
-            var o = container.Resolve<IClient>();
+            container.RegisterType(null, typeof(IService), typeof(SomeService), Framework.Abstractions.Lifetime.Transistent);
+            container.RegisterType(null, typeof(IService), typeof(SomeService2), Framework.Abstractions.Lifetime.Transistent);
+            container.RegisterType(null, typeof(IClient), typeof(SomeClient2), Framework.Abstractions.Lifetime.Transistent);
+
+            var o = container.Resolve(null, typeof(IClient)) as IClient;
 
             Assert.True(o.Service is IService);
         }
     }
-    
+
     public interface IService { }
     public class SomeService : IService { }
     public class SomeService2 : IService { }

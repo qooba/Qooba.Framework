@@ -16,7 +16,8 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
         public IServiceManager CreateServiceManager()
         {
             var container = new AutofacContainerWrapper(new ContainerBuilder());
-            container.RegisterInstance<Abstractions.IContainer>(container);
+            container.RegisterInstance(null, typeof(IServiceProvider), container);
+            container.RegisterInstance(null, typeof(IContainer), container);
             return container;
         }
     }

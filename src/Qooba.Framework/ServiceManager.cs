@@ -22,5 +22,9 @@ namespace Qooba.Framework.Abstractions
         public IServiceManager AddService(Func<IServiceDescriptor, IServiceDescriptor> serviceDescriptorFactory) => Manager.AddService(serviceDescriptorFactory);
 
         public object GetService(Type serviceType) => Manager.GetService(serviceType);
+
+        public TService GetService<TService>(object key) where TService : class => Manager.GetService<TService>(key);
+
+        public object GetService(object key, Type serviceType) => Manager.GetService(key, serviceType);
     }
 }

@@ -9,11 +9,11 @@ namespace Qooba.Framework.Db.Tests
     {
         private readonly IDb db;
         
-        private readonly Mock<IConfig> configMock;
+        private readonly Mock<IDbConfig> configMock;
 
         public DbTests()
         {
-            this.configMock = new Mock<IConfig>();
+            this.configMock = new Mock<IDbConfig>();
             this.configMock.Setup(x => x.ConnectionString).Returns("flight.json");
             this.db = new Db(this.configMock.Object);
         }

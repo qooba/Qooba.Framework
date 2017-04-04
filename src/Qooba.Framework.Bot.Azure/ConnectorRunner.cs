@@ -9,8 +9,9 @@ namespace Qooba.Framework.Bot.Azure
     {
         public static async Task<HttpResponseMessage> Run(HttpRequestMessage req)
         {
-            var connectorType = Container.Resolve<IConfig>()["ConnectorType"];
-            return await Container.Resolve<IConnector>(connectorType).Process(req);
+            var serviceProvider = ServiceProvider;
+            var connectorType = serviceProvider.GetService<IConfig>()["ConnectorType"];
+            return await serviceProvider.GetService<IConnector>(connectorType).Process(req);
         }
     }
 }

@@ -13,28 +13,34 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
         {
             this.services = services;
         }
-        
-        public bool IsRegistered(Type typeToCheck)
-        {
-            throw new NotImplementedException();
-        }
 
         public bool IsRegistered(Type typeToCheck, object keyToCheck)
         {
             throw new NotImplementedException();
         }
 
-        public bool IsRegistered<T>()
-            where T : class
+        public IContainer RegisterInstance(object key, Type from, object instance)
         {
-            throw new NotImplementedException();
+            this.services.Add(new Microsoft.Extensions.DependencyInjection.ServiceDescriptor(from, instance));
+            return this;
         }
 
-        public bool IsRegistered<T>(object keyToCheck)
-            where T : class
+        public IContainer RegisterType(object key, Type from, Type to, Lifetime lifetime)
         {
-            throw new NotImplementedException();
+            this.services.Add(new Microsoft.Extensions.DependencyInjection.ServiceDescriptor(from, to, Enum.TryParse(lifetime.ToString(), out ServiceLifetime lt) ? lt : ServiceLifetime.Transient));
+            return this;
         }
+
+        public IContainer RegisterFactory(object key, Type from, Func<IContainer, object> implementationFactory, Lifetime lifetime)
+        {
+            Func<System.IServiceProvider, object> factory = sp => implementationFactory(sp.GetService(typeof(IContainer)) as IContainer);
+            this.services.Add(new Microsoft.Extensions.DependencyInjection.ServiceDescriptor(from, factory, Enum.TryParse(lifetime.ToString(), out ServiceLifetime lt) ? lt : ServiceLifetime.Transient));
+            return this;
+        }
+
+        public object Resolve(object key, Type from) => this.services.BuildServiceProvider().GetService(from);
+
+        public IEnumerable<object> ResolveAll(Type from) => this.services.BuildServiceProvider().GetServices(from);
 
         public void Populate(object services)
         {
@@ -48,196 +54,41 @@ namespace Qooba.Framework.DependencyInjection.DefaultContainer
             }
         }
 
-        public IContainer RegisterInstance(Type t, object instance)
+        public IServiceManager AddService(Func<IServiceDescriptor, IServiceDescriptor> serviceDescriptorFactory)
         {
-            this.services.AddSingleton(t, instance);
-            return this;
-        }
+            Abstractions.ServiceDescriptor serviceDescriptor = (Abstractions.ServiceDescriptor)serviceDescriptorFactory(new Abstractions.ServiceDescriptor());
 
-        public IContainer RegisterInstance(Type t, object key, object instance)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterInstance(Type t, object instance, Lifetime lifetime)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterInstance<TInterface>(TInterface instance)
-        {
-            this.services.AddSingleton(typeof(TInterface), instance);
-            return this;
-        }
-
-        public IContainer RegisterInstance<TInterface>(TInterface instance, Lifetime lifetime)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterInstance<TInterface>(object key, TInterface instance)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterInstance<TInterface>(object key, TInterface instance, Lifetime lifetime)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterType(Type t)
-        {
-            return this.RegisterType(t, Lifetime.Transistent);
-        }
-
-        public IContainer RegisterType(Type from, Type to)
-        {
-            this.services.AddTransient(from, to);
-            return this;
-        }
-
-        public IContainer RegisterType(Type t, object key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterType(Type t, Lifetime lifetime)
-        {
-            if (lifetime == Lifetime.Transistent)
+            if (serviceDescriptor.ServiceType == null)
             {
-                this.services.AddTransient(t);
+                throw new InvalidOperationException("Upps ... service type not defined.");
+            }
+
+            if (serviceDescriptor.ImplementationInstance != null)
+            {
+                this.RegisterInstance(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationInstance);
+            }
+            else if (serviceDescriptor.ImplementationType != null)
+            {
+                this.RegisterType(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationType, serviceDescriptor.LifetimeType);
+            }
+            else if (serviceDescriptor.ImplementationFactory != null)
+            {
+                this.RegisterFactory(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationFactory, serviceDescriptor.LifetimeType);
             }
             else
             {
-                this.services.AddSingleton(t);
+                throw new InvalidOperationException("Upps ... implementation type not defined.");
             }
 
             return this;
         }
 
-        public IContainer RegisterType(Type from, Type to, object key)
-        {
-            throw new NotImplementedException();
-        }
+        public TService GetService<TService>() where TService : class => GetService(typeof(TService)) as TService;
 
-        public IContainer RegisterType(Type from, Type to, Lifetime lifetime)
-        {
-            throw new NotImplementedException();
-        }
+        public object GetService(Type serviceType) => this.Resolve(null, serviceType);
 
-        public IContainer RegisterType(Type t, object key, Lifetime lifetime)
-        {
-            throw new NotImplementedException();
-        }
+        public TService GetService<TService>(object key) where TService : class => this.Resolve(key, typeof(TService)) as TService;
 
-        public IContainer RegisterType<T>()
-            where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterType<T>(object key)
-            where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterType<T>(Lifetime lifetime)
-            where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterType<T>(object key, Lifetime lifetime)
-            where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterType<TFrom, TTo>()
-            where TTo : class, TFrom
-            where TFrom : class
-        {
-            this.services.AddTransient<TFrom, TTo>();
-            return this;
-        }
-
-        public IContainer RegisterType<TFrom, TTo>(object key) where TTo : class, TFrom
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterType<TFrom, TTo>(Lifetime lifetime)
-            where TTo : class, TFrom
-            where TFrom : class
-        {
-            if (lifetime == Lifetime.Transistent)
-            {
-                this.services.AddTransient<TFrom, TTo>();
-            }
-            else
-            {
-                this.services.AddSingleton<TFrom, TTo>();
-            }
-
-            return this;
-        }
-
-        public IContainer RegisterType<TFrom, TTo>(object key, Lifetime lifetime) where TTo : TFrom
-        {
-            throw new NotImplementedException();
-        }
-
-        public object Resolve(Type t)
-        {
-            return this.services.BuildServiceProvider().GetService(t);
-        }
-
-        public IEnumerable<object> ResolveAll(Type t)
-        {
-            return this.services.BuildServiceProvider().GetServices(t);
-        }
-
-        public T Resolve<T>() where T : class
-        {
-            return this.services.BuildServiceProvider().GetService<T>();
-        }
-
-        public T Resolve<T>(object key)
-            where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<T> ResolveAll<T>(object key)
-        {
-            return this.services.BuildServiceProvider().GetServices<T>();
-        }
-
-        public IEnumerable<T> ResolveAll<T>()
-            where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterType<T>(Func<IContainer, T> implementationFactory) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterType<T>(Func<IContainer, T> implementationFactory, Lifetime lifetime) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterType<T>(object key, Func<IContainer, T> implementationFactory) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer RegisterType<T>(object key, Func<IContainer, T> implementationFactory, Lifetime lifetime) where T : class
-        {
-            throw new NotImplementedException();
-        }
+        public object GetService(object key, Type serviceType) => this.Resolve(key, serviceType);
     }
 }

@@ -18,7 +18,8 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
         public IServiceManager CreateServiceManager()
         {
             var container = new ContainerWrapper(new ServiceCollection());
-            container.RegisterInstance<IContainer>(container);
+            container.RegisterInstance(null, typeof(IServiceProvider), container);
+            container.RegisterInstance(null, typeof(IContainer), container);
             return container;
         }
     }

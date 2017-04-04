@@ -17,7 +17,7 @@ namespace Qooba.Framework.Web.Bootstrapper
                 namePatterns = configuration.Split(';').ToList();
             }
 
-            Framework.Bootstrapper.Instance.Bootstrapp(namePatterns.ToArray());
+            Q.Create().AddAssembly(a => a.All().Pattern(namePatterns.ToArray()));
         }
     }
 }

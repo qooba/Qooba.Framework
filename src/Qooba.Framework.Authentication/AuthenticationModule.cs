@@ -9,9 +9,9 @@ namespace Qooba.Framework.Authentication
 
         public int Priority => 10;
 
-        public void Bootstrapp(IContainer container)
+        public void Bootstrapp(IFramework framework)
         {
-            container.RegisterType<IAuthenticationFilter, AuthenticationFilter>(Lifetime.Singleton);
+            framework.AddSingletonService<IAuthenticationFilter, AuthenticationFilter>();
         }
     }
 }

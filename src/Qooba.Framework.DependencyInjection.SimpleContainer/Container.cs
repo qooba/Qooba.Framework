@@ -18,113 +18,29 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
 
         private static IDictionary<Type, Func<IEnumerable<object>, object>> castingExpressions = new ConcurrentDictionary<Type, Func<IEnumerable<object>, object>>();
 
-        public bool IsRegistered<T>() where T : class => container.ContainsKey(typeof(T));
-
-        public bool IsRegistered<T>(object keyToCheck)
-            where T : class
-        {
-            return container.TryGetValue(typeof(T), out IDictionary<object, Func<Type, object>> dictionary) && dictionary.ContainsKey(keyToCheck);
-        }
-
-        public bool IsRegistered(Type typeToCheck)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool IsRegistered(Type typeToCheck, object keyToCheck)
         {
-            throw new NotImplementedException();
+            var key = keyToCheck ?? string.Empty;
+            return container.TryGetValue(typeToCheck, out IDictionary<object, Func<Type, object>> value) && value.ContainsKey(key);
         }
 
-        public IContainer RegisterInstance<TInterface>(TInterface instance) => this.RegisterInstance(string.Empty, instance);
-
-        public IContainer RegisterInstance<TInterface>(object key, TInterface instance)
-        {
-            var type = typeof(TInterface);
-            InitializeContainer(type);
-
-            container[type][key] = (t) => instance;
-            return this;
-        }
-
-        public IContainer RegisterInstance<TInterface>(TInterface instance, Lifetime lifetime) => this.RegisterType(typeof(TInterface), instance.GetType(), lifetime);
-
-        public IContainer RegisterInstance(Type t, object instance) => this.RegisterInstance(t, instance, string.Empty);
-
-
-        public IContainer RegisterInstance(Type t, object instance, object key)
-        {
-            InitializeContainer(t);
-
-            container[t][key] = (x) => instance;
-            return this;
-        }
-
-        public IContainer RegisterInstance<TInterface>(object key, TInterface instance, Lifetime lifetime) => this.RegisterType(typeof(TInterface), instance.GetType(), key, lifetime);
-
-        public IContainer RegisterInstance(Type t, object instance, Lifetime lifetime) => this.RegisterType(t, instance.GetType(), lifetime);
-
-        public IContainer RegisterType<T>()
-            where T : class => this.RegisterType<T, T>(string.Empty);
-
-
-        public IContainer RegisterType<T>(Lifetime lifetime)
-            where T : class => this.RegisterType<T, T>(string.Empty, lifetime);
-
-        public IContainer RegisterType<TFrom, TTo>()
-            where TTo : class, TFrom
-            where TFrom : class => this.RegisterType<TFrom, TTo>(string.Empty);
-
-
-        public IContainer RegisterType<TFrom, TTo>(Lifetime lifetime)
-            where TTo : class, TFrom
-            where TFrom : class => this.RegisterType(typeof(TFrom), typeof(TTo), lifetime);
-
-
-        public IContainer RegisterType<TFrom, TTo>(object key) where TTo : class, TFrom
-        {
-            var type = typeof(TFrom);
-            InitializeContainer(type);
-
-            return RegisterType(typeof(TFrom), typeof(TTo), key);
-        }
-
-        public IContainer RegisterType<T>(object key)
-            where T : class => this.RegisterType<T, T>(key);
-
-
-        public IContainer RegisterType(Type t) => RegisterType(t, t);
-
-
-        public IContainer RegisterType<T>(object key, Lifetime lifetime)
-            where T : class
-        {
-            var type = typeof(T);
-            return RegisterType(type, type, key);
-        }
-
-        public IContainer RegisterType<TFrom, TTo>(object key, Lifetime lifetime) where TTo : TFrom => RegisterType(typeof(TFrom), typeof(TTo), key, lifetime);
-        
-        public IContainer RegisterType(Type t, Lifetime lifetime) => RegisterType(t, t, lifetime);
-        
-        public IContainer RegisterType(Type t, object key) => RegisterType(t, t, key);
-        
-        public IContainer RegisterType(Type from, Type to) => RegisterType(from, to, string.Empty);
-        
-        public IContainer RegisterType(Type t, object key, Lifetime lifetime) => RegisterType(t, t, key, lifetime);
-        
-        public IContainer RegisterType(Type from, Type to, Lifetime lifetime) => this.RegisterType(from, to, string.Empty, lifetime);
-        
-        public IContainer RegisterType(Type from, Type to, object key) => this.RegisterType(from, to, key, Lifetime.Transistent);
-        
-        public IContainer RegisterType(Type from, Type to, object key, Lifetime lifetime)
+        public IContainer RegisterInstance(object key, Type from, object instance)
         {
             InitializeContainer(from);
+            object fromKey = PrepareKey(key);
+            container[from][fromKey] = (x) => instance;
+            return this;
+        }
+
+        public IContainer RegisterType(object key, Type from, Type to, Lifetime lifetime)
+        {
+            InitializeContainer(from);
+            object fromKey = PrepareKey(key);
             var ctor = to.GetConstructors().First();
             if (!from.GetTypeInfo().IsGenericTypeDefinition)
             {
                 var activator = ObjectActivator.GetActivator(to, container, ctor);
-                container[from][key] = WrappWithLifetimeManager(lifetime, from, (Func<Type, object>)activator);
+                container[from][fromKey] = WrappWithLifetimeManager(lifetime, from, (Func<Type, object>)activator);
             }
             else
             {
@@ -132,7 +48,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
                 {
                     IDictionary<object, Func<Type, object>> activator;
                     Func<Type, object> act;
-                    if (!(container.TryGetValue(t, out activator) && activator.TryGetValue(key, out act)))
+                    if (!(container.TryGetValue(t, out activator) && activator.TryGetValue(fromKey, out act)))
                     {
                         var p = t.GetGenericArguments();
                         var ft = to.MakeGenericType(p);
@@ -143,77 +59,54 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
                             container[t] = new ConcurrentDictionary<object, Func<Type, object>>();
                         }
 
-                        container[t][key] = WrappWithLifetimeManager(lifetime, t, act);
+                        container[t][fromKey] = WrappWithLifetimeManager(lifetime, t, act);
                     }
 
                     return act(t);
                 };
 
-                container[from][key] = f;
+                container[from][fromKey] = f;
             }
 
             return this;
         }
 
-        public IContainer RegisterFactory(Type from, Func<IServiceProvider, object> implementationFactory) => RegisterFactory(from, implementationFactory, "");
-        
-        public IContainer RegisterFactory(Type from, Func<IServiceProvider, object> implementationFactory, string name) => RegisterFactory(from, implementationFactory, name, Lifetime.Transistent);
-        
-        public IContainer RegisterFactory(Type from, Func<IServiceProvider, object> implementationFactory, Lifetime lifetime) => RegisterFactory(from, implementationFactory, string.Empty, lifetime);
-        
-        public IContainer RegisterFactory(Type from, Func<IServiceProvider, object> implementationFactory, string name, Lifetime lifetime)
+        public IContainer RegisterFactory(object key, Type from, Func<IContainer, object> implementationFactory, Lifetime lifetime)
         {
             InitializeContainer(from);
-
-            container[from][name] = WrappWithLifetimeManager(lifetime, from, (t) => implementationFactory((IServiceProvider)container[typeof(IServiceProvider)][""](t)));
+            object fromKey = PrepareKey(key);
+            container[from][fromKey] = WrappWithLifetimeManager(lifetime, from, (t) => implementationFactory(this));
             return this;
         }
 
-        public IContainer RegisterType<T>(Func<IContainer, T> implementationFactory) where T : class => this.RegisterType(implementationFactory, Lifetime.Transistent);
-
-        public IContainer RegisterType<T>(Func<IContainer, T> implementationFactory, Lifetime lifetime) where T : class => this.RegisterType(string.Empty, implementationFactory, lifetime);
-
-        public IContainer RegisterType<T>(object key, Func<IContainer, T> implementationFactory) where T : class => this.RegisterType(key, implementationFactory, Lifetime.Transistent);
-
-        public IContainer RegisterType<T>(object key, Func<IContainer, T> implementationFactory, Lifetime lifetime) where T : class
+        public object Resolve(object key, Type from)
         {
-            var type = typeof(T);
-            container[type][key] = WrappWithLifetimeManager(lifetime, type, (t) => implementationFactory(this));
-            return this;
-        }
+            object fromKey = PrepareKey(key);
 
-        public T Resolve<T>() where T : class => (T)Resolve(typeof(T));
-        
-        public T Resolve<T>(object key) where T : class => (T)this.Resolve(typeof(T), key);
-
-        public object Resolve(Type t) => this.Resolve(t, string.Empty);
-        
-        public object Resolve(Type t, object key)
-        {
-            if (container.TryGetValue(t, out IDictionary<object, Func<Type, object>> df) && df.TryGetValue(key, out Func<Type, object> f))
+            if (container.TryGetValue(from, out IDictionary<object, Func<Type, object>> df) && df.TryGetValue(fromKey, out Func<Type, object> f))
             {
-                return f(t);
+                return f(from);
             }
 
-            if (t.GetTypeInfo().IsGenericType)
+            if (from.GetTypeInfo().IsGenericType)
             {
-                var gt = t.GetGenericTypeDefinition();
-                if (container.TryGetValue(gt, out df) && df.TryGetValue(key, out f))
+                var gt = from.GetGenericTypeDefinition();
+                if (container.TryGetValue(gt, out df) && df.TryGetValue(fromKey, out f))
                 {
-                    InitializeContainer(t);
-                    return f(t);
+                    InitializeContainer(from);
+                    return f(from);
                 }
             }
 
-            if (!t.GetTypeInfo().IsAbstract && !t.GetTypeInfo().IsInterface)
+            if (!from.GetTypeInfo().IsAbstract && !from.GetTypeInfo().IsInterface)
             {
-                this.RegisterType(t, t, key);
-                return Resolve(t);
+                this.RegisterType(fromKey, from, from, Lifetime.Transistent);
+                return Resolve(fromKey, from);
             }
 
-            if (t.GetInterfaces().Contains(typeof(IEnumerable)))
+            if (from.GetInterfaces().Contains(typeof(IEnumerable)))
             {
-                var arg = t.GetGenericArguments().FirstOrDefault();
+                var arg = from.GetGenericArguments().FirstOrDefault();
                 if (container.TryGetValue(arg, out df))
                 {
                     var listTypeIn = typeof(List<>).MakeGenericType(new[] { typeof(object) });
@@ -236,15 +129,13 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
         }
 
         public static IEnumerable<T> CastList<T>(IEnumerable<object> o) => o.Cast<T>().ToList();
-        
-        public IEnumerable<T> ResolveAll<T>()
-            where T : class
+
+        public IEnumerable<object> ResolveAll(Type from)
         {
-            var type = typeof(T);
-            var keys = container[type].Keys;
+            var keys = container[from].Keys;
             foreach (var key in keys)
             {
-                yield return (T)this.Resolve(type, key);
+                yield return this.Resolve(key, from);
             }
         }
 
@@ -268,5 +159,44 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
                     return (new TransistentLifetimeManager()).Resolve(type, activator);
             }
         }
+
+        public IServiceManager AddService(Func<IServiceDescriptor, IServiceDescriptor> serviceDescriptorFactory)
+        {
+            ServiceDescriptor serviceDescriptor = (ServiceDescriptor)serviceDescriptorFactory(new ServiceDescriptor());
+
+            if (serviceDescriptor.ServiceType == null)
+            {
+                throw new InvalidOperationException("Upps ... service type not defined.");
+            }
+
+            if (serviceDescriptor.ImplementationInstance != null)
+            {
+                this.RegisterInstance(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationInstance);
+            }
+            else if (serviceDescriptor.ImplementationType != null)
+            {
+                this.RegisterType(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationType, serviceDescriptor.LifetimeType);
+            }
+            else if (serviceDescriptor.ImplementationFactory != null)
+            {
+                this.RegisterFactory(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationFactory, serviceDescriptor.LifetimeType);
+            }
+            else
+            {
+                throw new InvalidOperationException("Upps ... implementation type not defined.");
+            }
+
+            return this;
+        }
+
+        public TService GetService<TService>() where TService : class => GetService(typeof(TService)) as TService;
+
+        public object GetService(Type serviceType) => this.Resolve(PrepareKey(null), serviceType);
+
+        public TService GetService<TService>(object key) where TService : class => this.Resolve(key, typeof(TService)) as TService;
+
+        public object GetService(object key, Type serviceType) => this.Resolve(key, serviceType);
+
+        private static object PrepareKey(object key) => key ?? string.Empty;
     }
 }
