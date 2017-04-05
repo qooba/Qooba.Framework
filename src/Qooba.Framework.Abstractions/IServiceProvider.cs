@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Qooba.Framework.Abstractions
 {
@@ -9,5 +10,9 @@ namespace Qooba.Framework.Abstractions
         TService GetService<TService>(object key) where TService : class;
 
         object GetService(object key, Type serviceType);
+
+        IEnumerable<TService> GetServices<TService>() where TService : class;
+
+        IEnumerable<object> GetServices(Type serviceType);
     }
 }

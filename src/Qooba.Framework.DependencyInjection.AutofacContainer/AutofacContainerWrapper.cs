@@ -4,10 +4,11 @@ using Qooba.Framework.Abstractions;
 using Qooba.Framework.DependencyInjection.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Qooba.Framework.DependencyInjection.AutofacContainer
 {
-    public class AutofacContainerWrapper : Abstractions.IContainer
+    public class AutofacContainerWrapper : BaseContainer
     {
         private static Lazy<IComponentContext> container;
         private readonly ContainerBuilder builder;
@@ -23,7 +24,7 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             container = new Lazy<IComponentContext>(() => this.builder.Build());
         }
 
-        public bool IsRegistered(Type typeToCheck, object keyToCheck)
+        public override bool IsRegistered(Type typeToCheck, object keyToCheck)
         {
             if (keyToCheck != null)
             {
@@ -35,7 +36,7 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             }
         }
 
-        public Abstractions.IContainer RegisterInstance(object key, Type from, object instance)
+        public override Abstractions.IContainer RegisterInstance(object key, Type from, object instance)
         {
             if (key == null)
             {
@@ -49,7 +50,7 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             return this;
         }
 
-        public Abstractions.IContainer RegisterType(object key, Type from, Type to, Lifetime lifetime)
+        public override Abstractions.IContainer RegisterType(object key, Type from, Type to, Lifetime lifetime)
         {
             if (key == null)
             {
@@ -63,7 +64,7 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             return this;
         }
 
-        public Abstractions.IContainer RegisterFactory(object key, Type from, Func<Abstractions.IContainer, object> implementationFactory, Lifetime lifetime)
+        public override Abstractions.IContainer RegisterFactory(object key, Type from, Func<Abstractions.IContainer, object> implementationFactory, Lifetime lifetime)
         {
             //TODO: Implement !!!
             //BuilderAction(b => b.Register(from, c =>
@@ -75,7 +76,7 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             return this;
         }
 
-        public object Resolve(object key, Type from)
+        public override object Resolve(object key, Type from)
         {
             if (key == null)
             {
@@ -87,49 +88,12 @@ namespace Qooba.Framework.DependencyInjection.AutofacContainer
             }
         }
 
-        public IEnumerable<object> ResolveAll(Type from)
+        public override IEnumerable<object> ResolveAll(Type from)
         {
             //TODO: FIX !!!
             return new[] { container.Value.Resolve(from) };
         }
-
-        public IServiceManager AddService(Func<IServiceDescriptor, IServiceDescriptor> serviceDescriptorFactory)
-        {
-            Abstractions.ServiceDescriptor serviceDescriptor = (Abstractions.ServiceDescriptor)serviceDescriptorFactory(new Abstractions.ServiceDescriptor());
-
-            if (serviceDescriptor.ServiceType == null)
-            {
-                throw new InvalidOperationException("Upps ... service type not defined.");
-            }
-
-            if (serviceDescriptor.ImplementationInstance != null)
-            {
-                this.RegisterInstance(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationInstance);
-            }
-            else if (serviceDescriptor.ImplementationType != null)
-            {
-                this.RegisterType(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationType, serviceDescriptor.LifetimeType);
-            }
-            else if (serviceDescriptor.ImplementationFactory != null)
-            {
-                this.RegisterFactory(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationFactory, serviceDescriptor.LifetimeType);
-            }
-            else
-            {
-                throw new InvalidOperationException("Upps ... implementation type not defined.");
-            }
-
-            return this;
-        }
-
-        public TService GetService<TService>() where TService : class => GetService(typeof(TService)) as TService;
-
-        public object GetService(Type serviceType) => this.Resolve(null, serviceType);
-
-        public TService GetService<TService>(object key) where TService : class => this.Resolve(key, typeof(TService)) as TService;
-
-        public object GetService(object key, Type serviceType) => this.Resolve(key, serviceType);
-
+        
         private void BuilderAction(Action<Autofac.ContainerBuilder> builderAction)
         {
             if (container.IsValueCreated)

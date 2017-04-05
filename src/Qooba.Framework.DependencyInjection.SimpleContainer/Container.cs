@@ -12,19 +12,21 @@ using System.Reflection;
 
 namespace Qooba.Framework.DependencyInjection.SimpleContainer
 {
-    public class Container : IContainer
+    public class Container : BaseContainer
     {
         private static IDictionary<Type, IDictionary<object, Func<Type, object>>> container = new ConcurrentDictionary<Type, IDictionary<object, Func<Type, object>>>();
 
         private static IDictionary<Type, Func<IEnumerable<object>, object>> castingExpressions = new ConcurrentDictionary<Type, Func<IEnumerable<object>, object>>();
 
-        public bool IsRegistered(Type typeToCheck, object keyToCheck)
+        public static IEnumerable<T> CastList<T>(IEnumerable<object> o) => o.Cast<T>().ToList();
+
+        public override bool IsRegistered(Type typeToCheck, object keyToCheck)
         {
             var key = keyToCheck ?? string.Empty;
             return container.TryGetValue(typeToCheck, out IDictionary<object, Func<Type, object>> value) && value.ContainsKey(key);
         }
 
-        public IContainer RegisterInstance(object key, Type from, object instance)
+        public override IContainer RegisterInstance(object key, Type from, object instance)
         {
             InitializeContainer(from);
             object fromKey = PrepareKey(key);
@@ -32,7 +34,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return this;
         }
 
-        public IContainer RegisterType(object key, Type from, Type to, Lifetime lifetime)
+        public override IContainer RegisterType(object key, Type from, Type to, Lifetime lifetime)
         {
             InitializeContainer(from);
             object fromKey = PrepareKey(key);
@@ -71,7 +73,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return this;
         }
 
-        public IContainer RegisterFactory(object key, Type from, Func<IContainer, object> implementationFactory, Lifetime lifetime)
+        public override IContainer RegisterFactory(object key, Type from, Func<IContainer, object> implementationFactory, Lifetime lifetime)
         {
             InitializeContainer(from);
             object fromKey = PrepareKey(key);
@@ -79,7 +81,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             return this;
         }
 
-        public object Resolve(object key, Type from)
+        public override object Resolve(object key, Type from)
         {
             object fromKey = PrepareKey(key);
 
@@ -127,10 +129,8 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
 
             return null;
         }
-
-        public static IEnumerable<T> CastList<T>(IEnumerable<object> o) => o.Cast<T>().ToList();
-
-        public IEnumerable<object> ResolveAll(Type from)
+        
+        public override IEnumerable<object> ResolveAll(Type from)
         {
             var keys = container[from].Keys;
             foreach (var key in keys)
@@ -159,44 +159,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
                     return (new TransistentLifetimeManager()).Resolve(type, activator);
             }
         }
-
-        public IServiceManager AddService(Func<IServiceDescriptor, IServiceDescriptor> serviceDescriptorFactory)
-        {
-            ServiceDescriptor serviceDescriptor = (ServiceDescriptor)serviceDescriptorFactory(new ServiceDescriptor());
-
-            if (serviceDescriptor.ServiceType == null)
-            {
-                throw new InvalidOperationException("Upps ... service type not defined.");
-            }
-
-            if (serviceDescriptor.ImplementationInstance != null)
-            {
-                this.RegisterInstance(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationInstance);
-            }
-            else if (serviceDescriptor.ImplementationType != null)
-            {
-                this.RegisterType(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationType, serviceDescriptor.LifetimeType);
-            }
-            else if (serviceDescriptor.ImplementationFactory != null)
-            {
-                this.RegisterFactory(serviceDescriptor.Key, serviceDescriptor.ServiceType, serviceDescriptor.ImplementationFactory, serviceDescriptor.LifetimeType);
-            }
-            else
-            {
-                throw new InvalidOperationException("Upps ... implementation type not defined.");
-            }
-
-            return this;
-        }
-
-        public TService GetService<TService>() where TService : class => GetService(typeof(TService)) as TService;
-
-        public object GetService(Type serviceType) => this.Resolve(PrepareKey(null), serviceType);
-
-        public TService GetService<TService>(object key) where TService : class => this.Resolve(key, typeof(TService)) as TService;
-
-        public object GetService(object key, Type serviceType) => this.Resolve(key, serviceType);
-
+        
         private static object PrepareKey(object key) => key ?? string.Empty;
     }
 }

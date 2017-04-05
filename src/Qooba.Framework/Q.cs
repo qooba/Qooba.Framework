@@ -1,5 +1,6 @@
 ﻿using Qooba.Framework.Abstractions;
 using System;
+using System.Collections.Generic;
 
 namespace Qooba.Framework
 {
@@ -75,6 +76,10 @@ namespace Qooba.Framework
         public TService GetService<TService>(object key) where TService : class => this.serviceManager.GetService<TService>(key);
 
         public object GetService(object key, Type serviceType) => this.serviceManager.GetService(key, serviceType);
+
+        public IEnumerable<TService> GetServices<TService>() where TService : class => this.serviceManager.GetServices<TService>();
+
+        public IEnumerable<object> GetServices(Type serviceType) => this.serviceManager.GetServices(serviceType);
 
         public Abstractions.IServiceProvider Bootstrapp()
         {
