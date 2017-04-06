@@ -14,7 +14,7 @@ namespace Qooba.Framework
 
         private readonly IAssemblyBootstrapper assemblyBootstrapper;
 
-        private readonly IFramework framework;
+        private IFramework framework;
 
         private static ConcurrentBag<bool> bootstrapped = new ConcurrentBag<bool>();
 
@@ -25,12 +25,17 @@ namespace Qooba.Framework
             this.assemblyBootstrapper = assemblyBootstrapper;
         }
 
+        internal void SetFramework(IFramework framework)
+        {
+            this.framework = framework;
+        }
+
         public void Bootstrapp()
         {
             this.PrepareModules();
-            IServiceManager serviceManager;
+            IServiceManager serviceManager = null;
             var modules = this.moduleBootstrapper.GetModules();
-            
+
             var containerBootstrapper = modules.FirstOrDefault(x => x is IServiceManagerModule);
             if (containerBootstrapper != null)
             {
@@ -41,6 +46,11 @@ namespace Qooba.Framework
             foreach (var module in modules)
             {
                 module.Bootstrapp(this.framework);
+            }
+
+            foreach (var service in this.serviceBootstrapper.GetServices())
+            {
+                serviceManager.AddService(service);
             }
         }
 

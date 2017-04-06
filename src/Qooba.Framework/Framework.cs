@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Qooba.Framework
 {
-    public class Q : IFramework, IFrameworkManager
+    internal class Framework : IFramework, IFrameworkManager
     {
         private readonly IServiceManager serviceManager;
 
@@ -14,23 +14,14 @@ namespace Qooba.Framework
 
         private readonly IBootstrapper bootstrapper;
 
-        public Q(IAssemblyManager assemblyManager, IModuleManager moduleManager, IServiceManager serviceManager, IBootstrapper bootstrapper)
+        public Framework(IAssemblyManager assemblyManager, IModuleManager moduleManager, IServiceManager serviceManager, IBootstrapper bootstrapper)
         {
             this.assemblyManager = assemblyManager;
             this.moduleManager = moduleManager;
             this.serviceManager = serviceManager;
             this.bootstrapper = bootstrapper;
         }
-
-        public static IFramework Create()
-        {
-            var assemblyManager = new AssemblyManager();
-            var moduleManager = new ModuleManager();
-            var serviceManager = new ServiceManager();
-            var bootstrapper = new Bootstrapper(moduleManager, serviceManager, assemblyManager);
-            return new Q(assemblyManager, moduleManager, serviceManager, bootstrapper);
-        }
-
+        
         public IFramework AddAssembly(Func<IAssemblyDescriptor, IAssemblyDescriptor> assemblyDescriptorFactory)
         {
             this.assemblyManager.AddAssembly(assemblyDescriptorFactory);

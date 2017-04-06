@@ -10,7 +10,7 @@ namespace Qooba.Framework.Bot.Azure
 {
     public abstract class BaseRunner
     {
-        protected static IServiceProvider ServiceProvider => Q.Create()
+        protected static IServiceProvider ServiceProvider => FrameworkBuilder.Create()
             .AddModule(m => m.Module(new SimpleContainerModule()))
             .AddModule(m => m.Module(new ConfigModule()))
             .AddModule(m => m.Module(new SerializationModule()))
