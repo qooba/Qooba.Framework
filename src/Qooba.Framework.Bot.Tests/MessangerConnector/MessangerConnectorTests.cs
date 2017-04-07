@@ -66,7 +66,7 @@ namespace Qooba.Framework.Bot.Tests
             this.loggerMock.Verify(x => x.Info("Invalid signature"), Times.Never);
             this.loggerMock.Verify(x => x.Info("Challenge validation"), Times.Never);
             this.loggerMock.Verify(x => x.Info(json), Times.Once);
-            this.messageQueueMock.Verify(x => x.Enqueue(It.IsAny<string>()), Times.Once);
+            this.messageQueueMock.Verify(x => x.EnqueueAsync(It.IsAny<string>()), Times.Once);
         }
     }
 }

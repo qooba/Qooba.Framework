@@ -4,6 +4,6 @@ namespace Qooba.Framework.Bot.Abstractions
 {
     public interface IMessageQueue
     {
-        Task Enqueue(string message);
+        Task EnqueueAsync(string message);
     }
 }

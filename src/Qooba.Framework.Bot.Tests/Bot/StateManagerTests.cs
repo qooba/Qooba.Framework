@@ -2,7 +2,6 @@
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Bot.Context;
-using Qooba.Framework.Configuration.Abstractions;
 using Xunit;
 
 namespace Qooba.Framework.Bot.Tests
@@ -11,11 +10,11 @@ namespace Qooba.Framework.Bot.Tests
     {
         private IStateManager stateManager;
 
-        private Mock<IConfig> configMock;
+        private Mock<IBotConfig> configMock;
         
         public StateManagerTests()
         {
-            this.configMock = new Mock<IConfig>();
+            this.configMock = new Mock<IBotConfig>();
             this.stateManager = new StateManager(this.configMock.Object);
         }
 

@@ -6,9 +6,9 @@ namespace Qooba.Framework.Bot.Context
 {
     public class StateManager : IStateManager
     {
-        private readonly IConfig config;
+        private readonly IBotConfig config;
 
-        public StateManager(IConfig config)
+        public StateManager(IBotConfig config)
         {
             this.config = config;
         }

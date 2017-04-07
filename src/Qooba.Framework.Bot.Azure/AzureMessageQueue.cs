@@ -1,22 +1,26 @@
 ﻿using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions;
-using Qooba.Framework.Azure.Storage.Abstractions;
-using Qooba.Framework.Configuration.Abstractions;
+using Microsoft.WindowsAzure.Storage.Queue;
+using Microsoft.WindowsAzure.Storage;
 
 namespace Qooba.Framework.Bot.Azure
 {
     public class AzureMessageQueue : IMessageQueue
     {
-        private readonly IAzureBlobQueue azureBlobQueue;
+        private readonly IBotConfig config;
 
-        private readonly IConfig config;
-
-        public AzureMessageQueue(IAzureBlobQueue azureBlobQueue, IConfig config)
+        public AzureMessageQueue(IBotConfig config)
         {
-            this.azureBlobQueue = azureBlobQueue;
             this.config = config;
         }
 
-        public Task Enqueue(string message) => this.azureBlobQueue.AddMessage(this.config["QueueName"], message);
+        public Task EnqueueAsync(string message) => this.PrepareQueue().AddMessageAsync(new CloudQueueMessage(message));
+
+        private CloudQueue PrepareQueue()
+        {
+            var storageAccount = CloudStorageAccount.Parse(this.config.BotQueueConnectionString);
+            var queueClient = storageAccount.CreateCloudQueueClient();
+            return queueClient.GetQueueReference(this.config.BotQueueName);
+        }
     }
 }

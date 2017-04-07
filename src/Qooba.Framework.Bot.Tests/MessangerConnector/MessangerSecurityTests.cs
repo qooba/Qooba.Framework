@@ -11,13 +11,13 @@ namespace Qooba.Framework.Bot.Tests
     {
         private IMessangerSecurity messangerSecurity;
 
-        private Mock<IConfig> configMock;
+        private Mock<IBotConfig> configMock;
         
         public MessangerSecurityTests()
         {
-            this.configMock = new Mock<IConfig>();
-            this.configMock.Setup(x => x[Constants.MessangerAppSecret]).Returns("1111");
-            this.configMock.Setup(x => x[Constants.MessangerChallengeVerifyToken]).Returns("54321");
+            this.configMock = new Mock<IBotConfig>();
+            this.configMock.Setup(x => x.MessangerAppSecret).Returns("1111");
+            this.configMock.Setup(x => x.MessangerChallengeVerifyToken).Returns("54321");
             this.messangerSecurity = new MessangerSecurity(this.configMock.Object);
         }
 

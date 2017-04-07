@@ -13,7 +13,7 @@ namespace Qooba.Framework.Bot.Tests
     {
         private IReplyManager replyManager;
 
-        private Mock<IConfig> configMock;
+        private Mock<IBotConfig> configMock;
 
         private Mock<IReplyBuilder> replyBuilderMock;
 
@@ -21,8 +21,8 @@ namespace Qooba.Framework.Bot.Tests
 
         public ReplyManagerTests()
         {
-            this.configMock = new Mock<IConfig>();
-            this.configMock.Setup(x => x[Constants.BotConfigurationPath]).Returns("Bot/bot.json");
+            this.configMock = new Mock<IBotConfig>();
+            this.configMock.Setup(x => x.BotConfigurationPath).Returns("Bot/bot.json");
             this.replyBuilderMock = new Mock<IReplyBuilder>();
             this.seriazlierMock = new Mock<ISerializer>();
             this.seriazlierMock.Setup(x => x.Deserialize<ReplyConfiguration>(It.IsAny<string>())).Returns(new ReplyConfiguration

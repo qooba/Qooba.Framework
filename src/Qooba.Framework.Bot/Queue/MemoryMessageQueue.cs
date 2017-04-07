@@ -8,6 +8,6 @@ namespace Qooba.Framework.Bot.Queue
     {
         private static ConcurrentQueue<string> queue = new ConcurrentQueue<string>();
         
-        public async Task Enqueue(string message) => queue.Enqueue(message);
+        public async Task EnqueueAsync(string message) => queue.Enqueue(message);
     }
 }

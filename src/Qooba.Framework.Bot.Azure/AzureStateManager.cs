@@ -1,26 +1,31 @@
 ﻿using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions;
-using Qooba.Framework.Azure.Storage.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.WindowsAzure.Storage;
 
 namespace Qooba.Framework.Bot.Azure
 {
     public class AzureStateManager : IStateManager
     {
-        private readonly IAzureBlobTableRepository<AzureConversationContext> repository;
+        private readonly IBotConfig config;
 
-        public AzureStateManager(IAzureBlobTableRepository<AzureConversationContext> repository)
+        private readonly CloudTable table;
+
+        public AzureStateManager(IBotConfig config)
         {
-            this.repository = repository;
+            this.config = config;
+            this.table = this.PrepareTable();
         }
 
         public async Task<IConversationContext> FetchContext(IConversationContext context)
         {
             var userId = context.Entry.Message.Sender.Id;
             var connectorType = context.ConnectorType.ToString();
+            var insertOperation = TableOperation.Retrieve(connectorType, userId);
+            var result = await this.PrepareTable().ExecuteAsync(insertOperation);
+            var lastContext = (IConversationContext)result.Result;
 
-            var lastContext = await this.repository.FirstOrDefault(connectorType, userId);
             if (lastContext.KeepState)
             {
                 context.Route = lastContext.Route;
@@ -31,11 +36,20 @@ namespace Qooba.Framework.Bot.Azure
 
         public async Task SaveContext(IConversationContext context)
         {
-            await this.repository.Add(new AzureConversationContext(context));
+            var insertOperation = TableOperation.Insert(new AzureConversationContext(context));
+            await this.PrepareTable().ExecuteAsync(insertOperation);
+        }
+
+        private CloudTable PrepareTable()
+        {
+            var storageAccount = CloudStorageAccount.Parse(this.config.BotStateManagerConnectionString);
+            var tableClient = storageAccount.CreateCloudTableClient();
+            CloudTable table = tableClient.GetTableReference(this.config.BotStateManagerTableName);
+            return table;
         }
     }
 
-    public class AzureConversationContext :  TableEntity, IConversationContext
+    public class AzureConversationContext : TableEntity, IConversationContext
     {
         public AzureConversationContext(IConversationContext context)
         {

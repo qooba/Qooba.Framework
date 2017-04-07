@@ -16,9 +16,9 @@ namespace Qooba.Framework.Bot
 
         private readonly ISerializer serializer;
 
-        public ReplyManager(IConfig config, ISerializer serializer, Func<string, IReplyBuilder> replyBuilders)
+        public ReplyManager(IBotConfig config, ISerializer serializer, Func<string, IReplyBuilder> replyBuilders)
         {
-            var botConfigurationPath = config[Constants.BotConfigurationPath];
+            var botConfigurationPath = config.BotConfigurationPath;
             var botConfig = File.ReadAllText(botConfigurationPath);
             this.serializer = serializer;
 

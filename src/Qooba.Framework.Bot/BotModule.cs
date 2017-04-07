@@ -33,6 +33,7 @@ namespace Qooba.Framework.Bot
             framework.AddTransientService<IRouter, Router>();
             framework.AddTransientService<IMessageQueue, MemoryMessageQueue>();
             framework.AddTransientService<IBot, QBot>();
+            framework.AddSingletonService<IBotConfig, BotConfig>();
         }
     }
 }

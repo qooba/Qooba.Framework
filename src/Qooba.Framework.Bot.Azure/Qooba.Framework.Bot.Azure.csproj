@@ -33,15 +33,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="WindowsAzure.Storage" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.Azure.Storage.Abstractions\Qooba.Framework.Azure.Storage.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.Azure.Storage\Qooba.Framework.Azure.Storage.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Bot.Abstractions\Qooba.Framework.Bot.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Bot\Qooba.Framework.Bot.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Configuration.Abstractions\Qooba.Framework.Configuration.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Configuration\Qooba.Framework.Configuration.csproj" />
     <ProjectReference Include="..\Qooba.Framework.DependencyInjection.Abstractions\Qooba.Framework.DependencyInjection.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.DependencyInjection.ContainerFactory\Qooba.Framework.DependencyInjection.ContainerFactory.csproj" />
     <ProjectReference Include="..\Qooba.Framework.DependencyInjection.SimpleContainer\Qooba.Framework.DependencyInjection.SimpleContainer.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Logging.AzureApplicationInsights\Qooba.Framework.Logging.AzureApplicationInsights.csproj" />

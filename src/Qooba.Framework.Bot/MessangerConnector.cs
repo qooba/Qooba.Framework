@@ -48,7 +48,7 @@ namespace Qooba.Framework.Bot
                 foreach (var message in messaging)
                 {
                     var m = new JObject(new JProperty("connectorType", ConnectorType.Messanger.ToString()), new JProperty("message", message));
-                    await this.queue.Enqueue(m.ToString());
+                    await this.queue.EnqueueAsync(m.ToString());
                 }
             }
 

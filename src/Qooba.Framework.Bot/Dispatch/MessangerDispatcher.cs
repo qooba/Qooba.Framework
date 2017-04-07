@@ -14,11 +14,11 @@ namespace Qooba.Framework.Bot.Dispatch
     {
         private readonly ILogger logger;
 
-        private readonly IConfig config;
+        private readonly IBotConfig config;
 
         private readonly ISerializer serializer;
 
-        public MessangerDispatcher(ILogger logger, IConfig config, ISerializer serializer)
+        public MessangerDispatcher(ILogger logger, IBotConfig config, ISerializer serializer)
         {
             this.logger = logger;
             this.config = config;
@@ -36,7 +36,7 @@ namespace Qooba.Framework.Bot.Dispatch
                     return;
                 }
 
-                var accessToken = this.config[Constants.MessangerAccessToken];
+                var accessToken = this.config.MessangerAccessToken;
                 var request = this.serializer.Serialize(reply);
                 var content = new StringContent(request, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync($"https://graph.facebook.com/v2.6/me/messages?access_token={accessToken}", content);

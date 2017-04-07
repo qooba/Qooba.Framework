@@ -16,9 +16,9 @@ namespace Qooba.Framework.Bot
 {
     public class MessangerSecurity : IMessangerSecurity
     {
-        private readonly IConfig config;
+        private readonly IBotConfig config;
 
-        public MessangerSecurity(IConfig config)
+        public MessangerSecurity(IBotConfig config)
         {
             this.config = config;
         }
@@ -34,7 +34,7 @@ namespace Qooba.Framework.Bot
             var hubMode = queries["hub.mode"];
             var hubChallenge = queries["hub.challenge"];
             var hubVerifyToken = queries["hub.verify_token"];
-            var messangerChallengeVerifyToken = this.config[Constants.MessangerChallengeVerifyToken];
+            var messangerChallengeVerifyToken = this.config.MessangerChallengeVerifyToken;
 
             if (hubMode == "subscribe")
             {
@@ -56,7 +56,7 @@ namespace Qooba.Framework.Bot
         public bool ValidateSignature(HttpRequestMessage request, string content)
         {
             var signature = request.Headers.GetValues("X-Hub-Signature").FirstOrDefault().Substring(5);
-            var messangerAppSecret = this.config[Constants.MessangerAppSecret];
+            var messangerAppSecret = this.config.MessangerAppSecret;
             var hash = Encode(content, messangerAppSecret);
             return signature == hash;
         }
