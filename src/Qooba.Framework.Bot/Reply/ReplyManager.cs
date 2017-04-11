@@ -22,7 +22,7 @@ namespace Qooba.Framework.Bot
             var botConfig = File.ReadAllText(botConfigurationPath);
             this.serializer = serializer;
 
-            this.Configuration = this.serializer.Deserialize<ReplyConfiguration>(botConfig); ;
+            this.Configuration = this.serializer.Deserialize<ReplyConfiguration>(botConfig);
 
             this.RouteTable = this.Configuration.Items.SelectMany(x => x.Routes.Select(r => new Route
             {

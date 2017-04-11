@@ -3,6 +3,7 @@ using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Bot.Context;
 using Qooba.Framework.Bot.Handlers;
+using System;
 using Xunit;
 
 namespace Qooba.Framework.Bot.Tests.Handlers
@@ -16,7 +17,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
         public DispatchHandlerTests()
         {
             this.dispatcherMock = new Mock<IDispatcher>();
-            this.dispatchHandler = new DispatchHandler(this.dispatcherMock.Object);
+            this.dispatchHandler = new DispatchHandler((Func<string, IDispatcher>) (s => this.dispatcherMock.Object));
         }
 
         [Fact]

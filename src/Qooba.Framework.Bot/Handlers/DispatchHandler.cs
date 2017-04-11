@@ -1,22 +1,24 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
+using System;
 using System.Threading.Tasks;
 
 namespace Qooba.Framework.Bot.Handlers
 {
     public class DispatchHandler : BaseHandler, IHandler
     {
-        private readonly IDispatcher replyClient;
+        private readonly Func<string, IDispatcher> replyClientFunc;
 
-        public DispatchHandler(IDispatcher replyClient)
+        public DispatchHandler(Func<string, IDispatcher> replyClientFunc)
         {
-            this.replyClient = replyClient;
+            this.replyClientFunc = replyClientFunc;
         }
 
         public override int Priority => 3;
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {
-            await this.replyClient.SendAsync(conversationContext.Reply);
+            var replyClient = this.replyClientFunc(conversationContext.ConnectorType.ToString());
+            await replyClient.SendAsync(conversationContext.Reply);
             await base.InvokeAsync(conversationContext);
         }
     }

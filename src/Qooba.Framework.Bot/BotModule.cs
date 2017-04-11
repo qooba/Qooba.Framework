@@ -6,6 +6,7 @@ using Qooba.Framework.Bot.Dispatch;
 using Qooba.Framework.Bot.Handlers;
 using Qooba.Framework.Bot.Queue;
 using Qooba.Framework.Bot.Routing;
+using System;
 
 namespace Qooba.Framework.Bot
 {
@@ -34,6 +35,8 @@ namespace Qooba.Framework.Bot
             framework.AddTransientService<IMessageQueue, MemoryMessageQueue>();
             framework.AddTransientService<IBot, QBot>();
             framework.AddSingletonService<IBotConfig, BotConfig>();
+            framework.AddTransientService<Func<string, IReplyBuilder>>(s => (Func<string, IReplyBuilder>)((key) => (IReplyBuilder) s.GetService(key, typeof(IReplyBuilder))));
+            framework.AddTransientService<Func<string, IDispatcher>>(s => (Func<string, IDispatcher>)((key) => (IDispatcher)s.GetService(key, typeof(IDispatcher))));
         }
     }
 }

@@ -158,6 +158,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qooba.Framework.Bot.Azure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qooba.Framework.Logging.AzureApplicationInsights", "src\Qooba.Framework.Logging.AzureApplicationInsights\Qooba.Framework.Logging.AzureApplicationInsights.csproj", "{F9C4ADB2-5325-4C19-A520-456D32CE2577}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Bot.Azure.Tests", "src\Qooba.Framework.Bot.Azure.Tests\Qooba.Framework.Bot.Azure.Tests.csproj", "{341CDC83-2B7F-4C67-ABA3-4971DF71254F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -852,6 +854,18 @@ Global
 		{F9C4ADB2-5325-4C19-A520-456D32CE2577}.Release|x64.Build.0 = Release|Any CPU
 		{F9C4ADB2-5325-4C19-A520-456D32CE2577}.Release|x86.ActiveCfg = Release|Any CPU
 		{F9C4ADB2-5325-4C19-A520-456D32CE2577}.Release|x86.Build.0 = Release|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Debug|x64.Build.0 = Debug|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Debug|x86.Build.0 = Debug|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Release|x64.ActiveCfg = Release|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Release|x64.Build.0 = Release|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Release|x86.ActiveCfg = Release|Any CPU
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -931,5 +945,6 @@ Global
 		{2B444BEA-C57A-4855-8742-6BFBA35AD124} = {35A6633D-383C-4FDD-92C4-0C169BAD94BD}
 		{3C5E0F78-9332-480A-990C-BF1341BEEE50} = {4F6514A9-8C84-4D7B-8FA4-BDA46DAF9DC8}
 		{F9C4ADB2-5325-4C19-A520-456D32CE2577} = {00DA0173-6DE5-451E-95C8-5ECDEB50040A}
+		{341CDC83-2B7F-4C67-ABA3-4971DF71254F} = {4F6514A9-8C84-4D7B-8FA4-BDA46DAF9DC8}
 	EndGlobalSection
 EndGlobal

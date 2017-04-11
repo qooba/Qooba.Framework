@@ -9,13 +9,10 @@ namespace Qooba.Framework.Bot.Azure
     public class AzureStateManager : IStateManager
     {
         private readonly IBotConfig config;
-
-        private readonly CloudTable table;
-
+        
         public AzureStateManager(IBotConfig config)
         {
             this.config = config;
-            this.table = this.PrepareTable();
         }
 
         public async Task<IConversationContext> FetchContext(IConversationContext context)
