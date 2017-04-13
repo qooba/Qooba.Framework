@@ -41,7 +41,17 @@ namespace Qooba.Framework.Bot
         {
             var replyItem = this.Configuration.Items.FirstOrDefault(x => x.ReplyId == context.Route.RouteId);
             var builder = replyBuilders(replyItem.ReplyType);
-            var reply = await builder.BuildAsync(context, replyItem);
+            var replyBuilderInput = replyItem.Reply.ToObject(builder.ReplyItemType);
+            var message = await builder.BuildAsync(context, replyBuilderInput);
+
+            var reply = new Reply
+            {
+                Recipient = new Recipient { Id = context?.Entry?.Message?.Sender?.Id },
+                NotificationType = replyItem.NotificationType,
+                SenderAction = replyItem.SenderAction,
+                Message = message
+            };
+
             return reply;
         }
 

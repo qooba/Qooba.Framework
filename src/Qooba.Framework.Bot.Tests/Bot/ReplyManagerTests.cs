@@ -27,7 +27,7 @@ namespace Qooba.Framework.Bot.Tests
             this.seriazlierMock = new Mock<ISerializer>();
             this.seriazlierMock.Setup(x => x.Deserialize<ReplyConfiguration>(It.IsAny<string>())).Returns(new ReplyConfiguration
             {
-                Items = new []
+                Items = new[]
                 {
                     new ReplyItem
                     {
@@ -59,12 +59,9 @@ namespace Qooba.Framework.Bot.Tests
             {
                 RouteId = routeId
             });
-            this.replyBuilderMock.Setup(x => x.BuildAsync(contextMock.Object, It.IsAny<ReplyItem>())).Returns(Task.FromResult(new Reply
+            this.replyBuilderMock.Setup(x => x.BuildAsync(contextMock.Object, It.IsAny<ReplyItem>())).Returns(Task.FromResult(new ReplyMessage
             {
-                Message = new ReplyMessage
-                {
-                    Text = text
-                }
+                Text = text
             }));
 
             var reply = this.replyManager.CreateAsync(contextMock.Object).Result;

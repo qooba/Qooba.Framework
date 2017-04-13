@@ -11,6 +11,10 @@ namespace Qooba.Framework.Bot.Abstractions.Models
 
         public string ReplyType { get; set; }
 
+        public SenderAction? SenderAction { get; set; }
+
+        public NotificationType NotificationType { get; set; }
+
         public JObject Reply { get; set; }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using Qooba.Framework.Bot.Abstractions.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace Qooba.Framework.Bot.Abstractions
 {
     public interface IReplyBuilder
     {
-        Task<Reply> BuildAsync(IConversationContext context, ReplyItem item);
+        Task<ReplyMessage> BuildAsync(IConversationContext context, object reply);
+
+        Type ReplyItemType { get; }
     }
 }
 
