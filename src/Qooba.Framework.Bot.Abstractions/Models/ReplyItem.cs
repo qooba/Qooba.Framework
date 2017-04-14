@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Qooba.Framework.Bot.Abstractions.Models
 {
@@ -15,6 +14,6 @@ namespace Qooba.Framework.Bot.Abstractions.Models
 
         public NotificationType NotificationType { get; set; }
 
-        public JObject Reply { get; set; }
+        public object Reply { get; set; }
     }
 }

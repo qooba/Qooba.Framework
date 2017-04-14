@@ -1,22 +1,28 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
+using System;
 using System.Threading.Tasks;
 
 namespace Qooba.Framework.Bot.Handlers
 {
     public class ReplyHandler : BaseHandler, IHandler
     {
-        private readonly IReplyManager replyManager;
+        private readonly Func<string, IReplyBuilder> replyBuilders;
 
-        public ReplyHandler(IReplyManager replyManager)
+        private readonly IReplyConfiguration replyConfiguration;
+
+        public ReplyHandler(IReplyConfiguration replyConfiguration, Func<string, IReplyBuilder> replyBuilders)
         {
-            this.replyManager = replyManager;
+            this.replyConfiguration = replyConfiguration;
+            this.replyBuilders = replyBuilders;
         }
 
         public override int Priority => 2;
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {
-            conversationContext.Reply = await this.replyManager.CreateAsync(conversationContext);
+            var replyItem = await this.replyConfiguration.FetchReplyItem(conversationContext);
+            var builder = replyBuilders(replyItem.ReplyType);
+            conversationContext.Reply = await builder.BuildAsync(conversationContext, replyItem);
             await base.InvokeAsync(conversationContext);
         }
     }

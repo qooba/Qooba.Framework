@@ -7,17 +7,16 @@ namespace Qooba.Framework.Bot.Routing
 {
     public class Router : IRouter
     {
-        private readonly IReplyManager replyManager;
+        private readonly IRoutingConfiguration routingConfiguration;
 
-        public Router(IReplyManager replyManager)
+        public Router(IRoutingConfiguration routingConfiguration)
         {
-            this.replyManager = replyManager;
+            this.routingConfiguration = routingConfiguration;
         }
 
         public async Task<Route> FindRouteAsync(string text)
         {
-            var routeTable = await this.replyManager.FetchRoutingTableAsync();
-            return routeTable.FirstOrDefault(x => x.RouteText == text);
+            return this.routingConfiguration.RoutingTable.FirstOrDefault(x => x.RouteText == text);
         }
     }
 }

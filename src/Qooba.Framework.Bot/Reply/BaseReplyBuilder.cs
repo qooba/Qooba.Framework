@@ -10,7 +10,16 @@ namespace Qooba.Framework.Bot
     {
         public Type ReplyItemType => typeof(T);
 
-        public Task<ReplyMessage> BuildAsync(IConversationContext context, object reply) => this.BuildAsync(context, reply as T);
+        public async Task<Reply> BuildAsync(IConversationContext context, ReplyItem replyItem)
+        {
+            return new Reply
+            {
+                Recipient = new Recipient { Id = context?.Entry?.Message?.Sender?.Id },
+                NotificationType = replyItem.NotificationType,
+                SenderAction = replyItem.SenderAction,
+                Message = await this.BuildAsync(context, replyItem.Reply as T)
+            };
+        }
 
         public abstract Task<ReplyMessage> BuildAsync(IConversationContext context, T reply);
     }

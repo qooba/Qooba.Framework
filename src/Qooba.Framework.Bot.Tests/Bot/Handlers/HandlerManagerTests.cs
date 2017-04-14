@@ -8,7 +8,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
     public class HandlerManagerTests
     {
         private IHandlerManager handlerManager;
-        
+
         public HandlerManagerTests()
         {
         }
@@ -22,7 +22,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
                 new RouteHandler(null),
                 new ContextHandler(null),
                 new ContextKeeperHandler(null),
-                new ReplyHandler(null)
+                new ReplyHandler(null, null)
             };
 
             this.handlerManager = new HandlerManager(handlers);

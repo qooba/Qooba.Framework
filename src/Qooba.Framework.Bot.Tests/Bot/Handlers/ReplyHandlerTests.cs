@@ -3,6 +3,7 @@ using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Bot.Context;
 using Qooba.Framework.Bot.Handlers;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -12,12 +13,17 @@ namespace Qooba.Framework.Bot.Tests.Handlers
     {
         private IHandler replyHandler;
 
-        private Mock<IReplyManager> replyManagerMock;
-        
+        private Mock<IReplyConfiguration> replyConfigurationMock;
+
+        private Mock<IReplyBuilder> replyBuilderMock;
+
         public ReplyHandlerTests()
         {
-            this.replyManagerMock = new Mock<IReplyManager>();
-            this.replyHandler = new ReplyHandler(this.replyManagerMock.Object);
+            this.replyConfigurationMock = new Mock<IReplyConfiguration>();
+            this.replyConfigurationMock.Setup(x => x.FetchReplyItem(It.IsAny<IConversationContext>())).Returns(Task.FromResult(new ReplyItem { ReplyType = "raw" }));
+            this.replyBuilderMock = new Mock<IReplyBuilder>();
+            Func<string, IReplyBuilder> builderFactory = x => this.replyBuilderMock.Object;
+            this.replyHandler = new ReplyHandler(this.replyConfigurationMock.Object, builderFactory);
         }
 
         [Fact]
@@ -37,7 +43,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
                     }
                 }
             };
-            this.replyManagerMock.Setup(x => x.CreateAsync(context)).Returns(Task.FromResult(new Reply
+            this.replyBuilderMock.Setup(x => x.BuildAsync(context, It.IsAny<ReplyItem>())).Returns(Task.FromResult(new Reply
             {
                 Message = new ReplyMessage
                 {
@@ -48,7 +54,8 @@ namespace Qooba.Framework.Bot.Tests.Handlers
             this.replyHandler.InvokeAsync(context).Wait();
 
             Assert.True(context.Reply.Message.Text == text);
-            this.replyManagerMock.Verify(x => x.CreateAsync(context), Times.Once);
+            this.replyConfigurationMock.Verify(x => x.FetchReplyItem(context), Times.Once);
+            this.replyBuilderMock.Verify(x => x.BuildAsync(context, It.IsAny<ReplyItem>()), Times.Once);
         }
     }
 }

@@ -30,7 +30,8 @@ namespace Qooba.Framework.Bot
             framework.AddService(s => s.Service<IHandler>().As<ContextKeeperHandler>().Keyed(HandlerType.ContextKeeper));
 
             framework.AddTransientService<IHandlerManager, HandlerManager>();
-            framework.AddSingletonService<IReplyManager, ReplyManager>();
+            framework.AddSingletonService<IReplyConfiguration, ReplyManager>();
+            framework.AddSingletonService<IRoutingConfiguration, ReplyManager>();
             framework.AddTransientService<IRouter, Router>();
             framework.AddTransientService<IMessageQueue, MemoryMessageQueue>();
             framework.AddTransientService<IBot, QBot>();

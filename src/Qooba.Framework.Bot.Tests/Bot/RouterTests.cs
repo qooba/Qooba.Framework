@@ -12,12 +12,12 @@ namespace Qooba.Framework.Bot.Tests
     {
         private IRouter router;
 
-        private Mock<IReplyManager> replyManagerMock;
+        private Mock<IRoutingConfiguration> routingConfigurationMock;
         
         public RouterTests()
         {
-            this.replyManagerMock = new Mock<IReplyManager>();
-            this.router = new Router(this.replyManagerMock.Object);
+            this.routingConfigurationMock = new Mock<IRoutingConfiguration>();
+            this.router = new Router(this.routingConfigurationMock.Object);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace Qooba.Framework.Bot.Tests
                 new Route { RouteId = id, RouteText = "hello world"},
                 new Route { RouteId = "#hellolol", RouteText = "hello lol"}
             };
-            this.replyManagerMock.Setup(x => x.FetchRoutingTableAsync()).Returns(Task.FromResult(routeTable));
+            this.routingConfigurationMock.Setup(x => x.RoutingTable).Returns(routeTable);
 
             var route = this.router.FindRouteAsync(text).Result;
 

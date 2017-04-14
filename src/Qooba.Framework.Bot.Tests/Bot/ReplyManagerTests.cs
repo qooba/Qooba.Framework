@@ -11,7 +11,9 @@ namespace Qooba.Framework.Bot.Tests
 {
     public class ReplyManagerTests
     {
-        private IReplyManager replyManager;
+        private IReplyConfiguration replyConfiguration;
+
+        private IRoutingConfiguration routingConfiguration;
 
         private Mock<IBotConfig> configMock;
 
@@ -31,26 +33,27 @@ namespace Qooba.Framework.Bot.Tests
                 {
                     new ReplyItem
                     {
+                        ReplyId = "hello",
                         Routes = new [] {"hello", "test" },
                         ReplyType = "raw"
                     }
                 }
             });
 
-            Func<string, IReplyBuilder> func = s => s == "raw" ? replyBuilderMock.Object : null;
-            this.replyManager = new ReplyManager(this.configMock.Object, this.seriazlierMock.Object, func);
+            var replyManager = new ReplyManager(this.configMock.Object, this.seriazlierMock.Object);
+            this.routingConfiguration = replyManager;
+            this.replyConfiguration = replyManager;
         }
 
         [Fact]
         public void FetchRoutingTableTest()
         {
-            var routingTable = this.replyManager.FetchRoutingTableAsync().Result;
-
+            var routingTable = this.routingConfiguration.RoutingTable;
             Assert.True(routingTable.Count == 2);
         }
 
         [Fact]
-        public void CreateReplyTest()
+        public void FetchReplyItemTest()
         {
             var routeId = "hello";
             var text = "hello";
@@ -59,15 +62,10 @@ namespace Qooba.Framework.Bot.Tests
             {
                 RouteId = routeId
             });
-            this.replyBuilderMock.Setup(x => x.BuildAsync(contextMock.Object, It.IsAny<ReplyItem>())).Returns(Task.FromResult(new ReplyMessage
-            {
-                Text = text
-            }));
 
-            var reply = this.replyManager.CreateAsync(contextMock.Object).Result;
+            var replyItem = this.replyConfiguration.FetchReplyItem(contextMock.Object).Result;
 
-            Assert.True(reply.Message.Text == text);
-            this.replyBuilderMock.Verify(x => x.BuildAsync(contextMock.Object, It.IsAny<ReplyItem>()), Times.Once);
+            Assert.True(replyItem.ReplyType == "raw");
         }
     }
 }

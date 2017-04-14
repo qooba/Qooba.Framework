@@ -6,7 +6,7 @@ namespace Qooba.Framework.Bot.Abstractions
 {
     public interface IReplyBuilder
     {
-        Task<ReplyMessage> BuildAsync(IConversationContext context, object reply);
+        Task<Reply> BuildAsync(IConversationContext context, ReplyItem replyItem);
 
         Type ReplyItemType { get; }
     }
