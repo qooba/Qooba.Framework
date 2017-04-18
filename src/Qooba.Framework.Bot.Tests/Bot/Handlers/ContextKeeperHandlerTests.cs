@@ -1,7 +1,6 @@
 ﻿using Moq;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Qooba.Framework.Bot.Context;
 using Qooba.Framework.Bot.Handlers;
 using Xunit;
 
@@ -30,7 +29,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
             this.contextKeeperHandler.InvokeAsync(context).Wait();
 
             Assert.NotNull(context);
-            this.stateManager.Verify(x => x.SaveContext(context), Times.Once);
+            this.stateManager.Verify(x => x.SaveContextAsync(context), Times.Once);
         }
 
         [Fact]
@@ -41,7 +40,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
             this.contextKeeperHandler.InvokeAsync(context).Wait();
 
             Assert.NotNull(context);
-            this.stateManager.Verify(x => x.SaveContext(context), Times.Never);
+            this.stateManager.Verify(x => x.SaveContextAsync(context), Times.Never);
         }
     }
 }

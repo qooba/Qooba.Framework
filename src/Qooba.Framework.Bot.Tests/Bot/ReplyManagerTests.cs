@@ -1,10 +1,7 @@
 ﻿using Moq;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Qooba.Framework.Configuration.Abstractions;
 using Qooba.Framework.Serialization.Abstractions;
-using System;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Qooba.Framework.Bot.Tests

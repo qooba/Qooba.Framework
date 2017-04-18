@@ -18,7 +18,7 @@ namespace Qooba.Framework.Bot.Handlers
         {
             if (conversationContext.KeepState)
             {
-                await this.stateManager.SaveContext(conversationContext);
+                await this.stateManager.SaveContextAsync(conversationContext);
             }
 
             await base.InvokeAsync(conversationContext);

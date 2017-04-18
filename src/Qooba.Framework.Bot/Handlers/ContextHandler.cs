@@ -16,7 +16,7 @@ namespace Qooba.Framework.Bot.Handlers
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {
-            conversationContext = await this.stateManager.FetchContext(conversationContext);
+            conversationContext = await this.stateManager.FetchContextAsync(conversationContext);
             await base.InvokeAsync(conversationContext);
         }
     }

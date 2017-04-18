@@ -3,6 +3,7 @@ using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage;
+using System;
 
 namespace Qooba.Framework.Bot.Azure
 {
@@ -15,7 +16,7 @@ namespace Qooba.Framework.Bot.Azure
             this.config = config;
         }
 
-        public async Task<IConversationContext> FetchContext(IConversationContext context)
+        public async Task<IConversationContext> FetchContextAsync(IConversationContext context)
         {
             var userId = context.Entry.Message.Sender.Id;
             var connectorType = context.ConnectorType.ToString();
@@ -31,10 +32,40 @@ namespace Qooba.Framework.Bot.Azure
             return context;
         }
 
-        public async Task SaveContext(IConversationContext context)
+        public Task<T> FetchConversationDataAsync<T>(string key) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> FetchPrivateConversationDataAsync<T>(string key) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> FetchUserDataAsync<T>(string key) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task SaveContextAsync(IConversationContext context)
         {
             var insertOperation = TableOperation.Insert(new AzureConversationContext(context));
             await this.PrepareTable().ExecuteAsync(insertOperation);
+        }
+
+        public Task SaveConversationDataAsync<T>(string key, T data) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SavePrivateConversationDataAsync<T>(string key, T data) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveUserDataAsync<T>(string key, T data) where T : class
+        {
+            throw new NotImplementedException();
         }
 
         private CloudTable PrepareTable()
