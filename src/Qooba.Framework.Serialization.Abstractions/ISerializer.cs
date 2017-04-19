@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Qooba.Framework.Serialization.Abstractions
 {
@@ -9,6 +6,10 @@ namespace Qooba.Framework.Serialization.Abstractions
     {
         string Serialize<T>(T input);
 
+        string Serialize(object input);
+
         T Deserialize<T>(string input);
+
+        object Deserialize(string input, Type type);
     }
 }

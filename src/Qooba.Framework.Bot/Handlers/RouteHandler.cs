@@ -12,7 +12,7 @@ namespace Qooba.Framework.Bot.Handlers
             this.router = router;
         }
 
-        public override int Priority => 1;
+        public override int Priority => 2;
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {

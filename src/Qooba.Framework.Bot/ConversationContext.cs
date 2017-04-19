@@ -1,4 +1,7 @@
-﻿namespace Qooba.Framework.Bot.Abstractions.Models
+﻿using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Abstractions.Models;
+
+namespace Qooba.Framework.Bot
 {
     public class ConversationContext : IConversationContext
     {

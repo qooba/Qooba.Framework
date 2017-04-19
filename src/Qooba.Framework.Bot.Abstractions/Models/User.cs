@@ -2,18 +2,18 @@
 {
     public class User
     {
-        string Id { get; set; }
+        public string Id { get; set; }
 
-        string FirstName { get; set; }
+        public string FirstName { get; set; }
 
-        string LastName { get; set; }
+        public string LastName { get; set; }
 
-        string ProfilePicture { get; set; }
+        public string ProfilePicture { get; set; }
 
-        string Locale { get; set; }
+        public string Locale { get; set; }
 
-        int Timezone { get; set; }
+        public int Timezone { get; set; }
 
-        Gender Gender { get; set; }
+        public Gender Gender { get; set; }
     }
 }

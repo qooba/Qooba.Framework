@@ -12,7 +12,7 @@ namespace Qooba.Framework.Bot.Handlers
             this.stateManager = stateManager;
         }
 
-        public override int Priority => 4;
+        public override int Priority => 5;
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {

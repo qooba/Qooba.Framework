@@ -26,7 +26,17 @@ namespace Qooba.Framework.Serialization
             return JsonConvert.DeserializeObject<T>(input, Settings);
         }
 
+        public object Deserialize(string input, Type type)
+        {
+            return JsonConvert.DeserializeObject(input, type, Settings);
+        }
+
         public string Serialize<T>(T input)
+        {
+            return JsonConvert.SerializeObject(input, Settings);
+        }
+
+        public string Serialize(object input)
         {
             return JsonConvert.SerializeObject(input, Settings);
         }

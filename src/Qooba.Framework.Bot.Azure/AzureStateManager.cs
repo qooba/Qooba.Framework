@@ -21,7 +21,7 @@ namespace Qooba.Framework.Bot.Azure
             var userId = context.Entry.Message.Sender.Id;
             var connectorType = context.ConnectorType.ToString();
             var insertOperation = TableOperation.Retrieve(connectorType, userId);
-            var result = await this.PrepareTable().ExecuteAsync(insertOperation);
+            var result = await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(insertOperation);
             var lastContext = (IConversationContext)result.Result;
 
             if (lastContext.KeepState)
@@ -31,48 +31,18 @@ namespace Qooba.Framework.Bot.Azure
 
             return context;
         }
-
-        public Task<T> FetchConversationDataAsync<T>(string key) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> FetchPrivateConversationDataAsync<T>(string key) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> FetchUserDataAsync<T>(string key) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public async Task SaveContextAsync(IConversationContext context)
         {
             var insertOperation = TableOperation.Insert(new AzureConversationContext(context));
-            await this.PrepareTable().ExecuteAsync(insertOperation);
+            await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(insertOperation);
         }
-
-        public Task SaveConversationDataAsync<T>(string key, T data) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SavePrivateConversationDataAsync<T>(string key, T data) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveUserDataAsync<T>(string key, T data) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        private CloudTable PrepareTable()
+        
+        private CloudTable PrepareTable(string tableName)
         {
             var storageAccount = CloudStorageAccount.Parse(this.config.BotStateManagerConnectionString);
             var tableClient = storageAccount.CreateCloudTableClient();
-            CloudTable table = tableClient.GetTableReference(this.config.BotStateManagerTableName);
+            CloudTable table = tableClient.GetTableReference(tableName);
             return table;
         }
     }

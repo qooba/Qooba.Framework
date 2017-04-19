@@ -1,5 +1,6 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
+using Qooba.Framework.Serialization.Abstractions;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -17,15 +18,20 @@ namespace Qooba.Framework.Bot.Handlers
 
         private readonly IReplyConfiguration replyConfiguration;
 
+        private readonly ISerializer serializer;
+
         private static IDictionary<string, Func<IReplyBuilder, IConversationContext, object, Task<ReplyMessage>>> cachedFunc = new ConcurrentDictionary<string, Func<IReplyBuilder, IConversationContext, object, Task<ReplyMessage>>>();
 
-        public ReplyHandler(IReplyConfiguration replyConfiguration, Func<string, IReplyBuilder> replyBuilders)
+        private static IDictionary<string, Type> cachedReplyType = new ConcurrentDictionary<string, Type>();
+
+        public ReplyHandler(IReplyConfiguration replyConfiguration, Func<string, IReplyBuilder> replyBuilders, ISerializer serializer)
         {
             this.replyConfiguration = replyConfiguration;
             this.replyBuilders = replyBuilders;
+            this.serializer = serializer;
         }
 
-        public override int Priority => 2;
+        public override int Priority => 3;
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {
@@ -41,7 +47,7 @@ namespace Qooba.Framework.Bot.Handlers
                     {
                         var type = i.GetGenericArguments().FirstOrDefault();
                         var method = i.GetMethods().FirstOrDefault(x => x.Name == "BuildAsync");
-
+                        cachedReplyType[replyItem.ReplyType] = type;
                         var build = Expression.Parameter(typeof(IReplyBuilder), "builder");
                         var context = Expression.Parameter(typeof(IConversationContext), "conversationContext");
                         var reply = Expression.Parameter(typeof(object), "reply");
@@ -54,12 +60,14 @@ namespace Qooba.Framework.Bot.Handlers
                 }
             }
 
+            var replyObject = this.serializer.Deserialize(replyItem.Reply.ToString(), cachedReplyType[replyItem.ReplyType]);
+
             conversationContext.Reply = new Reply
             {
                 Recipient = new Recipient { Id = conversationContext?.Entry?.Message?.Sender?.Id },
                 NotificationType = replyItem.NotificationType,
                 SenderAction = replyItem.SenderAction,
-                Message = await builderFunc(builder, conversationContext, replyItem.Reply)
+                Message = await builderFunc(builder, conversationContext, replyObject)
             };
 
             await base.InvokeAsync(conversationContext);

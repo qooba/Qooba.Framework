@@ -2,6 +2,7 @@
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Bot.Handlers;
+using Qooba.Framework.Serialization.Abstractions;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -16,13 +17,17 @@ namespace Qooba.Framework.Bot.Tests.Handlers
 
         private Mock<IReplyBuilder<ReplyMessage>> replyBuilderMock;
 
+        private Mock<ISerializer> serializerMock;
+
         public ReplyHandlerTests()
         {
             this.replyConfigurationMock = new Mock<IReplyConfiguration>();
-            this.replyConfigurationMock.Setup(x => x.FetchReplyItem(It.IsAny<IConversationContext>())).Returns(Task.FromResult(new ReplyItem { ReplyType = "raw" }));
+            this.replyConfigurationMock.Setup(x => x.FetchReplyItem(It.IsAny<IConversationContext>())).Returns(Task.FromResult(new ReplyItem { ReplyType = "raw", Reply = new ReplyMessage()  }));
             this.replyBuilderMock = new Mock<IReplyBuilder<ReplyMessage>>();
+            this.serializerMock = new Mock<ISerializer>();
+            
             Func<string, IReplyBuilder> builderFactory = x => this.replyBuilderMock.Object;
-            this.replyHandler = new ReplyHandler(this.replyConfigurationMock.Object, builderFactory);
+            this.replyHandler = new ReplyHandler(this.replyConfigurationMock.Object, builderFactory, serializerMock.Object);
         }
 
         [Fact]
@@ -46,6 +51,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
             {
                 Text = text
             }));
+            this.serializerMock.Setup(x => x.Deserialize(It.IsAny<string>(), It.IsAny<Type>())).Returns(new ReplyMessage { Text = text });
 
             this.replyHandler.InvokeAsync(context).Wait();
             this.replyHandler.InvokeAsync(context).Wait();

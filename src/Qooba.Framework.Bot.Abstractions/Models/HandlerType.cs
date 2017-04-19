@@ -3,6 +3,7 @@
     public enum HandlerType
     {
         Context,
+        UserData,
         Route,
         Reply,
         Dispatch,

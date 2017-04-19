@@ -13,7 +13,7 @@ namespace Qooba.Framework.Bot.Handlers
             this.replyClientFunc = replyClientFunc;
         }
 
-        public override int Priority => 3;
+        public override int Priority => 4;
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {
