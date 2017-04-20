@@ -27,17 +27,17 @@ namespace Qooba.Framework.Bot
         {
 #if NET46
             var queries = request.RequestUri.ParseQueryString();
+            var hubMode = queries["hub.mode"];
 #else
             var queries = QueryHelpers.ParseQuery(request.RequestUri.Query);
+            queries.TryGetValue("hub.mode", out var hubMode);
 #endif
-
-            var hubMode = queries["hub.mode"];
-            var hubChallenge = queries["hub.challenge"];
-            var hubVerifyToken = queries["hub.verify_token"];
-            var messangerChallengeVerifyToken = this.config.MessangerChallengeVerifyToken;
-
             if (hubMode == "subscribe")
             {
+                var hubChallenge = queries["hub.challenge"];
+                var hubVerifyToken = queries["hub.verify_token"];
+                var messangerChallengeVerifyToken = this.config.MessangerChallengeVerifyToken;
+
                 if (hubVerifyToken == messangerChallengeVerifyToken)
                 {
                     var response = PrepareResponse(HttpStatusCode.OK, hubChallenge);

@@ -10,3 +10,4 @@ packages
 project.lock.json
 *.user
 nugetpush.ps1
+/src/Qooba.Framework.Bot.Azure.Tests/botconfig.json
