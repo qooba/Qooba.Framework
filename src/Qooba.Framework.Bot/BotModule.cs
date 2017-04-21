@@ -30,6 +30,8 @@ namespace Qooba.Framework.Bot
             framework.AddService(s => s.Service<IHandler>().As<DispatchHandler>().Keyed(HandlerType.Dispatch));
             framework.AddService(s => s.Service<IHandler>().As<ContextKeeperHandler>().Keyed(HandlerType.ContextKeeper));
 
+            framework.AddService(s => s.Service<IUserManager>().As<MessangerUserManager>().Keyed(ConnectorType.Messanger));
+            framework.AddService(s => s.Service<IReplyBuilder>().As<RawReplyBuilder>().Keyed("raw"));
             framework.AddTransientService<IHandlerManager, HandlerManager>();
             framework.AddSingletonService<IReplyConfiguration, ReplyManager>();
             framework.AddSingletonService<IRoutingConfiguration, ReplyManager>();
@@ -37,9 +39,9 @@ namespace Qooba.Framework.Bot
             framework.AddTransientService<IMessageQueue, MemoryMessageQueue>();
             framework.AddTransientService<IBot, QBot>();
             framework.AddSingletonService<IBotConfig, BotConfig>();
-            framework.AddTransientService<Func<string, IReplyBuilder>>(s => (Func<string, IReplyBuilder>)((key) => (IReplyBuilder)s.GetService(key, typeof(IReplyBuilder))));
-            framework.AddTransientService<Func<string, IDispatcher>>(s => (Func<string, IDispatcher>)((key) => (IDispatcher)s.GetService(key, typeof(IDispatcher))));
-            framework.AddTransientService<Func<string, IUserManager>>(s => (Func<string, IUserManager>)((key) => (IUserManager)s.GetService(key, typeof(IUserManager))));
+            framework.AddTransientService<Func<object, IReplyBuilder>>(s => (Func<object, IReplyBuilder>)((key) => (IReplyBuilder)s.GetService(key, typeof(IReplyBuilder))));
+            framework.AddTransientService<Func<object, IDispatcher>>(s => (Func<object, IDispatcher>)((key) => (IDispatcher)s.GetService(key, typeof(IDispatcher))));
+            framework.AddTransientService<Func<object, IUserManager>>(s => (Func<object, IUserManager>)((key) => (IUserManager)s.GetService(key, typeof(IUserManager))));
         }
     }
 }

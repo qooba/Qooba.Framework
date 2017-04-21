@@ -6,9 +6,9 @@ namespace Qooba.Framework.Bot.Handlers
 {
     public class DispatchHandler : BaseHandler, IHandler
     {
-        private readonly Func<string, IDispatcher> replyClientFunc;
+        private readonly Func<object, IDispatcher> replyClientFunc;
 
-        public DispatchHandler(Func<string, IDispatcher> replyClientFunc)
+        public DispatchHandler(Func<object, IDispatcher> replyClientFunc)
         {
             this.replyClientFunc = replyClientFunc;
         }
@@ -17,7 +17,7 @@ namespace Qooba.Framework.Bot.Handlers
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {
-            var replyClient = this.replyClientFunc(conversationContext.ConnectorType.ToString());
+            var replyClient = this.replyClientFunc(conversationContext.ConnectorType);
             await replyClient.SendAsync(conversationContext.Reply);
             await base.InvokeAsync(conversationContext);
         }

@@ -14,7 +14,7 @@ namespace Qooba.Framework.Bot.Handlers
 {
     public class ReplyHandler : BaseHandler, IHandler
     {
-        private readonly Func<string, IReplyBuilder> replyBuilders;
+        private readonly Func<object, IReplyBuilder> replyBuilders;
 
         private readonly IReplyConfiguration replyConfiguration;
 
@@ -24,7 +24,7 @@ namespace Qooba.Framework.Bot.Handlers
 
         private static IDictionary<string, Type> cachedReplyType = new ConcurrentDictionary<string, Type>();
 
-        public ReplyHandler(IReplyConfiguration replyConfiguration, Func<string, IReplyBuilder> replyBuilders, ISerializer serializer)
+        public ReplyHandler(IReplyConfiguration replyConfiguration, Func<object, IReplyBuilder> replyBuilders, ISerializer serializer)
         {
             this.replyConfiguration = replyConfiguration;
             this.replyBuilders = replyBuilders;

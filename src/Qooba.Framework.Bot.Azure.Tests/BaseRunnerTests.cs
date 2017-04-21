@@ -20,6 +20,8 @@ namespace Qooba.Framework.Bot.Azure.Tests
             this.configurationRootMock.Setup(x => x["Bot::QueueConnectionString"]).Returns(config["storageConnectionString"].ToString());
             this.configurationRootMock.Setup(x => x["Bot::Messanger::AppSecret"]).Returns("12345");
             this.configurationRootMock.Setup(x => x["Bot::QueueName"]).Returns("messanger-tests");
+            this.configurationRootMock.Setup(x => x["Bot::StateManagerConnectionString"]).Returns(config["storageConnectionString"].ToString());
+            this.configurationRootMock.Setup(x => x["Bot::ConversationContextTableName"]).Returns("ConversationContext");
             
         }
     }

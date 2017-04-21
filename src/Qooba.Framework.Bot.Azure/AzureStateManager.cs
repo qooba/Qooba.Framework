@@ -24,7 +24,7 @@ namespace Qooba.Framework.Bot.Azure
             var result = await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(insertOperation);
             var lastContext = (IConversationContext)result.Result;
 
-            if (lastContext.KeepState)
+            if (lastContext != null && lastContext.KeepState)
             {
                 context.Route = lastContext.Route;
             }

@@ -2,7 +2,7 @@
   "items": [
     {
       "replyId": "hello",
-      "routes": [ "Cześć", "Witaj {name}" ],
+      "routes": [ "Cześć", "Witaj {name}", "hello" ],
       "replyType": "raw",
       "reply": {
         "text": "Witaj kuba!",
