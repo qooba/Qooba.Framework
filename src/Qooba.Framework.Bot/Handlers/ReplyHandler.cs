@@ -60,7 +60,14 @@ namespace Qooba.Framework.Bot.Handlers
                 }
             }
 
-            var replyObject = this.serializer.Deserialize(replyItem.Reply.ToString(), cachedReplyType[replyItem.ReplyType]);
+            var replyItemText = replyItem.Reply.ToString();
+            
+            conversationContext.Route.RouteData?.ToList().ForEach(d =>
+            {
+                replyItemText = replyItemText.Replace(string.Concat("{{", d.Key, "}}"), d.Value.ToString());
+            });
+            
+            var replyObject = this.serializer.Deserialize(replyItemText, cachedReplyType[replyItem.ReplyType]);
 
             conversationContext.Reply = new Reply
             {

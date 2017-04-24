@@ -26,7 +26,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
             this.replyBuilderMock = new Mock<IReplyBuilder<ReplyMessage>>();
             this.serializerMock = new Mock<ISerializer>();
             
-            Func<string, IReplyBuilder> builderFactory = x => this.replyBuilderMock.Object;
+            Func<object, IReplyBuilder> builderFactory = x => this.replyBuilderMock.Object;
             this.replyHandler = new ReplyHandler(this.replyConfigurationMock.Object, builderFactory, serializerMock.Object);
         }
 
@@ -45,7 +45,8 @@ namespace Qooba.Framework.Bot.Tests.Handlers
                             Text = text
                         }
                     }
-                }
+                },
+                Route = new Route()
             };
             this.replyBuilderMock.Setup(x => x.BuildAsync(context, It.IsAny<ReplyMessage>())).Returns(Task.FromResult(new ReplyMessage
             {

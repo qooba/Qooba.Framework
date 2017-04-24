@@ -5,18 +5,17 @@ using System.Threading.Tasks;
 
 namespace Qooba.Framework.Bot.Routing
 {
-    public class Router : IRouter
+    public class DefaultRouter : IRouter
     {
         private readonly IRoutingConfiguration routingConfiguration;
 
-        public Router(IRoutingConfiguration routingConfiguration)
+        public DefaultRouter(IRoutingConfiguration routingConfiguration)
         {
             this.routingConfiguration = routingConfiguration;
         }
 
-        public async Task<Route> FindRouteAsync(string text)
-        {
-            return this.routingConfiguration.RoutingTable.FirstOrDefault(x => x.RouteText == text);
-        }
+        public int Priority => 1000;
+
+        public async Task<Route> FindRouteAsync(string text) => this.routingConfiguration.RoutingTable.FirstOrDefault(x => x.IsDefault);
     }
 }

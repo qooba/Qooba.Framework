@@ -11,11 +11,11 @@ namespace Qooba.Framework.Bot.Tests.Handlers
         private IHandler routeHandler;
 
         private Mock<IRouter> routerMock;
-        
+
         public RouteHandlerTests()
         {
             this.routerMock = new Mock<IRouter>();
-            this.routeHandler = new RouteHandler(this.routerMock.Object);
+            this.routeHandler = new RouteHandler(new[] { routerMock.Object });
         }
 
         [Fact]

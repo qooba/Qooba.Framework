@@ -1,22 +1,34 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Abstractions.Models;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Qooba.Framework.Bot.Handlers
 {
     public class RouteHandler : BaseHandler, IHandler
     {
-        private readonly IRouter router;
+        private readonly IEnumerable<IRouter> routers;
 
-        public RouteHandler(IRouter router)
+        public RouteHandler(IEnumerable<IRouter> routers)
         {
-            this.router = router;
+            this.routers = routers.OrderBy(x => x.Priority);
         }
 
         public override int Priority => 2;
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {
-            conversationContext.Route = await this.router.FindRouteAsync(conversationContext.Entry.Message.Message.Text);
+            foreach (var router in this.routers)
+            {
+                conversationContext.Route = await router.FindRouteAsync(conversationContext.Entry.Message.Message.Text);
+                if (conversationContext.Route != null)
+                {
+                    break;
+                }
+            }
+
             await base.InvokeAsync(conversationContext);
         }
     }

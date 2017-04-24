@@ -16,6 +16,8 @@ namespace Qooba.Framework.Bot
 
         private static IList<Route> routingTable;
 
+        private static Route defaultRoute;
+
         public ReplyManager(IBotConfig config, ISerializer serializer)
         {
             if (configuration == null)
@@ -28,13 +30,14 @@ namespace Qooba.Framework.Bot
                 routingTable = configuration.Items.SelectMany(x => x.Routes.Select(r => new Route
                 {
                     RouteId = x.ReplyId,
-                    RouteText = r
+                    RouteText = r,
+                    IsDefault = x.IsDefault
                 })).ToList();
             }
         }
         
         public IList<Route> RoutingTable => routingTable;
-
+        
         public async Task<ReplyItem> FetchReplyItem(IConversationContext context)
         {
             return configuration.Items.FirstOrDefault(x => x.ReplyId == context.Route.RouteId);

@@ -2,10 +2,30 @@
   "items": [
     {
       "replyId": "hello",
-      "routes": [ "Cześć", "Witaj {name}", "hello" ],
+      "routes": [ "Cześć", "Witaj {{name}}", "hello" ],
       "replyType": "raw",
       "reply": {
         "text": "Witaj kuba!",
+        "quick_replies": [
+          {
+            "content_type": "text",
+            "title": "Red",
+            "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+          },
+          {
+            "content_type": "text",
+            "title": "Green",
+            "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+          }
+        ]
+      }
+    },
+    {
+      "replyId": "shopping",
+      "routes": [ "Jadę do {{shoppingMall}} chcę kupić {{product}}" ],
+      "replyType": "raw",
+      "reply": {
+        "text": "Widzę, że chcesz kupić {{product}} w {{shoppingMall}}",
         "quick_replies": [
           {
             "content_type": "text",

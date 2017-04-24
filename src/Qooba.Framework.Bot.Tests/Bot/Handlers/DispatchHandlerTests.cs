@@ -16,7 +16,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
         public DispatchHandlerTests()
         {
             this.dispatcherMock = new Mock<IDispatcher>();
-            this.dispatchHandler = new DispatchHandler((Func<string, IDispatcher>) (s => this.dispatcherMock.Object));
+            this.dispatchHandler = new DispatchHandler((Func<object, IDispatcher>) (s => this.dispatcherMock.Object));
         }
 
         [Fact]

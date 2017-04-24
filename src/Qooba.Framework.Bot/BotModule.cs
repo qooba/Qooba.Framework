@@ -31,11 +31,17 @@ namespace Qooba.Framework.Bot
             framework.AddService(s => s.Service<IHandler>().As<ContextKeeperHandler>().Keyed(HandlerType.ContextKeeper));
 
             framework.AddService(s => s.Service<IUserManager>().As<MessangerUserManager>().Keyed(ConnectorType.Messanger));
+
             framework.AddService(s => s.Service<IReplyBuilder>().As<RawReplyBuilder>().Keyed("raw"));
+            framework.AddService(s => s.Service<IReplyBuilder>().As<TextReplyBuilder>().Keyed("text"));
+
             framework.AddTransientService<IHandlerManager, HandlerManager>();
             framework.AddSingletonService<IReplyConfiguration, ReplyManager>();
             framework.AddSingletonService<IRoutingConfiguration, ReplyManager>();
-            framework.AddTransientService<IRouter, Router>();
+
+            framework.AddService(s => s.Service<IRouter>().As<DefaultRouter>().Keyed(nameof(DefaultRouter)));
+            framework.AddService(s => s.Service<IRouter>().As<RegexRouter>().Keyed(nameof(RegexRouter)).Lifetime(Lifetime.Singleton));
+
             framework.AddTransientService<IMessageQueue, MemoryMessageQueue>();
             framework.AddTransientService<IBot, QBot>();
             framework.AddSingletonService<IBotConfig, BotConfig>();

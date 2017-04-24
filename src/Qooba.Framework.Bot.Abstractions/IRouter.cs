@@ -6,5 +6,7 @@ namespace Qooba.Framework.Bot.Abstractions
     public interface IRouter
     {
         Task<Route> FindRouteAsync(string text);
+
+        int Priority { get; }
     }
 }

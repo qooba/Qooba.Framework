@@ -15,5 +15,7 @@ namespace Qooba.Framework.Bot.Abstractions.Models
         public NotificationType NotificationType { get; set; }
 
         public object Reply { get; set; }
+
+        public bool IsDefault { get; set; }
     }
 }
