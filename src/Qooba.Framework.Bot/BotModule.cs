@@ -34,6 +34,12 @@ namespace Qooba.Framework.Bot
 
             framework.AddService(s => s.Service<IReplyBuilder>().As<RawReplyBuilder>().Keyed("raw"));
             framework.AddService(s => s.Service<IReplyBuilder>().As<TextReplyBuilder>().Keyed("text"));
+            framework.AddService(s => s.Service<IReplyBuilder>().As<ImageReplyBuilder>().Keyed("image"));
+            framework.AddService(s => s.Service<IReplyBuilder>().As<VideoReplyBuilder>().Keyed("video"));
+            framework.AddService(s => s.Service<IReplyBuilder>().As<AudioReplyBuilder>().Keyed("audio"));
+            framework.AddService(s => s.Service<IReplyBuilder>().As<FileReplyBuilder>().Keyed("file"));
+            framework.AddService(s => s.Service<IReplyBuilder>().As<PostbackButtonTemplateReplyBuilder>().Keyed("postbackButtonTemplate"));
+            framework.AddService(s => s.Service<IReplyBuilder>().As<PostbackCarouselReplyBuilder>().Keyed("postbackCarousel"));
 
             framework.AddTransientService<IHandlerManager, HandlerManager>();
             framework.AddSingletonService<IReplyConfiguration, ReplyManager>();

@@ -39,6 +39,92 @@
           }
         ]
       }
+    },
+    {
+      "replyId": "text",
+      "routes": [ "Show text" ],
+      "replyType": "text",
+      "reply": { "text": "Witaj kuba!" }
+    },
+    {
+      "replyId": "image",
+      "routes": [ "Show image" ],
+      "replyType": "image",
+      "reply": { "image": "https://media4.s-nbcnews.com/j/newscms/2016_36/1685951/ss-160826-twip-05_8cf6d4cb83758449fd400c7c3d71aa1f.nbcnews-ux-2880-1000.jpg" }
+    },
+    {
+      "replyId": "file",
+      "routes": [ "Show file" ],
+      "replyType": "file",
+      "reply": { "file": "https://media4.s-nbcnews.com/j/newscms/2016_36/1685951/ss-160826-twip-05_8cf6d4cb83758449fd400c7c3d71aa1f.nbcnews-ux-2880-1000.jpg" }
+    },
+    {
+      "replyId": "postbackButtonTemplate",
+      "routes": [ "Show postback button template" ],
+      "replyType": "postbackButtonTemplate",
+      "reply": {
+        "text": "hello!!!",
+        "buttons": [
+          {
+            "type": "web_url",
+            "url": "https://petersapparel.parseapp.com",
+            "title": "Show Website",
+            "payload": "USER_DEFINED_PAYLOAD"
+          },
+          {
+            "type": "postback",
+            "title": "Start Chatting",
+            "payload": "USER_DEFINED_PAYLOAD"
+          }
+        ]
+      }
+    },
+    {
+      "replyId": "postbackCarousel",
+      "routes": [ "Show postback carousel" ],
+      "replyType": "postbackCarousel",
+      "reply": {
+        "elements": [
+          {
+            "title": "Welcome to Peter Hats",
+            "image": "https://media4.s-nbcnews.com/j/newscms/2016_36/1685951/ss-160826-twip-05_8cf6d4cb83758449fd400c7c3d71aa1f.nbcnews-ux-2880-1000.jpg",
+            "subtitle": "We have got the right hat for everyone.",
+            "defaultActionUrl": "https://peterssendreceiveapp.ngrok.io/view?item=103",
+            "buttons": [
+              {
+                "type": "web_url",
+                "url": "https://petersfancybrownhats.com",
+                "title": "View Website",
+                "payload": "USER_DEFINED_PAYLOAD"
+              },
+              {
+                "type": "postback",
+                "title": "Start Chatting",
+                "payload": "DEVELOPER_DEFINED_PAYLOAD"
+              }
+            ]
+          },
+          {
+            "title": "Welcome to Peter Hats",
+            "image": "https://media4.s-nbcnews.com/j/newscms/2016_36/1685951/ss-160826-twip-05_8cf6d4cb83758449fd400c7c3d71aa1f.nbcnews-ux-2880-1000.jpg",
+            "subtitle": "We have got the right hat for everyone.",
+            "defaultActionUrl": "https://peterssendreceiveapp.ngrok.io/view?item=103",
+            "buttons": [
+              {
+                "type": "web_url",
+                "url": "https://petersfancybrownhats.com",
+                "title": "View Website",
+                "payload": "USER_DEFINED_PAYLOAD"
+              },
+              {
+                "type": "postback",
+                "title": "Start Chatting",
+                "payload": "DEVELOPER_DEFINED_PAYLOAD"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
