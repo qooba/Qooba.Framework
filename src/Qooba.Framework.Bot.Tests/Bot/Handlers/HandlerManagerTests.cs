@@ -22,7 +22,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
                 new RouteHandler(null),
                 new ContextHandler(null),
                 new ContextKeeperHandler(null),
-                new ReplyHandler(null, null, null)
+                new ReplyHandler(null, null)
             };
 
             this.handlerManager = new HandlerManager(handlers);

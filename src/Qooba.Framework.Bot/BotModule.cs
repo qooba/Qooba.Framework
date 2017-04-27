@@ -43,6 +43,7 @@ namespace Qooba.Framework.Bot
 
             framework.AddTransientService<IHandlerManager, HandlerManager>();
             framework.AddSingletonService<IReplyConfiguration, ReplyManager>();
+            framework.AddSingletonService<IReplyFactory, ReplyFactory>();
             framework.AddSingletonService<IRoutingConfiguration, ReplyManager>();
 
             framework.AddService(s => s.Service<IRouter>().As<DefaultRouter>().Keyed(nameof(DefaultRouter)));

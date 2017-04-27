@@ -15,19 +15,13 @@ namespace Qooba.Framework.Bot.Tests.Handlers
 
         private Mock<IReplyConfiguration> replyConfigurationMock;
 
-        private Mock<IReplyBuilder<ReplyMessage>> replyBuilderMock;
-
-        private Mock<ISerializer> serializerMock;
+        private Mock<IReplyFactory> replyFactroyMock;
 
         public ReplyHandlerTests()
         {
             this.replyConfigurationMock = new Mock<IReplyConfiguration>();
-            this.replyConfigurationMock.Setup(x => x.FetchReplyItem(It.IsAny<IConversationContext>())).Returns(Task.FromResult(new ReplyItem { ReplyType = "raw", Reply = new ReplyMessage()  }));
-            this.replyBuilderMock = new Mock<IReplyBuilder<ReplyMessage>>();
-            this.serializerMock = new Mock<ISerializer>();
-            
-            Func<object, IReplyBuilder> builderFactory = x => this.replyBuilderMock.Object;
-            this.replyHandler = new ReplyHandler(this.replyConfigurationMock.Object, builderFactory, serializerMock.Object);
+            this.replyFactroyMock = new Mock<IReplyFactory>();
+            this.replyHandler = new ReplyHandler(this.replyConfigurationMock.Object, this.replyFactroyMock.Object);
         }
 
         [Fact]
@@ -48,18 +42,13 @@ namespace Qooba.Framework.Bot.Tests.Handlers
                 },
                 Route = new Route()
             };
-            this.replyBuilderMock.Setup(x => x.BuildAsync(context, It.IsAny<ReplyMessage>())).Returns(Task.FromResult(new ReplyMessage
-            {
-                Text = text
-            }));
-            this.serializerMock.Setup(x => x.Deserialize(It.IsAny<string>(), It.IsAny<Type>())).Returns(new ReplyMessage { Text = text });
+            var replyItem = new ReplyItem { ReplyType = "raw", Reply = new ReplyMessage() };
+            this.replyConfigurationMock.Setup(x => x.FetchReplyItem(It.IsAny<IConversationContext>())).Returns(Task.FromResult(replyItem));
 
             this.replyHandler.InvokeAsync(context).Wait();
-            this.replyHandler.InvokeAsync(context).Wait();
-
-            Assert.True(context.Reply.Message.Text == text);
-            this.replyConfigurationMock.Verify(x => x.FetchReplyItem(context), Times.Exactly(2));
-            this.replyBuilderMock.Verify(x => x.BuildAsync(context, It.IsAny<ReplyMessage>()), Times.Exactly(2));
+            
+            this.replyConfigurationMock.Verify(x => x.FetchReplyItem(context), Times.Exactly(1));
+            this.replyFactroyMock.Verify(x => x.CreateReplyAsync(context, replyItem), Times.Exactly(1));
         }
     }
 }
