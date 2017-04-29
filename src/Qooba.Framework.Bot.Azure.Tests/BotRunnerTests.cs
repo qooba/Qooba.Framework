@@ -37,6 +37,24 @@ namespace Qooba.Framework.Bot.Azure.Tests
         }
 
         [Fact]
+        public void RunEnum()
+        {
+            Run("Show enum");
+        }
+
+        [Fact]
+        public void RunLocation()
+        {
+            Run("Show location");
+        }
+
+        [Fact]
+        public void RunForm()
+        {
+            Run("Show form");
+        }
+
+        [Fact]
         public void RunPostbackButtonTemplate()
         {
             Run("Show postback button template");

@@ -1,13 +1,6 @@
 ﻿using Moq;
 using Qooba.Framework.Bot.Abstractions;
-using Qooba.Framework.Bot.Abstractions.Models;
-using Qooba.Framework.Bot.Routing;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Xunit;
-using System.Linq;
-using System.Collections.Specialized;
 
 namespace Qooba.Framework.Bot.Tests
 {

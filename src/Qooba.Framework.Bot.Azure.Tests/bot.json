@@ -59,6 +59,45 @@
       "reply": { "file": "https://media4.s-nbcnews.com/j/newscms/2016_36/1685951/ss-160826-twip-05_8cf6d4cb83758449fd400c7c3d71aa1f.nbcnews-ux-2880-1000.jpg" }
     },
     {
+      "replyId": "enum",
+      "routes": [ "Show enum" ],
+      "replyType": "enum",
+      "reply": {
+        "text": "Choose color ?",
+        "enum": [ "Red", "Green", "Blue" ]
+      }
+    },
+    {
+      "replyId": "location",
+      "routes": [ "Show location" ],
+      "replyType": "location",
+      "reply": {
+        "text": "Choose location"
+      }
+    },
+    {
+      "replyId": "form",
+      "routes": [ "Show form" ],
+      "replyType": "form",
+      "reply": {
+        "properties": [
+          {
+            "propertyName": "Color",
+            "propertyType": "string",
+            "replyItem" : {
+              "replyId": "enum",
+              "routes": [ "Show enum" ],
+              "replyType": "enum",
+              "reply": {
+                "text": "Choose color ?",
+                "enum": [ "Red", "Green", "Blue" ]
+              }
+            }
+          }
+         ]
+      }
+    },
+    {
       "replyId": "postbackButtonTemplate",
       "routes": [ "Show postback button template" ],
       "replyType": "postbackButtonTemplate",

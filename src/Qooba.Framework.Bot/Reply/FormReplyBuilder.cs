@@ -1,7 +1,6 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
 using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Qooba.Framework.Bot.Abstractions.Models.Attachments;
 using System.Collections.Generic;
 using System;
 
@@ -44,11 +43,40 @@ namespace Qooba.Framework.Bot
         }
     }
 
+    //private void Validate(IConversationContext conversationContext)
+    //{
+    //    foreach(var validator in )
+
+    //    var builder = validatorFactory(replyItem.ReplyType);
+    //    Func<IReplyBuilder, IConversationContext, object, Task<ReplyMessage>> builderFunc = null;
+
+    //    if (!cachedFunc.TryGetValue(replyItem.ReplyType, out builderFunc))
+    //    {
+    //        foreach (var i in builder.GetType().GetTypeInfo().GetInterfaces())
+    //        {
+    //            if (i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == typeof(IReplyBuilder<>))
+    //            {
+    //                var type = i.GetGenericArguments().FirstOrDefault();
+    //                var method = i.GetMethods().FirstOrDefault(x => x.Name == "BuildAsync");
+    //                cachedReplyType[replyItem.ReplyType] = type;
+    //                var build = Expression.Parameter(typeof(IReplyBuilder), "builder");
+    //                var context = Expression.Parameter(typeof(IConversationContext), "conversationContext");
+    //                var reply = Expression.Parameter(typeof(object), "reply");
+
+    //                var builderFuncExpression = Expression.Lambda<Func<IReplyBuilder, IConversationContext, object, Task<ReplyMessage>>>(Expression.Call(Expression.Convert(build, i), method, context, Expression.Convert(reply, type)), build, context, reply);
+    //                builderFunc = builderFuncExpression.Compile();
+    //                cachedFunc[replyItem.ReplyType] = builderFunc;
+    //                break;
+    //            }
+    //        }
+    //    }
+    //}
+
     public class FormReplyMessage
     {
         public IEnumerable<FormReplyMessageProperty> Properties { get; set; }
 
-        public CompletionAction CompletionAction { get; set; }
+        public IEnumerable<CompletionAction> CompletionActions { get; set; }
     }
 
     public class FormReplyMessageProperty
@@ -57,9 +85,9 @@ namespace Qooba.Framework.Bot
 
         public string PropertyType { get; set; }
         
-        public ActiveConstraint ActiveConstraint { get; set; }
+        public IEnumerable<ActiveConstraint> ActiveConstraints { get; set; }
 
-        public Validator Validator { get; set; }
+        public IEnumerable<Validator> Validators { get; set; }
         
         public ReplyItem ReplyItem { get; set; }
     }
