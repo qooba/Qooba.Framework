@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions.Models;
 using System.Collections.Generic;
 using System;
+using System.Linq;
+using Qooba.Framework.Serialization.Abstractions;
+using Qooba.Framework.Bot.Abstractions.Form;
 
 namespace Qooba.Framework.Bot
 {
@@ -10,24 +13,59 @@ namespace Qooba.Framework.Bot
     {
         private readonly IReplyFactory replyFactory;
 
+        private readonly IEnumerable<IRouter> routers;
+
+        private readonly IGenericExpressionFactory genericExpressionFactory;
+
         private readonly Func<object, IFormReplyPropertyActiveConstraint> activeConstraintFactory;
 
         private readonly Func<object, IFormReplyPropertyValidator> validatorFactory;
 
         private readonly Func<object, IFormReplyCompletionAction> completionActionFactory;
 
-        public FormReplyBuilder(IReplyFactory replyFactory)
+        public FormReplyBuilder(
+            IReplyFactory replyFactory,
+            IEnumerable<IRouter> routers,
+            IGenericExpressionFactory genericExpressionFactory,
+            Func<object, IFormReplyCompletionAction> completionActionFactory
+            )
         {
             this.replyFactory = replyFactory;
+            this.routers = routers;
+            this.genericExpressionFactory = genericExpressionFactory;
+            this.completionActionFactory = completionActionFactory;
         }
 
-        public async Task<ReplyMessage> BuildAsync(IConversationContext conversationContext, FormReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext conversationContext, FormReplyMessage reply)
         {
-            foreach(var property in reply.Properties)
+            for (var i = 0; i < reply.Properties.Count(); i++)
             {
-                if(!conversationContext.Route.RouteData.ContainsKey(property.PropertyName))
+                conversationContext.KeepState = true;
+                var property = reply.Properties.ElementAt(i);
+                if (!conversationContext.Route.RouteData.ContainsKey(property.PropertyName))
                 {
                     //TODO: check if the last field is valid
+
+                    if (conversationContext.Reply != null)
+                    {
+                        if (property.ReplyItem.Routes != null && property.ReplyItem.Routes.Any())
+                        {
+                            foreach (var router in this.routers)
+                            {
+                                var routeData = await router.FindRouteData(conversationContext.Entry.Message.Message.Text, property.ReplyItem.Routes);
+                                if (routeData != null && routeData.ContainsKey(property.PropertyName))
+                                {
+                                    conversationContext.Route.RouteData[property.PropertyName] = routeData[property.PropertyName];
+                                }
+                            }
+                        }
+                        else
+                        {
+                            conversationContext.Route.RouteData[property.PropertyName] = conversationContext.Entry.Message.Message.Text;
+                        }
+
+                        property = reply.Properties.ElementAt(++i);
+                    }
 
                     //TODO: check if field is active
 
@@ -35,11 +73,23 @@ namespace Qooba.Framework.Bot
                 }
             }
 
-            //TODO: execute completion action
-            return new ReplyMessage
+            conversationContext.KeepState = false;
+            return await this.Complete(conversationContext, reply);
+        }
+
+        private async Task<ReplyMessage> Complete(IConversationContext conversationContext, FormReplyMessage formReplyMessage)
+        {
+            foreach (var completionAction in formReplyMessage.CompletionActions)
             {
-                Text = "Form completed"
-            };
+                var message = await (Task<ReplyMessage>)this.genericExpressionFactory.Create(completionAction.CompletionActionType, completionActionFactory, conversationContext, completionAction.CompletionActionData.ToString());
+
+                if (message != null)
+                {
+                    return message;
+                }
+            }
+
+            return null;
         }
     }
 
@@ -84,11 +134,11 @@ namespace Qooba.Framework.Bot
         public string PropertyName { get; set; }
 
         public string PropertyType { get; set; }
-        
+
         public IEnumerable<ActiveConstraint> ActiveConstraints { get; set; }
 
         public IEnumerable<Validator> Validators { get; set; }
-        
+
         public ReplyItem ReplyItem { get; set; }
     }
 
@@ -111,53 +161,5 @@ namespace Qooba.Framework.Bot
         public string CompletionActionType { get; set; }
 
         public object CompletionActionData { get; set; }
-    }
-
-    public interface IFormReplyPropertyActiveConstraint
-    {
-
-    }
-
-    public interface IFormReplyPropertyActiveConstraint<T>
-        where T : class
-    {
-        /// <summary>
-        /// Check if the property will be visible
-        /// </summary>
-        /// <param name="conversationContext"></param>
-        /// <returns></returns>
-        Task<bool> CheckActiveAsync(IConversationContext conversationContext);
-    }
-
-    public interface IFormReplyPropertyValidator
-    {
-
-    }
-
-    public interface IFormReplyPropertyValidator<T>
-        where T : class
-    {
-        /// <summary>
-        /// Check is the response is valid if is invalid return ReplyItem
-        /// </summary>
-        /// <param name="conversationContext"></param>
-        /// <returns></returns>
-        Task<ReplyItem> CheckValidAsync(IConversationContext conversationContext);
-    }
-
-    public interface IFormReplyCompletionAction
-    {
-
-    }
-
-    public interface IFormReplyCompletionAction<T>
-        where T : class
-    {
-        /// <summary>
-        /// Action which will be executed when the form is complete
-        /// </summary>
-        /// <param name="conversationContext"></param>
-        /// <returns></returns>
-        Task<ReplyItem> ExecuteAsync(IConversationContext conversationContext);
     }
 }

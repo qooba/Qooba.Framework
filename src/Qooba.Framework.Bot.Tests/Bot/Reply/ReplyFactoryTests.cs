@@ -11,18 +11,21 @@ namespace Qooba.Framework.Bot.Tests.Handlers
     public class ReplyFactoryTests
     {
         private IReplyFactory replyFactory;
-        
+
         private Mock<IReplyBuilder<ReplyMessage>> replyBuilderMock;
 
-        private Mock<ISerializer> serializerMock;
+        private Mock<IGenericExpressionFactory> genericExpressionFactoryMock;
+
+        private readonly Func<object, IReplyBuilder> builderFactory;
 
         public ReplyFactoryTests()
         {
             this.replyBuilderMock = new Mock<IReplyBuilder<ReplyMessage>>();
-            this.serializerMock = new Mock<ISerializer>();
-            
-            Func<object, IReplyBuilder> builderFactory = x => this.replyBuilderMock.Object;
-            this.replyFactory = new ReplyFactory(builderFactory, serializerMock.Object);
+            this.genericExpressionFactoryMock = new Mock<IGenericExpressionFactory>();
+
+            this.builderFactory = x => this.replyBuilderMock.Object;
+
+            this.replyFactory = new ReplyFactory(builderFactory, this.genericExpressionFactoryMock.Object);
         }
 
         [Fact]
@@ -44,17 +47,17 @@ namespace Qooba.Framework.Bot.Tests.Handlers
                 Route = new Route()
             };
             var replyItem = new ReplyItem { ReplyType = "raw", Reply = new ReplyMessage() };
-            this.replyBuilderMock.Setup(x => x.BuildAsync(context, It.IsAny<ReplyMessage>())).Returns(Task.FromResult(new ReplyMessage
-            {
-                Text = text
-            }));
-            this.serializerMock.Setup(x => x.Deserialize(It.IsAny<string>(), It.IsAny<Type>())).Returns(new ReplyMessage { Text = text });
-
+            this.genericExpressionFactoryMock.Setup(x => x.Create(It.Is<string>(s => s == "raw"), builderFactory, context, It.IsAny<string>())).
+                Returns(Task.FromResult(new ReplyMessage
+                {
+                    Text = text
+                }));
+            
             this.replyFactory.CreateReplyAsync(context, replyItem).Wait();
             var reply = this.replyFactory.CreateReplyAsync(context, replyItem).Result;
 
             Assert.True(reply.Message.Text == text);
-            this.replyBuilderMock.Verify(x => x.BuildAsync(context, It.IsAny<ReplyMessage>()), Times.Exactly(2));
+            this.genericExpressionFactoryMock.VerifyAll();
         }
     }
 }

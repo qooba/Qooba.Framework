@@ -6,7 +6,7 @@ namespace Qooba.Framework.Bot
 {
     public class TextReplyBuilder : IReplyBuilder<TextReplyMessage>
     {
-        public async Task<ReplyMessage> BuildAsync(IConversationContext context, TextReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, TextReplyMessage reply)
         {
             return new ReplyMessage
             {

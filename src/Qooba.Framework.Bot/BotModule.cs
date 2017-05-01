@@ -1,7 +1,9 @@
 ﻿using Qooba.Framework.Abstractions;
 using Qooba.Framework.Bot.Abstractions;
+using Qooba.Framework.Bot.Abstractions.Form;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Bot.Dispatch;
+using Qooba.Framework.Bot.Form;
 using Qooba.Framework.Bot.Handlers;
 using Qooba.Framework.Bot.Queue;
 using Qooba.Framework.Bot.Routing;
@@ -44,11 +46,15 @@ namespace Qooba.Framework.Bot
             framework.AddService(s => s.Service<IReplyBuilder>().As<PostbackButtonTemplateReplyBuilder>().Keyed("postbackButtonTemplate"));
             framework.AddService(s => s.Service<IReplyBuilder>().As<PostbackCarouselReplyBuilder>().Keyed("postbackCarousel"));
 
+            framework.AddService(s => s.Service<IFormReplyCompletionAction>().As<TextFormReplyCompletionAction>().Keyed("text"));
+            
+
             framework.AddTransientService<IHandlerManager, HandlerManager>();
             framework.AddSingletonService<IReplyConfiguration, ReplyManager>();
             framework.AddSingletonService<IReplyFactory, ReplyFactory>();
             framework.AddSingletonService<IRoutingConfiguration, ReplyManager>();
-
+            framework.AddSingletonService<IGenericExpressionFactory, GenericExpressionFactory>();
+            
             framework.AddService(s => s.Service<IRouter>().As<DefaultRouter>().Keyed(nameof(DefaultRouter)));
             framework.AddService(s => s.Service<IRouter>().As<RegexRouter>().Keyed(nameof(RegexRouter)).Lifetime(Lifetime.Singleton));
 
@@ -58,6 +64,7 @@ namespace Qooba.Framework.Bot
             framework.AddTransientService<Func<object, IReplyBuilder>>(s => (Func<object, IReplyBuilder>)((key) => (IReplyBuilder)s.GetService(key, typeof(IReplyBuilder))));
             framework.AddTransientService<Func<object, IDispatcher>>(s => (Func<object, IDispatcher>)((key) => (IDispatcher)s.GetService(key, typeof(IDispatcher))));
             framework.AddTransientService<Func<object, IUserManager>>(s => (Func<object, IUserManager>)((key) => (IUserManager)s.GetService(key, typeof(IUserManager))));
+            framework.AddTransientService<Func<object, IFormReplyCompletionAction>>(s => (Func<object, IFormReplyCompletionAction>)((key) => (IFormReplyCompletionAction)s.GetService(key, typeof(IFormReplyCompletionAction))));
         }
     }
 }

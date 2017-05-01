@@ -9,35 +9,21 @@ namespace Qooba.Framework.Bot.Routing
 {
     public class RegexRouter : IRouter
     {
+        private const string RegexParameterPattern = @"[a-zA-Z0-9\._]+";
+
         private readonly IList<RegexRoute> regexRoutes;
 
         public RegexRouter(IRoutingConfiguration routingConfiguration)
         {
             this.regexRoutes = routingConfiguration.RoutingTable.Select(x =>
             {
-                var parameters = Regex.Matches(x.RouteText, @"{{[a-zA-Z0-9\._]+}}");
-                var regexRouteParameters = new List<string>();
-                var regexRouteText = x.RouteText;
-                if (parameters.Count > 0)
-                {
-                    for (int i = 0; i < parameters.Count; i++)
-                    {
-                        var key = parameters[i].Value.Replace("{{", string.Empty).Replace("}}", string.Empty);
-                        regexRouteParameters.Add(key);
-                    }
-
-                    regexRouteText = Regex.Replace(x.RouteText, @"{{[a-zA-Z0-9\._]+}}", @"([a-zA-Z0-9\._]+)");
-                }
-
-                return new RegexRoute
-                {
-                    IsDefault = x.IsDefault,
-                    RouteData = x.RouteData,
-                    RouteId = x.RouteId,
-                    RouteText = x.RouteText,
-                    RegexRoutePattern = regexRouteText,
-                    RegexRouteParameters = regexRouteParameters
-                };
+                var routeText = x.RouteText;
+                var regexRoute = PreapreRegexRoute(routeText);
+                regexRoute.IsDefault = x.IsDefault;
+                regexRoute.RouteData = x.RouteData;
+                regexRoute.RouteId = x.RouteId;
+                regexRoute.RouteText = x.RouteText;
+                return regexRoute;
             }).ToList();
         }
 
@@ -47,26 +33,70 @@ namespace Qooba.Framework.Bot.Routing
         {
             foreach (var regexRoute in this.regexRoutes)
             {
-                var match = Regex.Match(text, regexRoute.RegexRoutePattern, RegexOptions.IgnoreCase);
-                if (match.Success)
+                var routeData = PrepareRouteData(text, regexRoute);
+                if (routeData != null)
                 {
-                    var route = new Route
+                    return new Route
                     {
                         IsDefault = regexRoute.IsDefault,
-                        RouteData = new Dictionary<string, object>(),
+                        RouteData = routeData,
                         RouteId = regexRoute.RouteId,
                         RouteText = regexRoute.RouteText
                     };
-
-                    var groups = match.Groups;
-                    for (var i = 1; i < groups.Count; i++)
-                    {
-                        var key = regexRoute.RegexRouteParameters[i - 1];
-                        route.RouteData[key] = groups[i].Value;
-                    }
-
-                    return route;
                 }
+            }
+
+            return null;
+        }
+
+        public async Task<IDictionary<string, object>> FindRouteData(string text, IEnumerable<string> routeTexts)
+        {
+            foreach (var routeText in routeTexts)
+            {
+                var regexRoute = PreapreRegexRoute(routeText);
+                return PrepareRouteData(text, regexRoute);
+            }
+
+            return null;
+        }
+
+        private static RegexRoute PreapreRegexRoute(string routeText)
+        {
+            var parameters = Regex.Matches(routeText, string.Concat(@"{{", RegexParameterPattern, "}}"));
+            var regexRouteParameters = new List<string>();
+            var regexRouteText = routeText;
+            if (parameters.Count > 0)
+            {
+                for (int i = 0; i < parameters.Count; i++)
+                {
+                    var key = parameters[i].Value.Replace("{{", string.Empty).Replace("}}", string.Empty);
+                    regexRouteParameters.Add(key);
+                }
+
+                regexRouteText = Regex.Replace(routeText, string.Concat(@"{{", RegexParameterPattern, "}}"), string.Concat(@"(", RegexParameterPattern, ")"));
+            }
+
+            return new RegexRoute
+            {
+                RegexRoutePattern = regexRouteText,
+                RegexRouteParameters = regexRouteParameters
+            };
+        }
+
+        private static IDictionary<string, object> PrepareRouteData(string text, RegexRoute regexRoute)
+        {
+            var match = Regex.Match(text, regexRoute.RegexRoutePattern, RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                var routeData = new Dictionary<string, object>();
+                var groups = match.Groups;
+                for (var i = 1; i < groups.Count; i++)
+                {
+                    var key = regexRoute.RegexRouteParameters[i - 1];
+                    routeData[key] = groups[i].Value;
+                }
+
+                return routeData;
             }
 
             return null;

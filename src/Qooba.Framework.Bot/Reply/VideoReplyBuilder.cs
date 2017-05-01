@@ -7,7 +7,7 @@ namespace Qooba.Framework.Bot
 {
     public class VideoReplyBuilder : IReplyBuilder<VideoReplyMessage>
     {
-        public async Task<ReplyMessage> BuildAsync(IConversationContext context, VideoReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, VideoReplyMessage reply)
         {
             return new ReplyMessage
             {

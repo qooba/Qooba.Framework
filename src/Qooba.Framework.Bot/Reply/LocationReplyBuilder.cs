@@ -6,7 +6,7 @@ namespace Qooba.Framework.Bot
 {
     public class LocationReplyBuilder : IReplyBuilder<LocationReplyMessage>
     {
-        public async Task<ReplyMessage> BuildAsync(IConversationContext context, LocationReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, LocationReplyMessage reply)
         {
             return new ReplyMessage
             {

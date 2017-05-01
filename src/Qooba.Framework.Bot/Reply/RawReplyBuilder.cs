@@ -6,6 +6,6 @@ namespace Qooba.Framework.Bot
 {
     public class RawReplyBuilder : IReplyBuilder<ReplyMessage>
     {
-        public Task<ReplyMessage> BuildAsync(IConversationContext context, ReplyMessage reply) => Task.FromResult(reply);
+        public Task<ReplyMessage> ExecuteAsync(IConversationContext context, ReplyMessage reply) => Task.FromResult(reply);
     }
 }

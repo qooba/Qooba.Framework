@@ -84,17 +84,28 @@
           {
             "propertyName": "Color",
             "propertyType": "string",
-            "replyItem" : {
-              "replyId": "enum",
-              "routes": [ "Show enum" ],
+            "replyItem": {
+              "replyId": "enumColor",
               "replyType": "enum",
               "reply": {
                 "text": "Choose color ?",
                 "enum": [ "Red", "Green", "Blue" ]
               }
             }
+          },
+          {
+            "propertyName": "Shape",
+            "propertyType": "string",
+            "replyItem": {
+              "replyId": "enumShape",
+              "replyType": "enum",
+              "reply": {
+                "text": "Choose shape ?",
+                "enum": [ "Circle", "Rectangle", "Triangle" ]
+              }
+            }
           }
-         ]
+        ]
       }
     },
     {

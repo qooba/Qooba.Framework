@@ -8,7 +8,7 @@ namespace Qooba.Framework.Bot
 {
     public class EnumReplyBuilder : IReplyBuilder<EnumReplyMessage>
     {
-        public async Task<ReplyMessage> BuildAsync(IConversationContext context, EnumReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, EnumReplyMessage reply)
         {
             return new ReplyMessage
             {

@@ -7,7 +7,7 @@ namespace Qooba.Framework.Bot
 {
     public class ImageReplyBuilder : IReplyBuilder<ImageReplyMessage>
     {
-        public async Task<ReplyMessage> BuildAsync(IConversationContext context, ImageReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, ImageReplyMessage reply)
         {
             return new ReplyMessage
             {

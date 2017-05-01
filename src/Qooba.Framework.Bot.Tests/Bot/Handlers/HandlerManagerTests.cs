@@ -19,7 +19,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
             var handlers = new List<IHandler>()
             {
                 new DispatchHandler(null),
-                new RouteHandler(null),
+                new RouteHandler(new IRouter[]{ }),
                 new ContextHandler(null),
                 new ContextKeeperHandler(null),
                 new ReplyHandler(null, null)

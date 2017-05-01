@@ -4,40 +4,55 @@ using Qooba.Framework.Bot.Abstractions.Models;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage;
 using System;
+using Qooba.Framework.Serialization.Abstractions;
 
 namespace Qooba.Framework.Bot.Azure
 {
     public class AzureStateManager : IStateManager
     {
         private readonly IBotConfig config;
-        
-        public AzureStateManager(IBotConfig config)
+
+        private readonly ISerializer serializer;
+
+        public AzureStateManager(IBotConfig config, ISerializer serializer)
         {
             this.config = config;
+            this.serializer = serializer;
         }
 
         public async Task<IConversationContext> FetchContextAsync(IConversationContext context)
         {
             var userId = context.Entry.Message.Sender.Id;
             var connectorType = context.ConnectorType.ToString();
-            var insertOperation = TableOperation.Retrieve(connectorType, userId);
-            var result = await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(insertOperation);
-            var lastContext = (IConversationContext)result.Result;
+            var retrieveOperation = TableOperation.Retrieve<AzureConversationContext>(connectorType, userId);
+            var result = await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(retrieveOperation);
+            var lastContext = (AzureConversationContext)result.Result;
 
             if (lastContext != null && lastContext.KeepState)
             {
-                context.Route = lastContext.Route;
+                var data = this.serializer.Deserialize<AzureConversationContext>(lastContext.ContextData);
+                context.Route = data.Route;
+                context.Reply = data.Reply;
             }
 
             return context;
         }
-        
+
         public async Task SaveContextAsync(IConversationContext context)
         {
-            var insertOperation = TableOperation.Insert(new AzureConversationContext(context));
+            var contextData = this.serializer.Serialize(context);
+            var azureContext = new AzureConversationContext
+            {
+                PartitionKey = context.ConnectorType.ToString(),
+                RowKey = context.Entry.Message.Sender.Id,
+                KeepState = context.KeepState,
+                ContextData = contextData
+            };
+
+            var insertOperation = TableOperation.Insert(azureContext);
             await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(insertOperation);
         }
-        
+
         private CloudTable PrepareTable(string tableName)
         {
             var storageAccount = CloudStorageAccount.Parse(this.config.BotStateManagerConnectionString);
@@ -46,20 +61,18 @@ namespace Qooba.Framework.Bot.Azure
             return table;
         }
     }
-
+    
     public class AzureConversationContext : TableEntity, IConversationContext
     {
-        public AzureConversationContext(IConversationContext context)
+        public AzureConversationContext() { }
+
+        public AzureConversationContext(string partitionKey, string rowKey)
         {
-            this.PartitionKey = context.ConnectorType.ToString();
-            this.RowKey = context.Entry.Message.Sender.Id;
-            this.Route = context.Route;
-            this.User = context.User;
-            this.ConnectorType = context.ConnectorType;
-            this.Entry = context.Entry;
-            this.Reply = context.Reply;
-            this.KeepState = context.KeepState;
+            this.PartitionKey = partitionKey;
+            this.RowKey = rowKey;
         }
+        
+        public string ContextData { get; set; }
 
         public Route Route { get; set; }
 

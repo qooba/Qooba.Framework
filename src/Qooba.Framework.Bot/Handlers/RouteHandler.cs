@@ -20,12 +20,15 @@ namespace Qooba.Framework.Bot.Handlers
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {
-            foreach (var router in this.routers)
+            if (conversationContext.Route == null)
             {
-                conversationContext.Route = await router.FindRouteAsync(conversationContext.Entry.Message.Message.Text);
-                if (conversationContext.Route != null)
+                foreach (var router in this.routers)
                 {
-                    break;
+                    conversationContext.Route = await router.FindRouteAsync(conversationContext.Entry.Message.Message.Text);
+                    if (conversationContext.Route != null)
+                    {
+                        break;
+                    }
                 }
             }
 

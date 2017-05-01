@@ -7,7 +7,7 @@ namespace Qooba.Framework.Bot
 {
     public class AudioReplyBuilder : IReplyBuilder<AudioReplyMessage>
     {
-        public async Task<ReplyMessage> BuildAsync(IConversationContext context, AudioReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, AudioReplyMessage reply)
         {
             return new ReplyMessage
             {

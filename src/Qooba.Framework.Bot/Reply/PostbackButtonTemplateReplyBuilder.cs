@@ -11,7 +11,7 @@ namespace Qooba.Framework.Bot
 {
     public class PostbackButtonTemplateReplyBuilder : IReplyBuilder<PostbackButtonTemplateReplyMessage>
     {
-        public async Task<ReplyMessage> BuildAsync(IConversationContext context, PostbackButtonTemplateReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, PostbackButtonTemplateReplyMessage reply)
         {
             return new ReplyMessage
             {

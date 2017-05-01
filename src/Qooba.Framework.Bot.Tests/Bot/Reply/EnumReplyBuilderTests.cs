@@ -36,7 +36,7 @@ namespace Qooba.Framework.Bot.Tests
                 }
             };
 
-            var replyMessage = this.replyBuilder.BuildAsync(this.conversationContextMock.Object, reply).Result;
+            var replyMessage = this.replyBuilder.ExecuteAsync(this.conversationContextMock.Object, reply).Result;
 
             Assert.True(replyMessage.Quick_replies.Count == 3);
         }

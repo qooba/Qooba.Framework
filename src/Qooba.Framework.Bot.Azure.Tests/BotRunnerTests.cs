@@ -52,6 +52,7 @@ namespace Qooba.Framework.Bot.Azure.Tests
         public void RunForm()
         {
             Run("Show form");
+            Run("Red");
         }
 
         [Fact]

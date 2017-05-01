@@ -7,7 +7,7 @@ namespace Qooba.Framework.Bot
 {
     public class FileReplyBuilder : IReplyBuilder<FileReplyMessage>
     {
-        public async Task<ReplyMessage> BuildAsync(IConversationContext context, FileReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, FileReplyMessage reply)
         {
             return new ReplyMessage
             {

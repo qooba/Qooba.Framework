@@ -11,7 +11,7 @@ namespace Qooba.Framework.Bot
 {
     public class PostbackCarouselReplyBuilder : IReplyBuilder<PostbackCarouselReplyMessage>
     {
-        public async Task<ReplyMessage> BuildAsync(IConversationContext context, PostbackCarouselReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, PostbackCarouselReplyMessage reply)
         {
             return new ReplyMessage
             {
