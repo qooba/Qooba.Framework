@@ -82,7 +82,7 @@
       "reply": {
         "properties": [
           {
-            "propertyName": "Color",
+            "propertyName": "color",
             "propertyType": "string",
             "replyItem": {
               "replyId": "enumColor",
@@ -94,7 +94,7 @@
             }
           },
           {
-            "propertyName": "Shape",
+            "propertyName": "shape",
             "propertyType": "string",
             "replyItem": {
               "replyId": "enumShape",
@@ -104,6 +104,12 @@
                 "enum": [ "Circle", "Rectangle", "Triangle" ]
               }
             }
+          }
+        ],
+        "completionActions": [
+          {
+            "completionActionType": "text",
+            "completionActionData": { "text": "You have choosed {{color}} {{shape}}" }
           }
         ]
       }

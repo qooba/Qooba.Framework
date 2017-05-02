@@ -42,7 +42,8 @@ namespace Qooba.Framework.Bot
             {
                 conversationContext.KeepState = true;
                 var property = reply.Properties.ElementAt(i);
-                if (!conversationContext.Route.RouteData.ContainsKey(property.PropertyName))
+                var propertyName = property.PropertyName.ToLower();
+                if (!conversationContext.Route.RouteData.ContainsKey(propertyName))
                 {
                     //TODO: check if the last field is valid
 
@@ -53,18 +54,26 @@ namespace Qooba.Framework.Bot
                             foreach (var router in this.routers)
                             {
                                 var routeData = await router.FindRouteData(conversationContext.Entry.Message.Message.Text, property.ReplyItem.Routes);
-                                if (routeData != null && routeData.ContainsKey(property.PropertyName))
+                                if (routeData != null && routeData.ContainsKey(propertyName))
                                 {
-                                    conversationContext.Route.RouteData[property.PropertyName] = routeData[property.PropertyName];
+                                    conversationContext.Route.RouteData[propertyName] = routeData[propertyName];
                                 }
                             }
                         }
                         else
                         {
-                            conversationContext.Route.RouteData[property.PropertyName] = conversationContext.Entry.Message.Message.Text;
+                            conversationContext.Route.RouteData[propertyName] = conversationContext.Entry.Message.Message.Text;
                         }
 
-                        property = reply.Properties.ElementAt(++i);
+                        i++;
+                        if (reply.Properties.Count() == i)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            property = reply.Properties.ElementAt(i);
+                        }
                     }
 
                     //TODO: check if field is active

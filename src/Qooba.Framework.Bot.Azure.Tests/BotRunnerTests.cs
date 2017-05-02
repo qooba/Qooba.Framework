@@ -53,6 +53,7 @@ namespace Qooba.Framework.Bot.Azure.Tests
         {
             Run("Show form");
             Run("Red");
+            Run("Rectangle");
         }
 
         [Fact]

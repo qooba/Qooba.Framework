@@ -8,7 +8,7 @@ namespace Qooba.Framework.Bot.Abstractions.Form
 
     }
 
-    public interface IFormReplyPropertyValidator<T>
+    public interface IFormReplyPropertyValidator<T> : IFormReplyPropertyValidator
         where T : class
     {
         /// <summary>

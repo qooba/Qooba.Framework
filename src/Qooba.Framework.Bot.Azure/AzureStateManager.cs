@@ -49,7 +49,7 @@ namespace Qooba.Framework.Bot.Azure
                 ContextData = contextData
             };
 
-            var insertOperation = TableOperation.Insert(azureContext);
+            var insertOperation = TableOperation.InsertOrReplace(azureContext);
             await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(insertOperation);
         }
 

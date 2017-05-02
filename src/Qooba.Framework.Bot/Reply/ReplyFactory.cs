@@ -21,12 +21,6 @@ namespace Qooba.Framework.Bot
         public async Task<Reply> CreateReplyAsync(IConversationContext conversationContext, ReplyItem replyItem)
         {
             var replyItemText = replyItem.Reply.ToString();
-
-            conversationContext.Route.RouteData?.ToList().ForEach(d =>
-            {
-                replyItemText = replyItemText.Replace(string.Concat("{{", d.Key, "}}"), d.Value.ToString());
-            });
-
             var message = await (Task<ReplyMessage>)this.genericExpressionFactory.Create(replyItem.ReplyType, replyBuilders, conversationContext, replyItemText);
 
             return new Reply

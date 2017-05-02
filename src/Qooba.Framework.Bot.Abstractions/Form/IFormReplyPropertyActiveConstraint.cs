@@ -7,7 +7,7 @@ namespace Qooba.Framework.Bot.Abstractions.Form
 
     }
 
-    public interface IFormReplyPropertyActiveConstraint<T>
+    public interface IFormReplyPropertyActiveConstraint<T> : IFormReplyPropertyActiveConstraint
         where T : class
     {
         /// <summary>

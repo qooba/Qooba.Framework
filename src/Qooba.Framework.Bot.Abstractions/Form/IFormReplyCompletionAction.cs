@@ -8,7 +8,7 @@ namespace Qooba.Framework.Bot.Abstractions.Form
 
     }
 
-    public interface IFormReplyCompletionAction<T>
+    public interface IFormReplyCompletionAction<T> : IFormReplyCompletionAction
         where T : class
     {
         /// <summary>
