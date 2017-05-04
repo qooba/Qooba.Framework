@@ -26,8 +26,10 @@ namespace Qooba.Framework.Bot.Tests
             this.replyFactoryMock = new Mock<IReplyFactory>();
             this.genericExpressionFactoryMock = new Mock<IGenericExpressionFactory>();
             var routers = new IRouter[] { };
-            Func<object, IFormReplyCompletionAction> formReplyCompletionActionFunc = x => (IFormReplyCompletionAction)new TextFormReplyCompletionAction();
-            this.replyBuilder = new FormReplyBuilder(this.replyFactoryMock.Object, routers, this.genericExpressionFactoryMock.Object, formReplyCompletionActionFunc);
+            Func<object, IFormReplyCompletionAction> formReplyCompletionActionFunc = x => new TextFormReplyCompletionAction();
+            Func<object, IFormReplyPropertyActiveConstraint> formReplyPropertyActiveConstraintFunc = x => null;
+            Func<object, IFormReplyPropertyValidator> formReplyPropertyValidatorFunc = x => null;
+            this.replyBuilder = new FormReplyBuilder(this.replyFactoryMock.Object, routers, this.genericExpressionFactoryMock.Object, formReplyCompletionActionFunc, formReplyPropertyActiveConstraintFunc, formReplyPropertyValidatorFunc);
 
             this.replyFactoryMock.Setup(x => x.CreateReplyAsync(It.IsAny<IConversationContext>(), It.IsAny<ReplyItem>())).Returns(Task.FromResult(new Reply
             {
@@ -71,13 +73,13 @@ namespace Qooba.Framework.Bot.Tests
             var replyMessage = this.replyBuilder.ExecuteAsync(this.conversationContextMock.Object, reply).Result;
 
             Assert.True(replyMessage.Text == "hello");
-            Assert.True(routeData["FirstName"].ToString() == "MyFirstName");
+            Assert.True(routeData["firstname"].ToString() == "MyFirstName");
         }
 
         [Fact]
         public void ThirdPropertyTest()
         {
-            var routeData = new Dictionary<string, object>() { { "FirstName", "MyFirstName" } };
+            var routeData = new Dictionary<string, object>() { { "firstname", "MyFirstName" } };
             PrepareRoutes(routeData);
             PrepareReply();
             this.conversationContextMock.Setup(x => x.Entry).Returns(new Entry
@@ -95,7 +97,7 @@ namespace Qooba.Framework.Bot.Tests
             var replyMessage = this.replyBuilder.ExecuteAsync(this.conversationContextMock.Object, reply).Result;
 
             Assert.True(replyMessage.Text == "hello");
-            Assert.True(routeData["LastName"].ToString() == "MyLastName");
+            Assert.True(routeData["lastname"].ToString() == "MyLastName");
         }
 
         private void PrepareReply()

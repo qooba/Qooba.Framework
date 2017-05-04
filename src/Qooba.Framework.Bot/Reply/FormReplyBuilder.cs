@@ -27,13 +27,17 @@ namespace Qooba.Framework.Bot
             IReplyFactory replyFactory,
             IEnumerable<IRouter> routers,
             IGenericExpressionFactory genericExpressionFactory,
-            Func<object, IFormReplyCompletionAction> completionActionFactory
+            Func<object, IFormReplyCompletionAction> completionActionFactory,
+            Func<object, IFormReplyPropertyActiveConstraint> activeConstraintFactory,
+            Func<object, IFormReplyPropertyValidator> validatorFactory
             )
         {
             this.replyFactory = replyFactory;
             this.routers = routers;
             this.genericExpressionFactory = genericExpressionFactory;
             this.completionActionFactory = completionActionFactory;
+            this.activeConstraintFactory = activeConstraintFactory;
+            this.validatorFactory = validatorFactory;
         }
 
         public async Task<ReplyMessage> ExecuteAsync(IConversationContext conversationContext, FormReplyMessage reply)
@@ -45,7 +49,11 @@ namespace Qooba.Framework.Bot
                 var propertyName = property.PropertyName.ToLower();
                 if (!conversationContext.Route.RouteData.ContainsKey(propertyName))
                 {
-                    //TODO: check if the last field is valid
+                    var validationMessage = await this.CheckValid(conversationContext, reply, property);
+                    if (validationMessage != null)
+                    {
+                        return validationMessage;
+                    }
 
                     if (conversationContext.Reply != null)
                     {
@@ -76,7 +84,10 @@ namespace Qooba.Framework.Bot
                         }
                     }
 
-                    //TODO: check if field is active
+                    if (!await this.CheckActive(conversationContext, reply, property))
+                    {
+                        continue;
+                    }
 
                     return (await this.replyFactory.CreateReplyAsync(conversationContext, property.ReplyItem)).Message;
                 }
@@ -86,11 +97,45 @@ namespace Qooba.Framework.Bot
             return await this.Complete(conversationContext, reply);
         }
 
+        private async Task<bool> CheckActive(IConversationContext conversationContext, FormReplyMessage formReplyMessage, FormReplyMessageProperty property)
+        {
+            if (property?.ActiveConstraints != null)
+            {
+                foreach (var activeConstraint in property.ActiveConstraints)
+                {
+                    var isActive = await (Task<bool>)this.genericExpressionFactory.Create(activeConstraint.ActiveConstraintType, this.activeConstraintFactory, conversationContext, activeConstraint.ActiveConstraintData.ToString());
+                    if (!isActive)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private async Task<ReplyMessage> CheckValid(IConversationContext conversationContext, FormReplyMessage formReplyMessage, FormReplyMessageProperty property)
+        {
+            if (property?.Validators != null)
+            {
+                foreach (var validator in property.Validators)
+                {
+                    var validationMessage = await (Task<ReplyMessage>)this.genericExpressionFactory.Create(validator.ValidatorType, this.validatorFactory, conversationContext, validator.ValidatorData.ToString());
+                    if (validationMessage != null)
+                    {
+                        return validationMessage;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         private async Task<ReplyMessage> Complete(IConversationContext conversationContext, FormReplyMessage formReplyMessage)
         {
             foreach (var completionAction in formReplyMessage.CompletionActions)
             {
-                var message = await (Task<ReplyMessage>)this.genericExpressionFactory.Create(completionAction.CompletionActionType, completionActionFactory, conversationContext, completionAction.CompletionActionData.ToString());
+                var message = await (Task<ReplyMessage>)this.genericExpressionFactory.Create(completionAction.CompletionActionType, this.completionActionFactory, conversationContext, completionAction.CompletionActionData.ToString());
 
                 if (message != null)
                 {
@@ -101,35 +146,6 @@ namespace Qooba.Framework.Bot
             return null;
         }
     }
-
-    //private void Validate(IConversationContext conversationContext)
-    //{
-    //    foreach(var validator in )
-
-    //    var builder = validatorFactory(replyItem.ReplyType);
-    //    Func<IReplyBuilder, IConversationContext, object, Task<ReplyMessage>> builderFunc = null;
-
-    //    if (!cachedFunc.TryGetValue(replyItem.ReplyType, out builderFunc))
-    //    {
-    //        foreach (var i in builder.GetType().GetTypeInfo().GetInterfaces())
-    //        {
-    //            if (i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == typeof(IReplyBuilder<>))
-    //            {
-    //                var type = i.GetGenericArguments().FirstOrDefault();
-    //                var method = i.GetMethods().FirstOrDefault(x => x.Name == "BuildAsync");
-    //                cachedReplyType[replyItem.ReplyType] = type;
-    //                var build = Expression.Parameter(typeof(IReplyBuilder), "builder");
-    //                var context = Expression.Parameter(typeof(IConversationContext), "conversationContext");
-    //                var reply = Expression.Parameter(typeof(object), "reply");
-
-    //                var builderFuncExpression = Expression.Lambda<Func<IReplyBuilder, IConversationContext, object, Task<ReplyMessage>>>(Expression.Call(Expression.Convert(build, i), method, context, Expression.Convert(reply, type)), build, context, reply);
-    //                builderFunc = builderFuncExpression.Compile();
-    //                cachedFunc[replyItem.ReplyType] = builderFunc;
-    //                break;
-    //            }
-    //        }
-    //    }
-    //}
 
     public class FormReplyMessage
     {

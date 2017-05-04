@@ -64,7 +64,7 @@
       "replyType": "enum",
       "reply": {
         "text": "Choose color ?",
-        "enum": [ "Red", "Green", "Blue" ]
+        "enum": [ "Red", "Green", "Blue", "Black", "White", "Yellow", "Brown" ]
       }
     },
     {
