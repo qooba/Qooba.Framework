@@ -20,6 +20,20 @@ namespace Qooba.Framework.Bot.Azure
             this.serializer = serializer;
         }
 
+        public async Task ClearContextAsync(IConversationContext context)
+        {
+            var azureContext = new AzureConversationContext
+            {
+                PartitionKey = context.ConnectorType.ToString(),
+                RowKey = context.Entry.Message.Sender.Id,
+                ETag = "*",
+                StateAction = context.StateAction
+            };
+
+            var deleteOperation = TableOperation.Delete(azureContext);
+            await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(deleteOperation);
+        }
+
         public async Task<IConversationContext> FetchContextAsync(IConversationContext context)
         {
             var userId = context.Entry.Message.Sender.Id;
@@ -28,7 +42,7 @@ namespace Qooba.Framework.Bot.Azure
             var result = await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(retrieveOperation);
             var lastContext = (AzureConversationContext)result.Result;
 
-            if (lastContext != null && lastContext.KeepState)
+            if (lastContext != null)
             {
                 var data = this.serializer.Deserialize<AzureConversationContext>(lastContext.ContextData);
                 context.Route = data.Route;
@@ -45,7 +59,7 @@ namespace Qooba.Framework.Bot.Azure
             {
                 PartitionKey = context.ConnectorType.ToString(),
                 RowKey = context.Entry.Message.Sender.Id,
-                KeepState = context.KeepState,
+                StateAction = context.StateAction,
                 ContextData = contextData
             };
 
@@ -61,7 +75,7 @@ namespace Qooba.Framework.Bot.Azure
             return table;
         }
     }
-    
+
     public class AzureConversationContext : TableEntity, IConversationContext
     {
         public AzureConversationContext() { }
@@ -71,7 +85,7 @@ namespace Qooba.Framework.Bot.Azure
             this.PartitionKey = partitionKey;
             this.RowKey = rowKey;
         }
-        
+
         public string ContextData { get; set; }
 
         public Route Route { get; set; }
@@ -84,6 +98,6 @@ namespace Qooba.Framework.Bot.Azure
 
         public Reply Reply { get; set; }
 
-        public bool KeepState { get; set; }
+        public StateAction StateAction { get; set; }
     }
 }

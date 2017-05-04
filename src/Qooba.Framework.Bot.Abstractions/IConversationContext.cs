@@ -14,6 +14,6 @@ namespace Qooba.Framework.Bot.Abstractions
 
         Reply Reply { get; set; }
 
-        bool KeepState { get; set; }
+        StateAction StateAction { get; set; }
     }
 }

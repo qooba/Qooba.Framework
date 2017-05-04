@@ -15,6 +15,6 @@ namespace Qooba.Framework.Bot
 
         public Reply Reply { get; set; }
 
-        public bool KeepState { get; set; }
+        public StateAction StateAction { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace Qooba.Framework.Bot
         {
             for (var i = 0; i < reply.Properties.Count(); i++)
             {
-                conversationContext.KeepState = true;
+                conversationContext.StateAction = StateAction.Keep;
                 var property = reply.Properties.ElementAt(i);
                 var propertyName = property.PropertyName.ToLower();
                 if (!conversationContext.Route.RouteData.ContainsKey(propertyName))
@@ -82,7 +82,7 @@ namespace Qooba.Framework.Bot
                 }
             }
 
-            conversationContext.KeepState = false;
+            conversationContext.StateAction = StateAction.Clear;
             return await this.Complete(conversationContext, reply);
         }
 

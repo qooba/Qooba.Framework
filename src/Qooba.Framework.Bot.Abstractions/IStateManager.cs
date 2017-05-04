@@ -7,5 +7,7 @@ namespace Qooba.Framework.Bot.Abstractions
         Task<IConversationContext> FetchContextAsync(IConversationContext context);
 
         Task SaveContextAsync(IConversationContext context);
+
+        Task ClearContextAsync(IConversationContext context);
     }
 }

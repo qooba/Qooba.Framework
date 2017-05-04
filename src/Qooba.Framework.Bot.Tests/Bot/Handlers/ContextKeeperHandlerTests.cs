@@ -23,7 +23,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
         {
             IConversationContext context = new ConversationContext
             {
-                KeepState = true
+                StateAction = StateAction.Keep
             };
 
             this.contextKeeperHandler.InvokeAsync(context).Wait();
