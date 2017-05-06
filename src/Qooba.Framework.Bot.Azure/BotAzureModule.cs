@@ -12,6 +12,7 @@ namespace Qooba.Framework.Bot.Azure
         public void Bootstrapp(IFramework framework)
         {
             framework.AddTransientService<IStateManager, AzureStateManager>();
+            framework.AddTransientService<IUserProfileService, AzureUserProfileService>();
             framework.AddTransientService<IMessageQueue, AzureMessageQueue>();
         }
     }

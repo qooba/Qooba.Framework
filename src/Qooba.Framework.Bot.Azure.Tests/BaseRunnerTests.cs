@@ -22,6 +22,8 @@ namespace Qooba.Framework.Bot.Azure.Tests
             this.configurationRootMock.Setup(x => x["Bot::QueueName"]).Returns("messanger-tests");
             this.configurationRootMock.Setup(x => x["Bot::StateManagerConnectionString"]).Returns(config["storageConnectionString"].ToString());
             this.configurationRootMock.Setup(x => x["Bot::ConversationContextTableName"]).Returns("ConversationContext");
+            this.configurationRootMock.Setup(x => x["Bot::UserProfileConnectionString"]).Returns(config["storageConnectionString"].ToString());
+            this.configurationRootMock.Setup(x => x["Bot::UserProfileTableName"]).Returns("UserProfile");
             this.configurationRootMock.Setup(x => x["Bot::Messanger::AccessToken"]).Returns(config["accessToken"].ToString());
             this.UserId = config["userId"].ToString();
         }

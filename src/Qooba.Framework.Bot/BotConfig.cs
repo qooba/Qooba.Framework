@@ -31,5 +31,9 @@ namespace Qooba.Framework.Bot
         public string BotStateManagerConnectionString => this.config[Constants.BotStateManagerConnectionString];
 
         public string BotConversationContextTableName => this.config[Constants.BotConversationContextTableName];
+
+        public string BotUserProfileConnectionString => this.config[Constants.BotUserProfileConnectionString];
+
+        public string BotUserProfileTableName => this.config[Constants.BotUserProfileTableName];
     }
 }

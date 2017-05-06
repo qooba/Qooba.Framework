@@ -2,13 +2,11 @@
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Microsoft.WindowsAzure.Storage.Table;
-using Microsoft.WindowsAzure.Storage;
-using System;
 using Qooba.Framework.Serialization.Abstractions;
 
 namespace Qooba.Framework.Bot.Azure
 {
-    public class AzureStateManager : IStateManager
+    public class AzureStateManager : BaseAzureTableStorage, IStateManager
     {
         private readonly IBotConfig config;
 
@@ -19,6 +17,8 @@ namespace Qooba.Framework.Bot.Azure
             this.config = config;
             this.serializer = serializer;
         }
+
+        protected override string ConnectionString => this.config.BotStateManagerConnectionString;
 
         public async Task ClearContextAsync(IConversationContext context)
         {
@@ -65,14 +65,6 @@ namespace Qooba.Framework.Bot.Azure
 
             var insertOperation = TableOperation.InsertOrReplace(azureContext);
             await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(insertOperation);
-        }
-
-        private CloudTable PrepareTable(string tableName)
-        {
-            var storageAccount = CloudStorageAccount.Parse(this.config.BotStateManagerConnectionString);
-            var tableClient = storageAccount.CreateCloudTableClient();
-            CloudTable table = tableClient.GetTableReference(tableName);
-            return table;
         }
     }
 

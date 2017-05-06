@@ -15,5 +15,7 @@
         public int Timezone { get; set; }
 
         public Gender Gender { get; set; }
+
+        public ConnectorType ConnectorType { get; set; }
     }
 }

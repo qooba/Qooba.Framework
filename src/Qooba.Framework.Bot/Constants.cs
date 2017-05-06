@@ -21,5 +21,9 @@
         public static string BotStateManagerConnectionString => "Bot::StateManagerConnectionString";
 
         public static string BotConversationContextTableName => "Bot::ConversationContextTableName";
+
+        public static string BotUserProfileConnectionString => "Bot::UserProfileConnectionString";
+
+        public static string BotUserProfileTableName => "Bot::UserProfileTableName";
     }
 }

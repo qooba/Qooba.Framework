@@ -12,28 +12,38 @@ namespace Qooba.Framework.Bot.Users
 
         private readonly ISerializer serializer;
 
-        public MessangerUserManager(IBotConfig botConfig, ISerializer serializer)
+        private readonly IUserProfileService userProfileService;
+
+        public MessangerUserManager(IBotConfig botConfig, ISerializer serializer, IUserProfileService userProfileService)
         {
             this.config = botConfig;
             this.serializer = serializer;
+            this.userProfileService = userProfileService;
         }
 
         public async Task<User> GetUserAsync(string userId)
         {
-            var user = new User
+            var user = await this.userProfileService.GetUserAsync(ConnectorType.Messanger, userId);
+            if (user == null)
             {
-                Id = userId
-            };
+                user = new User
+                {
+                    Id = userId,
+                    ConnectorType = ConnectorType.Messanger
+                };
 
-            var userAdditionalData = await GetAdditionalDataAsync(userId);
-            if (userAdditionalData != null)
-            {
-                user.FirstName = userAdditionalData.First_name;
-                user.LastName = userAdditionalData.Last_name;
-                user.ProfilePicture = userAdditionalData.Profile_pic;
-                user.Locale = userAdditionalData.Locale;
-                user.Timezone = userAdditionalData.Timezone;
-                user.Gender = userAdditionalData.Gender;
+                var userAdditionalData = await GetAdditionalDataAsync(userId);
+                if (userAdditionalData != null)
+                {
+                    user.FirstName = userAdditionalData.First_name;
+                    user.LastName = userAdditionalData.Last_name;
+                    user.ProfilePicture = userAdditionalData.Profile_pic;
+                    user.Locale = userAdditionalData.Locale;
+                    user.Timezone = userAdditionalData.Timezone;
+                    user.Gender = userAdditionalData.Gender;
+                    await this.userProfileService.SetUserAsync(user);
+                }
+
             }
 
             return user;

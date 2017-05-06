@@ -21,5 +21,9 @@ namespace Qooba.Framework.Bot.Abstractions
         string BotStateManagerConnectionString { get; }
 
         string BotConversationContextTableName { get; }
+
+        string BotUserProfileConnectionString { get; }
+
+        string BotUserProfileTableName { get; }
     }
 }
