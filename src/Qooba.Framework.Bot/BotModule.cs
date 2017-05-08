@@ -43,12 +43,13 @@ namespace Qooba.Framework.Bot
             framework.AddService(s => s.Service<IReplyBuilder>().As<EnumReplyBuilder>().Keyed("enum"));
             framework.AddService(s => s.Service<IReplyBuilder>().As<LocationReplyBuilder>().Keyed("location"));
             framework.AddService(s => s.Service<IReplyBuilder>().As<FormReplyBuilder>().Keyed("form"));
+            framework.AddService(s => s.Service<IReplyBuilder>().As<HttpReplyBuilder>().Keyed("http"));
             framework.AddService(s => s.Service<IReplyBuilder>().As<PostbackButtonTemplateReplyBuilder>().Keyed("postbackButtonTemplate"));
             framework.AddService(s => s.Service<IReplyBuilder>().As<PostbackCarouselReplyBuilder>().Keyed("postbackCarousel"));
 
             framework.AddService(s => s.Service<IFormReplyCompletionAction>().As<TextFormReplyCompletionAction>().Keyed("text"));
+            framework.AddService(s => s.Service<IFormReplyCompletionAction>().As<HttpFormReplyCompletionAction>().Keyed("http"));
             
-
             framework.AddTransientService<IHandlerManager, HandlerManager>();
             framework.AddSingletonService<IReplyConfiguration, ReplyManager>();
             framework.AddSingletonService<IReplyFactory, ReplyFactory>();
