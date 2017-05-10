@@ -13,7 +13,8 @@ namespace Qooba.Framework.Serialization
             {
                 var settings = new JsonSerializerSettings
                 {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    NullValueHandling = NullValueHandling.Ignore
                 };
                 settings.Converters.Add(new StringEnumConverter());
                 return settings;
