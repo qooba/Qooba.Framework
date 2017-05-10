@@ -131,6 +131,13 @@
             "type": "postback",
             "title": "Start Chatting",
             "payload": "USER_DEFINED_PAYLOAD"
+          },
+          {
+            "type": "web_url",
+            "url": "https://qtestbotfunc9ad6.blob.core.windows.net/web/index.html",
+            "title": "View Item",
+            "webview_height_ratio": "compact",
+            "payload": "USER_DEFINED_PAYLOAD"
           }
         ]
       }

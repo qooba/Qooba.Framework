@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Serialization.Abstractions;
 using System.Net.Http;
+using System.Text;
 
 namespace Qooba.Framework.Bot
 {
@@ -19,7 +20,8 @@ namespace Qooba.Framework.Bot
         {
             using (var client = new HttpClient())
             {
-                var response = await client.PostAsJsonAsync(reply.Url, context);
+                var content = new StringContent(this.serializer.Serialize(context), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(reply.Url, content);
                 var responseString = await response.Content.ReadAsStringAsync();
                 return this.serializer.Deserialize<ReplyMessage>(responseString);
             }
