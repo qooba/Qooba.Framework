@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Bot.Azure</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Bot.Azure</AssemblyName>
     <PackageId>Qooba.Framework.Bot.Azure</PackageId>
     <PackageTags>framework</PackageTags>
