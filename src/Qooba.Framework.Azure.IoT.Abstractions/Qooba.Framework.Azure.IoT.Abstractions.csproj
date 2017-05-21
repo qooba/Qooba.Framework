@@ -3,11 +3,9 @@
   <PropertyGroup>
     <Description>Qooba.Framework.Azure.IoT.Abstractions Class Library</Description>
     <Authors>qba</Authors>
-    <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Azure.IoT.Abstractions</AssemblyName>
     <PackageId>Qooba.Framework.Azure.IoT.Abstractions</PackageId>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50;net46;net461</PackageTargetFallback>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

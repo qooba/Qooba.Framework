@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Qooba.Framework.Azure.Search Class Library</Description>
     <Authors>qba</Authors>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Azure.Search</AssemblyName>
     <PackageId>Qooba.Framework.Azure.Search</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>

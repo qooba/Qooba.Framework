@@ -3,11 +3,9 @@
   <PropertyGroup>
     <Description>Qooba.Framework.Azure.IoT Class Library</Description>
     <Authors>qba</Authors>
-    <TargetFrameworks>netstandard1.6;net46</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Azure.IoT</AssemblyName>
     <PackageId>Qooba.Framework.Azure.IoT</PackageId>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50;net46;net461</PackageTargetFallback>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -24,10 +22,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Devices" Version="1.0.0-preview-008" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
-    <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">

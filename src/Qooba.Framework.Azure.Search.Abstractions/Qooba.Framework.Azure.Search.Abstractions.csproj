@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Qooba.Framework.Azure.Search.Abstractions Class Library</Description>
     <Authors>qba</Authors>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Azure.Search.Abstractions</AssemblyName>
     <PackageId>Qooba.Framework.Azure.Search.Abstractions</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>

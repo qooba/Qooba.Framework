@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Azure.DocumentDb.Abstractions</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Azure.DocumentDb.Abstractions</AssemblyName>
     <PackageId>Qooba.Framework.Azure.DocumentDb.Abstractions</PackageId>
     <PackageTags>framework</PackageTags>
