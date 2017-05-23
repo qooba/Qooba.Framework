@@ -4,15 +4,13 @@
     <AssemblyTitle>Qooba.Framework.Authentication.OAuth.Abstractions</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Authentication.OAuth.Abstractions</AssemblyName>
     <PackageId>Qooba.Framework.Authentication.OAuth.Abstractions</PackageId>
     <PackageTags>framework</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/qooba/Qooba.Framework</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/qooba/Qooba.Framework/master/LICENSE</PackageLicenseUrl>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50;net46;net461</PackageTargetFallback>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

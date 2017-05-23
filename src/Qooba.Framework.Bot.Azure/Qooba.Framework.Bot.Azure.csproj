@@ -11,8 +11,6 @@
     <PackageIconUrl>https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/qooba/Qooba.Framework</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/qooba/Qooba.Framework/master/LICENSE</PackageLicenseUrl>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50;net46;net461</PackageTargetFallback>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -26,7 +24,7 @@
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="1.1.1" />
     <ProjectReference Include="..\Qooba.Framework.Configuration\Qooba.Framework.Configuration.csproj" />
