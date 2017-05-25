@@ -14,13 +14,13 @@ namespace Qooba.Framework.Bot
 
         private readonly ILogger logger;
 
-        private readonly IMessageQueue queue;
+        private readonly IBot bot;
 
-        public MessangerConnector(IMessangerSecurity messangerSecurity, ILogger logger, IMessageQueue queue)
+        public MessangerConnector(IMessangerSecurity messangerSecurity, ILogger logger, IBot bot)
         {
             this.logger = logger;
             this.messangerSecurity = messangerSecurity;
-            this.queue = queue;
+            this.bot = bot;
         }
 
         public async Task<HttpResponseMessage> Process(HttpRequestMessage req)
@@ -50,7 +50,8 @@ namespace Qooba.Framework.Bot
                     if (message["message"] != null)
                     {
                         var m = new JObject(new JProperty("connectorType", ConnectorType.Messanger.ToString()), new JProperty("message", message));
-                        await this.queue.EnqueueAsync(m.ToString());
+                        var e = m.ToObject<Entry>();
+                        await this.bot.Run(e);
                     }
                 }
             }

@@ -25,6 +25,11 @@ namespace Qooba.Framework.Bot
         {
             var entry = this.serializer.Deserialize<Entry>(queueItem);
             this.logger.Info($"Bot-StartProcess: {queueItem}");
+            await this.Run(entry);
+        }
+
+        public async Task Run(Entry entry)
+        {
             IConversationContext context = new ConversationContext
             {
                 Entry = entry

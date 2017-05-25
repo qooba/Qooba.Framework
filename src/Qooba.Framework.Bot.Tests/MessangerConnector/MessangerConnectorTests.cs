@@ -15,14 +15,14 @@ namespace Qooba.Framework.Bot.Tests
 
         private Mock<ILogger> loggerMock;
 
-        private Mock<IMessageQueue> messageQueueMock;
+        private Mock<IBot> botMock;
 
         public MessangerConnectorTests()
         {
-            this.messageQueueMock = new Mock<IMessageQueue>();
+            this.botMock = new Mock<IBot>();
             this.loggerMock = new Mock<ILogger>();
             this.messangerSecurityMock = new Mock<IMessangerSecurity>();
-            this.messangerConnector = new MessangerConnector(this.messangerSecurityMock.Object, this.loggerMock.Object, this.messageQueueMock.Object);
+            this.messangerConnector = new MessangerConnector(this.messangerSecurityMock.Object, this.loggerMock.Object, this.botMock.Object);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace Qooba.Framework.Bot.Tests
         [Fact]
         public void ProcessMessageTest()
         {
-            var json = "{\"object\":\"page\",\"entry\":[{\"id\":\"1\",\"time\":2,\"messaging\":[{\"sender\":{\"id\":\"3\"},\"recipient\":{\"id\":\"4\"},\"timestamp\":5,\"delivery\":{\"mids\":[\"mid.6:7\"],\"watermark\":8,\"seq\":0}}]}]}";
+            var json = "{\"object\":\"page\",\"entry\":[{\"id\":\"1\",\"time\":2,\"messaging\":[{\"sender\": {\"id\": \"1417157201690099\"},\"recipient\": {\"id\": \"1864721730470949\"},\"timestamp\": 1489246577601,\"message\": {\"mid\": \"mid.1489246577601:900ac22e12\",\"seq\": 3850,\"text\": \"Allo\"}}]}]}";
             this.messangerSecurityMock.Setup(x => x.IsChallengeRequest(It.IsAny<HttpRequestMessage>())).Returns(new ChallengeResult(false, null));
             this.messangerSecurityMock.Setup(x => x.ValidateSignature(It.IsAny<HttpRequestMessage>(), It.IsAny<string>())).Returns(true);
             var request = new HttpRequestMessage();
@@ -66,7 +66,7 @@ namespace Qooba.Framework.Bot.Tests
             this.loggerMock.Verify(x => x.Info("Invalid signature"), Times.Never);
             this.loggerMock.Verify(x => x.Info("Challenge validation"), Times.Never);
             this.loggerMock.Verify(x => x.Info(json), Times.Once);
-            this.messageQueueMock.Verify(x => x.EnqueueAsync(It.IsAny<string>()), Times.Once);
+            this.botMock.Verify(x => x.Run(It.IsAny<Entry>()), Times.Once);
         }
     }
 }
