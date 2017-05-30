@@ -15,14 +15,14 @@ namespace Qooba.Framework.Bot.Tests
 
         private Mock<ILogger> loggerMock;
 
-        private Mock<IBot> botMock;
+        private Mock<IMessageQueue> messageQueueMock;
 
         public MessangerConnectorTests()
         {
-            this.botMock = new Mock<IBot>();
+            this.messageQueueMock = new Mock<IMessageQueue>();
             this.loggerMock = new Mock<ILogger>();
             this.messangerSecurityMock = new Mock<IMessangerSecurity>();
-            this.messangerConnector = new MessangerConnector(this.messangerSecurityMock.Object, this.loggerMock.Object, this.botMock.Object);
+            this.messangerConnector = new MessangerConnector(this.messangerSecurityMock.Object, this.loggerMock.Object, this.messageQueueMock.Object);
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace Qooba.Framework.Bot.Tests
             this.loggerMock.Verify(x => x.Info("Invalid signature"), Times.Never);
             this.loggerMock.Verify(x => x.Info("Challenge validation"), Times.Never);
             this.loggerMock.Verify(x => x.Info(json), Times.Once);
-            this.botMock.Verify(x => x.Run(It.IsAny<Entry>()), Times.Once);
+            this.messageQueueMock.Verify(x => x.EnqueueAsync(It.IsAny<string>()), Times.Once);
         }
     }
 }
