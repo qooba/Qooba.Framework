@@ -11,7 +11,13 @@ namespace Qooba.Framework.Bot.Azure.Tests
         {
             Run("hello");
         }
-        
+
+        [Fact]
+        public void RunHello1()
+        {
+            Run("rawattachment");
+        }
+
         [Fact]
         public void RunShopping()
         {
@@ -28,6 +34,12 @@ namespace Qooba.Framework.Bot.Azure.Tests
         public void RunImage()
         {
             Run("Show image");
+        }
+
+        [Fact]
+        public void RunVideo()
+        {
+            Run("Show video");
         }
 
         [Fact]
