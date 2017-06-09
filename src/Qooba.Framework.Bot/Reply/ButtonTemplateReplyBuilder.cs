@@ -9,9 +9,9 @@ using System.Linq;
 
 namespace Qooba.Framework.Bot
 {
-    public class PostbackButtonTemplateReplyBuilder : IReplyBuilder<PostbackButtonTemplateReplyMessage>
+    public class ButtonTemplateReplyBuilder : IReplyBuilder<ButtonTemplateReplyMessage>
     {
-        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, PostbackButtonTemplateReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, ButtonTemplateReplyMessage reply)
         {
             return new ReplyMessage
             {
@@ -20,17 +20,17 @@ namespace Qooba.Framework.Bot
                     Payload = new ButtonTemplateAttachmentPayload
                     {
                         Text = reply.Text,
-                        Buttons = reply.Buttons.Cast<Button>().ToList()
+                        Buttons = reply.Buttons.Select(b => b.ToButton()).ToList()
                     }
                 }
             };
         }
     }
 
-    public class PostbackButtonTemplateReplyMessage
+    public class ButtonTemplateReplyMessage
     {
         public string Text { get; set; }
 
-        public IList<PostbackButton> Buttons { get; set; }
+        public IList<FullButton> Buttons { get; set; }
     }
 }

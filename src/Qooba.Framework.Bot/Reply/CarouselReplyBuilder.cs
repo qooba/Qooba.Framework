@@ -3,15 +3,14 @@ using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Bot.Abstractions.Models.Attachments;
 using Qooba.Framework.Bot.Abstractions.Models.Templates;
-using Qooba.Framework.Bot.Abstractions.Models.Buttons;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Qooba.Framework.Bot
 {
-    public class PostbackCarouselReplyBuilder : IReplyBuilder<PostbackCarouselReplyMessage>
+    public class CarouselReplyBuilder : IReplyBuilder<CarouselReplyMessage>
     {
-        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, PostbackCarouselReplyMessage reply)
+        public async Task<ReplyMessage> ExecuteAsync(IConversationContext context, CarouselReplyMessage reply)
         {
             return new ReplyMessage
             {
@@ -26,7 +25,7 @@ namespace Qooba.Framework.Bot
                                 Subtitle = x.Subtitle,
                                 Image_url = x.Image,
                                 Default_action = !string.IsNullOrEmpty(x.DefaultActionUrl) ? new DefaultAction { Url = x.DefaultActionUrl } : null,
-                                Buttons = x.Buttons.Cast<Button>().ToList()
+                                Buttons = x.Buttons.Select(b => b.ToButton()).ToList()
                             }
                         ).ToList()
                     }
@@ -35,12 +34,12 @@ namespace Qooba.Framework.Bot
         }
     }
 
-    public class PostbackCarouselReplyMessage
+    public class CarouselReplyMessage
     {
-        public IList<PostbackCarouselReplyElement> Elements { get; set; }
+        public IList<CarouselReplyElement> Elements { get; set; }
     }
 
-    public class PostbackCarouselReplyElement
+    public class CarouselReplyElement
     {
         public string Title { get; set; }
 
@@ -50,6 +49,6 @@ namespace Qooba.Framework.Bot
 
         public string DefaultActionUrl { get; set; }
 
-        public IList<PostbackButton> Buttons { get; set; }
+        public IList<FullButton> Buttons { get; set; }
     }
 }

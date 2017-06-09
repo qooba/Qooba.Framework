@@ -123,7 +123,7 @@
     {
       "replyId": "postbackButtonTemplate",
       "routes": [ "Show postback button template" ],
-      "replyType": "postbackButtonTemplate",
+      "replyType": "buttonTemplate",
       "reply": {
         "text": "hello!!!",
         "buttons": [
@@ -151,7 +151,7 @@
     {
       "replyId": "postbackCarousel",
       "routes": [ "Show postback carousel" ],
-      "replyType": "postbackCarousel",
+      "replyType": "carousel",
       "reply": {
         "elements": [
           {
