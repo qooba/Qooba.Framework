@@ -71,6 +71,10 @@ namespace Qooba.Framework.Bot
                         else
                         {
                             conversationContext.Route.RouteData[propertyName] = conversationContext.Entry.Message.Message.Text;
+                            if (conversationContext.Entry.Message.Message?.Quick_replies != null)
+                            {
+                                conversationContext.Route.RouteData[$"{Constants.QuickRepliesProperty}::{propertyName}"] = conversationContext.Entry.Message.Message?.Quick_replies.FirstOrDefault();
+                            }
                         }
 
                         i++;
@@ -89,7 +93,13 @@ namespace Qooba.Framework.Bot
                         continue;
                     }
 
-                    return (await this.replyFactory.CreateReplyAsync(conversationContext, property.ReplyItem)).Message;
+                    var createdReply = (await this.replyFactory.CreateReplyAsync(conversationContext, property.ReplyItem)).Message;
+                    if (createdReply == null)
+                    {
+                        continue;
+                    }
+
+                    return createdReply;
                 }
             }
 

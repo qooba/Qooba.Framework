@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Serialization</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net46;netstandard2.0;netstandard1.6</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Serialization</AssemblyName>
     <PackageId>Qooba.Framework.Serialization</PackageId>
     <PackageTags>framework</PackageTags>
@@ -27,4 +27,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
+    <PackageReference Update="NETStandard.Library" Version="1.6.0-*" />
+  </ItemGroup>
+  
 </Project>

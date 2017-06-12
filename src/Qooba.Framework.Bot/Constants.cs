@@ -2,6 +2,8 @@
 {
     public class Constants
     {
+        public static string QuickRepliesProperty => "QR";
+
         public static string InstrumentationKey => "Bot::InstrumentationKey";
 
         public static string MessangerAppSecret => "Bot::Messanger::AppSecret";

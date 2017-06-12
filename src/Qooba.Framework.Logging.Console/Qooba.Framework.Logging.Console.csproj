@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyTitle>Qooba.Framework.Bot.Abstractions</AssemblyTitle>
+    <AssemblyTitle>Qooba.Framework.Logging.Console</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
     <TargetFrameworks>net46;netstandard2.0;netstandard1.6</TargetFrameworks>
-    <AssemblyName>Qooba.Framework.Bot.Abstractions</AssemblyName>
-    <PackageId>Qooba.Framework.Bot.Abstractions</PackageId>
+    <AssemblyName>Qooba.Framework.Logging.Console</AssemblyName>
+    <PackageId>Qooba.Framework.Logging.Console</PackageId>
     <PackageTags>framework</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/qooba/Qooba.Framework/master/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/qooba/Qooba.Framework</PackageProjectUrl>
@@ -19,12 +19,12 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
-  </ItemGroup>
-  
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
     <PackageReference Update="NETStandard.Library" Version="1.6.0-*" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj" />
+  </ItemGroup>
 </Project>

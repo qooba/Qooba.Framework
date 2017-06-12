@@ -46,6 +46,7 @@ namespace Qooba.Framework.Bot
             framework.AddService(s => s.Service<IReplyBuilder>().As<HttpReplyBuilder>().Keyed("http"));
             framework.AddService(s => s.Service<IReplyBuilder>().As<ButtonTemplateReplyBuilder>().Keyed("buttonTemplate"));
             framework.AddService(s => s.Service<IReplyBuilder>().As<CarouselReplyBuilder>().Keyed("carousel"));
+            framework.AddService(s => s.Service<IReplyBuilder>().As<ListReplyBuilder>().Keyed("list"));
 
             framework.AddService(s => s.Service<IFormReplyCompletionAction>().As<TextFormReplyCompletionAction>().Keyed("text"));
             framework.AddService(s => s.Service<IFormReplyCompletionAction>().As<HttpFormReplyCompletionAction>().Keyed("http"));
