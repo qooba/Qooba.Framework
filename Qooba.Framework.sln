@@ -162,6 +162,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Bot.Azure.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Logging.Console", "src\Qooba.Framework.Logging.Console\Qooba.Framework.Logging.Console.csproj", "{A62BA3F4-49D6-4A87-9B41-2409AE4FE3E5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Bot.Aws", "src\Qooba.Framework.Bot.Aws\Qooba.Framework.Bot.Aws.csproj", "{4529867E-83D0-47F0-A9A6-C6C8AF59358A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -880,6 +882,18 @@ Global
 		{A62BA3F4-49D6-4A87-9B41-2409AE4FE3E5}.Release|x64.Build.0 = Release|Any CPU
 		{A62BA3F4-49D6-4A87-9B41-2409AE4FE3E5}.Release|x86.ActiveCfg = Release|Any CPU
 		{A62BA3F4-49D6-4A87-9B41-2409AE4FE3E5}.Release|x86.Build.0 = Release|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Debug|x64.Build.0 = Debug|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Debug|x86.Build.0 = Debug|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Release|x64.ActiveCfg = Release|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Release|x64.Build.0 = Release|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Release|x86.ActiveCfg = Release|Any CPU
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -961,5 +975,6 @@ Global
 		{F9C4ADB2-5325-4C19-A520-456D32CE2577} = {00DA0173-6DE5-451E-95C8-5ECDEB50040A}
 		{341CDC83-2B7F-4C67-ABA3-4971DF71254F} = {4F6514A9-8C84-4D7B-8FA4-BDA46DAF9DC8}
 		{A62BA3F4-49D6-4A87-9B41-2409AE4FE3E5} = {00DA0173-6DE5-451E-95C8-5ECDEB50040A}
+		{4529867E-83D0-47F0-A9A6-C6C8AF59358A} = {4F6514A9-8C84-4D7B-8FA4-BDA46DAF9DC8}
 	EndGlobalSection
 EndGlobal

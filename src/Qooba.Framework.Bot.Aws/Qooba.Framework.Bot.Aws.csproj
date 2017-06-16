@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="1.1.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.0.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.1.0" />
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.3.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="1.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Bot.Abstractions\Qooba.Framework.Bot.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Bot\Qooba.Framework.Bot.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Configuration.Abstractions\Qooba.Framework.Configuration.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Configuration\Qooba.Framework.Configuration.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.DependencyInjection.Abstractions\Qooba.Framework.DependencyInjection.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.DependencyInjection.SimpleContainer\Qooba.Framework.DependencyInjection.SimpleContainer.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Logging.Console\Qooba.Framework.Logging.Console.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Serialization.Abstractions\Qooba.Framework.Serialization.Abstractions.csproj" />
+    <ProjectReference Include="..\Qooba.Framework.Serialization\Qooba.Framework.Serialization.csproj" />
+    <ProjectReference Include="..\Qooba.Framework\Qooba.Framework.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -23,21 +23,59 @@ namespace Qooba.Framework.Bot
             if (configuration == null)
             {
                 var botConfigurationPath = config.BotConfigurationPath;
-                var botConfig = File.ReadAllText(botConfigurationPath);
-                this.serializer = serializer;
-
-                configuration = this.serializer.Deserialize<ReplyConfiguration>(botConfig);
-                routingTable = configuration.Items.SelectMany(x => x.Routes.Select(r => new Route
+                if (!string.IsNullOrEmpty(botConfigurationPath))
                 {
-                    RouteId = x.ReplyId,
-                    RouteText = r,
-                    IsDefault = x.IsDefault
-                })).ToList();
+                    var botConfig = File.ReadAllText(botConfigurationPath);
+                    this.serializer = serializer;
+
+                    configuration = this.serializer.Deserialize<ReplyConfiguration>(botConfig);
+                    routingTable = configuration.Items.SelectMany(x => x.Routes.Select(r => new Route
+                    {
+                        RouteId = x.ReplyId,
+                        RouteText = r,
+                        IsDefault = x.IsDefault
+                    })).ToList();
+                }
+                else
+                {
+                    configuration = new ReplyConfiguration
+                    {
+                        Items = new List<ReplyItem>()
+                    };
+
+                    routingTable = new List<Route>();
+                }
             }
         }
-        
+
         public IList<Route> RoutingTable => routingTable;
-        
+
+        public void AddConfiguration(ReplyItem replyItem)
+        {
+            if (configuration == null)
+            {
+                configuration = new ReplyConfiguration
+                {
+                    Items = new List<ReplyItem>()
+                };
+            }
+
+            configuration.Items.Add(replyItem);
+
+            if (routingTable == null)
+            {
+                routingTable = new List<Route>();
+            }
+
+            replyItem.Routes.ToList().ForEach(x =>
+            routingTable.Add(new Route
+            {
+                RouteId = replyItem.ReplyId,
+                RouteText = x,
+                IsDefault = replyItem.IsDefault
+            }));
+        }
+
         public async Task<ReplyItem> FetchReplyItem(IConversationContext context)
         {
             return configuration.Items.FirstOrDefault(x => x.ReplyId == context.Route.RouteId);
