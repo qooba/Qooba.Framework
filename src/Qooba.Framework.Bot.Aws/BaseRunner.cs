@@ -1,4 +1,10 @@
-﻿namespace Qooba.Framework.Bot.Aws
+﻿using Qooba.Framework.Configuration;
+using Qooba.Framework.DependencyInjection.SimpleContainer;
+using Qooba.Framework.Logging.Console;
+using Qooba.Framework.Serialization;
+using System;
+
+namespace Qooba.Framework.Bot.Aws
 {
     public abstract class BaseRunner
     {
@@ -7,8 +13,8 @@
             .AddModule(m => m.Module(new ConfigModule()))
             .AddModule(m => m.Module(new SerializationModule()))
             .AddModule(m => m.Module(new BotModule()))
-            .AddModule(m => m.Module(new BotAzureModule()))
-            .AddModule(m => m.Module(new AzureApplicationInsightsModule()))
+            .AddModule(m => m.Module(new BotAwsModule()))
+            .AddModule(m => m.Module(new ConsoleModule()))
             .Bootstrapp();
     }
 }

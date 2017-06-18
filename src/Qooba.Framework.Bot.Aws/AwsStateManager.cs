@@ -1,50 +1,54 @@
 ﻿using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Microsoft.WindowsAzure.Storage.Table;
 using Qooba.Framework.Serialization.Abstractions;
+using Amazon.DynamoDBv2;
+using System.Collections.Generic;
+using Amazon.DynamoDBv2.Model;
+using System;
 
 namespace Qooba.Framework.Bot.Aws
 {
-    public class AwsStateManager : BaseAzureTableStorage, IStateManager
+    public class AwsStateManager : IStateManager
     {
         private readonly IBotConfig config;
 
         private readonly ISerializer serializer;
 
+        private readonly IAmazonDynamoDB client;
+
         public AwsStateManager(IBotConfig config, ISerializer serializer)
         {
             this.config = config;
             this.serializer = serializer;
+            this.client = new AmazonDynamoDBClient();
         }
-
-        protected override string ConnectionString => this.config.BotStateManagerConnectionString;
 
         public async Task ClearContextAsync(IConversationContext context)
         {
-            var azureContext = new AzureConversationContext
+            var request = new DeleteItemRequest
             {
-                PartitionKey = context.ConnectorType.ToString(),
-                RowKey = context.Entry.Message.Sender.Id,
-                ETag = "*",
-                StateAction = context.StateAction
+                TableName = this.config.BotConversationContextTableName,
+                Key = new Dictionary<string, AttributeValue>() { { "Id", new AttributeValue { SS = new List<string> { context.ConnectorType.ToString(), context.Entry.Message.Sender.Id } } } }
             };
 
-            var deleteOperation = TableOperation.Delete(azureContext);
-            await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(deleteOperation);
+            await client.DeleteItemAsync(request);
         }
 
         public async Task<IConversationContext> FetchContextAsync(IConversationContext context)
         {
-            var userId = context.Entry.Message.Sender.Id;
-            var connectorType = context.ConnectorType.ToString();
-            var retrieveOperation = TableOperation.Retrieve<AzureConversationContext>(connectorType, userId);
-            var result = await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(retrieveOperation);
-            var lastContext = (AzureConversationContext)result.Result;
-
-            if (lastContext != null)
+            var request = new GetItemRequest
             {
-                var data = this.serializer.Deserialize<AzureConversationContext>(lastContext.ContextData);
+                TableName = this.config.BotConversationContextTableName,
+                Key = new Dictionary<string, AttributeValue>() { { "Id", new AttributeValue { SS = new List<string> { context.ConnectorType.ToString(), context.Entry.Message.Sender.Id } } } }
+            };
+
+            var response = await client.GetItemAsync(request);
+
+            AttributeValue contextData = null;
+            if (response.IsItemSet && response.Item.TryGetValue("ContextData", out contextData))
+            {
+                var data = this.serializer.Deserialize<AwsConversationContext>(contextData.S);
                 context.Route = data.Route;
                 context.Reply = data.Reply;
             }
@@ -55,28 +59,23 @@ namespace Qooba.Framework.Bot.Aws
         public async Task SaveContextAsync(IConversationContext context)
         {
             var contextData = this.serializer.Serialize(context);
-            var azureContext = new AzureConversationContext
+            var request = new PutItemRequest
             {
-                PartitionKey = context.ConnectorType.ToString(),
-                RowKey = context.Entry.Message.Sender.Id,
-                StateAction = context.StateAction,
-                ContextData = contextData
+                TableName = this.config.BotConversationContextTableName,
+                Item = new Dictionary<string, AttributeValue>()
+                {
+                    { "Id", new AttributeValue { SS = new List<string> { context.ConnectorType.ToString(), context.Entry.Message.Sender.Id } } },
+                    { "ContextData", new AttributeValue { S = contextData }}
+                }
             };
 
-            var insertOperation = TableOperation.InsertOrReplace(azureContext);
-            await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(insertOperation);
+            await client.PutItemAsync(request);
         }
     }
 
-    public class AzureConversationContext : TableEntity, IConversationContext
+    public class AwsConversationContext : IConversationContext
     {
-        public AzureConversationContext() { }
-
-        public AzureConversationContext(string partitionKey, string rowKey)
-        {
-            this.PartitionKey = partitionKey;
-            this.RowKey = rowKey;
-        }
+        public AwsConversationContext() { }
 
         public string ContextData { get; set; }
 

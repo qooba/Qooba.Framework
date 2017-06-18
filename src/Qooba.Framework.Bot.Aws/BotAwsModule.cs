@@ -11,9 +11,9 @@ namespace Qooba.Framework.Bot.Aws
 
         public void Bootstrapp(IFramework framework)
         {
-            framework.AddTransientService<IStateManager, AzureStateManager>();
-            framework.AddTransientService<IUserProfileService, AzureUserProfileService>();
-            framework.AddTransientService<IMessageQueue, AzureMessageQueue>();
+            framework.AddTransientService<IStateManager, AwsStateManager>();
+            framework.AddTransientService<IUserProfileService, AwsUserProfileService>();
+            framework.AddTransientService<IMessageQueue, AwsMessageQueue>();
         }
     }
 }

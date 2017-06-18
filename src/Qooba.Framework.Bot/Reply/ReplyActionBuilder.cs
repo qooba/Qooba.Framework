@@ -4,7 +4,7 @@ using Qooba.Framework.Bot.Abstractions.Models;
 using System;
 using Qooba.Framework.Abstractions;
 
-namespace Qooba.Framework.Bot.Reply
+namespace Qooba.Framework.Bot
 {
     public class ReplyActionBuilder<T> : IReplyBuilder<ReplyActionMessage>
         where T : class

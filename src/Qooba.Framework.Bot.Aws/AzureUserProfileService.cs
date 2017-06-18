@@ -1,90 +1,87 @@
 ﻿using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Microsoft.WindowsAzure.Storage.Table;
 using System;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
+using System.Collections.Generic;
 
 namespace Qooba.Framework.Bot.Aws
 {
-    public class AwsUserProfileService : BaseAzureTableStorage, IUserProfileService
+    public class AwsUserProfileService : IUserProfileService
     {
+        private const string Id = "Id";
+
+        private const string FirstName = "FirstName";
+
+        private const string LastName = "LastName";
+
+        private const string Gender = "Gender";
+
+        private const string Locale = "Locale";
+
+        private const string ProfilePicture = "ProfilePicture";
+
+        private const string Timezone = "Timezone";
+
         private readonly IBotConfig config;
+
+        private readonly IAmazonDynamoDB client;
 
         public AwsUserProfileService(IBotConfig config)
         {
             this.config = config;
+            this.client = new AmazonDynamoDBClient();
         }
-
-        protected override string ConnectionString => this.config.BotUserProfileConnectionString;
 
         public async Task<User> GetUserAsync(ConnectorType connectorType, string id)
         {
-            var retrieveOperation = TableOperation.Retrieve<AzureUser>(connectorType.ToString(), id);
-            var result = await this.PrepareTable(this.config.BotUserProfileTableName).ExecuteAsync(retrieveOperation);
-            var user = (AzureUser)result.Result;
-            if (user == null)
+            var request = new GetItemRequest
+            {
+                TableName = this.config.BotUserProfileTableName,
+                Key = new Dictionary<string, AttributeValue>() { { Id, new AttributeValue { SS = new List<string> { connectorType.ToString(), id } } } }
+            };
+
+            var response = await client.GetItemAsync(request);
+            if (!response.IsItemSet)
             {
                 return null;
             }
 
+            var item = response.Item;
+
             return new User
             {
-                ConnectorType = Enum.TryParse(user.ConnectorType, out ConnectorType ct) ? ct : ConnectorType.Messanger,
-                FirstName = user.FirstName,
-                Gender = Enum.TryParse(user.Gender, out Gender gender) ? gender : Gender.Unknown,
-                Id = user.Id,
-                LastName = user.LastName,
-                Locale = user.Locale,
-                ProfilePicture = user.ProfilePicture,
-                Timezone = user.Timezone
+                ConnectorType = connectorType,
+                FirstName = item.TryGetValue(FirstName, out AttributeValue firstName) ? firstName.S : null,
+                Gender = item.TryGetValue(Gender, out AttributeValue gender) ? (Enum.TryParse(gender.S, out Gender gd) ? gd : Abstractions.Models.Gender.Unknown) : Abstractions.Models.Gender.Unknown,
+                Id = id,
+                LastName = item.TryGetValue(LastName, out AttributeValue lastName) ? lastName.S : null,
+                Locale = item.TryGetValue(Locale, out AttributeValue locale) ? locale.S : null,
+                ProfilePicture = item.TryGetValue(ProfilePicture, out AttributeValue profilePicutre) ? profilePicutre.S : null,
+                Timezone = item.TryGetValue(Timezone, out AttributeValue timezone) ? (int.TryParse(timezone.N, out int tz) ? tz : 0) : 0
             };
         }
 
         public async Task SetUserAsync(User user)
         {
-            var azureUser = new AzureUser
+
+            var request = new PutItemRequest
             {
-                Gender = user.Gender.ToString(),
-                ConnectorType = user.ConnectorType.ToString(),
-                FirstName = user.FirstName,
-                Id = user.Id,
-                LastName = user.LastName,
-                Locale = user.Locale,
-                PartitionKey = user.ConnectorType.ToString(),
-                ProfilePicture = user.ProfilePicture,
-                RowKey = user.Id,
-                Timezone = user.Timezone
+                TableName = this.config.BotUserProfileTableName,
+                Item = new Dictionary<string, AttributeValue>()
+                {
+                    { Id, new AttributeValue { SS = new List<string> { user.ConnectorType.ToString(), user.Id } }},
+                    { FirstName, new AttributeValue { S = user.FirstName }},
+                    { LastName, new AttributeValue { S = user.LastName }},
+                    { Gender, new AttributeValue { S = user.Gender.ToString() }},
+                    { Locale, new AttributeValue { S = user.Locale }},
+                    { ProfilePicture, new AttributeValue { S = user.ProfilePicture }},
+                    { Timezone, new AttributeValue { N = user.Timezone.ToString() }},
+                }
             };
 
-            var insertOperation = TableOperation.InsertOrReplace(azureUser);
-            await this.PrepareTable(this.config.BotUserProfileTableName).ExecuteAsync(insertOperation);
+            await client.PutItemAsync(request);
         }
-    }
-
-    public class AzureUser : TableEntity
-    {
-        public AzureUser() { }
-
-        public AzureUser(string partitionKey, string rowKey)
-        {
-            this.PartitionKey = partitionKey;
-            this.RowKey = rowKey;
-        }
-
-        public string Id { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public string ProfilePicture { get; set; }
-
-        public string Locale { get; set; }
-
-        public int Timezone { get; set; }
-
-        public string Gender { get; set; }
-
-        public string ConnectorType { get; set; }
     }
 }

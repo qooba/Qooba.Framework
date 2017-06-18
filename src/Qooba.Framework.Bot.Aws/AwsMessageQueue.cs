@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions;
 using Amazon.SimpleNotificationService;
-using Amazon.SimpleNotificationService.Model;
 
 namespace Qooba.Framework.Bot.Aws
 {
@@ -17,15 +16,6 @@ namespace Qooba.Framework.Bot.Aws
             this.client = new AmazonSimpleNotificationServiceClient();
         }
 
-        public Task EnqueueAsync(string message) => this.PrepareQueue().AddMessageAsync(new CloudQueueMessage(message));
-
-        private CloudQueue PrepareQueue()
-        {
-            
-            client.PublishAsync
-            //var storageAccount = CloudStorageAccount.Parse(this.config.BotQueueConnectionString);
-            //var queueClient = storageAccount.CreateCloudQueueClient();
-            //return queueClient.GetQueueReference(this.config.BotQueueName);
-        }
+        public async Task EnqueueAsync(string message) => await this.client.PublishAsync(this.config.BotQueueName, message);
     }
 }

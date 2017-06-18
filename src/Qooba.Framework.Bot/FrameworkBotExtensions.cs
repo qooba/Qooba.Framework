@@ -1,7 +1,6 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
 using System;
 using Qooba.Framework.Abstractions;
-using Qooba.Framework.Bot.Reply;
 
 namespace Qooba.Framework.Bot
 {
