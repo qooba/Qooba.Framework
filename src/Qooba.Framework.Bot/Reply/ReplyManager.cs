@@ -1,6 +1,7 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Serialization.Abstractions;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,73 +13,49 @@ namespace Qooba.Framework.Bot
     {
         private readonly ISerializer serializer;
 
-        private static ReplyConfiguration configuration;
+        private static ConcurrentBag<ReplyItem> replyItems = new ConcurrentBag<ReplyItem>();
 
-        private static IList<Route> routingTable;
+        private static ConcurrentBag<Route> routingTable = new ConcurrentBag<Route>();
 
         private static Route defaultRoute;
 
         public ReplyManager(IBotConfig config, ISerializer serializer)
         {
-            if (configuration == null)
+            var botConfigurationPath = config.BotConfigurationPath;
+            if (!string.IsNullOrEmpty(botConfigurationPath))
             {
-                var botConfigurationPath = config.BotConfigurationPath;
-                if (!string.IsNullOrEmpty(botConfigurationPath))
-                {
-                    var botConfig = File.ReadAllText(botConfigurationPath);
-                    this.serializer = serializer;
+                var botConfig = File.ReadAllText(botConfigurationPath);
+                this.serializer = serializer;
 
-                    configuration = this.serializer.Deserialize<ReplyConfiguration>(botConfig);
-                    routingTable = configuration.Items.SelectMany(x => x.Routes.Select(r => new Route
-                    {
-                        RouteId = x.ReplyId,
-                        RouteText = r,
-                        IsDefault = x.IsDefault
-                    })).ToList();
-                }
-                else
+                var configuration = this.serializer.Deserialize<ReplyConfiguration>(botConfig);
+                configuration.Items.ToList().ForEach(x => replyItems.Add(x));
+                configuration.Items.SelectMany(x => x.Routes.Select(r => new Route
                 {
-                    configuration = new ReplyConfiguration
-                    {
-                        Items = new List<ReplyItem>()
-                    };
-
-                    routingTable = new List<Route>();
-                }
+                    RouteId = x.ReplyId,
+                    RouteText = r,
+                    IsDefault = x.IsDefault
+                })).ToList().ForEach(x => routingTable.Add(x));
             }
         }
 
-        public IList<Route> RoutingTable => routingTable;
+        public IList<Route> RoutingTable => routingTable.ToList();
 
         public void AddConfiguration(ReplyItem replyItem)
         {
-            if (configuration == null)
+            if (!replyItems.ToList().Any(x => x.ReplyId == replyItem.ReplyId))
             {
-                configuration = new ReplyConfiguration
+                replyItems.Add(replyItem);
+                
+                replyItem.Routes.ToList().ForEach(x =>
+                routingTable.Add(new Route
                 {
-                    Items = new List<ReplyItem>()
-                };
+                    RouteId = replyItem.ReplyId,
+                    RouteText = x,
+                    IsDefault = replyItem.IsDefault
+                }));
             }
-
-            configuration.Items.Add(replyItem);
-
-            if (routingTable == null)
-            {
-                routingTable = new List<Route>();
-            }
-
-            replyItem.Routes.ToList().ForEach(x =>
-            routingTable.Add(new Route
-            {
-                RouteId = replyItem.ReplyId,
-                RouteText = x,
-                IsDefault = replyItem.IsDefault
-            }));
         }
 
-        public async Task<ReplyItem> FetchReplyItem(IConversationContext context)
-        {
-            return configuration.Items.FirstOrDefault(x => x.ReplyId == context.Route.RouteId);
-        }
+        public async Task<ReplyItem> FetchReplyItem(IConversationContext context) => replyItems.FirstOrDefault(x => x.ReplyId == context.Route.RouteId);
     }
 }

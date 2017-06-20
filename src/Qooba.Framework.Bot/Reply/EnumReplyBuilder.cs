@@ -13,7 +13,7 @@ namespace Qooba.Framework.Bot
             return new ReplyMessage
             {
                 Text = reply.Text,
-                Quick_replies = reply.Enum.Select(x => new QuickReply { Content_type = ContentType.text, Title = x, Payload = x }).ToList()
+                Quick_replies = reply.Enum.Select(x => new QuickReply { Content_type = ContentType.text, Title = x.Title, Payload = x.Payload ?? x.Title }).ToList()
             };
         }
     }
@@ -22,6 +22,13 @@ namespace Qooba.Framework.Bot
     {
         public string Text { get; set; }
 
-        public IEnumerable<string> Enum { get; set; }
+        public IEnumerable<EnumReplyItem> Enum { get; set; }
+    }
+
+    public class EnumReplyItem
+    {
+        public string Title { get; set; }
+
+        public string Payload { get; set; }
     }
 }

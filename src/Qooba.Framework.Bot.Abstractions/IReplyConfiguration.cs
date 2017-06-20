@@ -5,6 +5,8 @@ namespace Qooba.Framework.Bot.Abstractions
 {
     public interface IReplyConfiguration
     {
+        void AddConfiguration(ReplyItem replyItem);
+
         Task<ReplyItem> FetchReplyItem(IConversationContext context);
     }
 }

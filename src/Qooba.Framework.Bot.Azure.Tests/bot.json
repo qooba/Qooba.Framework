@@ -41,6 +41,11 @@
       }
     },
     {
+      "replyId": "testReplyAction",
+      "routes": [ "Show replyAction" ],
+      "replyType": "testReplyAction"
+    },
+    {
       "replyId": "text",
       "routes": [ "Show text" ],
       "replyType": "text",
@@ -70,7 +75,15 @@
       "replyType": "enum",
       "reply": {
         "text": "Choose color ?",
-        "enum": [ "Red", "Green", "Blue", "Black", "White", "Yellow", "Brown" ]
+        "enum": [
+          { "Title": "Red" },
+          { "Title": "Green" },
+          { "Title": "Blue" },
+          { "Title": "Black" },
+          { "Title": "White" },
+          { "Title": "Yellow" },
+          { "Title": "Brown" }
+        ]
       }
     },
     {
@@ -95,7 +108,11 @@
               "replyType": "enum",
               "reply": {
                 "text": "Choose color ?",
-                "enum": [ "Red", "Green", "Blue" ]
+                "enum": [
+                  { "Title": "Red" },
+                  { "Title": "Green" },
+                  { "Title": "Blue" }
+                ]
               }
             }
           },
@@ -107,7 +124,11 @@
               "replyType": "enum",
               "reply": {
                 "text": "Choose shape ?",
-                "enum": [ "Circle", "Rectangle", "Triangle" ]
+                "enum": [
+                  { "Title": "Circle" },
+                  { "Title": "Rectangle" },
+                  { "Title": "Triangle" }
+                ]
               }
             }
           }

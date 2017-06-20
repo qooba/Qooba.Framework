@@ -47,16 +47,32 @@ namespace Qooba.Framework.Bot
             framework.AddService(s => s.Service<IReplyBuilder>().As<ButtonTemplateReplyBuilder>().Keyed("buttonTemplate"));
             framework.AddService(s => s.Service<IReplyBuilder>().As<CarouselReplyBuilder>().Keyed("carousel"));
             framework.AddService(s => s.Service<IReplyBuilder>().As<ListReplyBuilder>().Keyed("list"));
+            framework.AddService(s => s.Service<IReplyBuilder>().As<CallReplyBuilder>().Keyed("call"));
+            
+            framework.AddService(s => s.Service<IReplyBuilder<RawReplyMessage>>().As<RawReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<TextReplyMessage>>().As<TextReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<ImageReplyMessage>>().As<ImageReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<VideoReplyMessage>>().As<VideoReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<AudioReplyMessage>>().As<AudioReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<FileReplyMessage>>().As<FileReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<EnumReplyMessage>>().As<EnumReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<LocationReplyMessage>>().As<LocationReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<FormReplyMessage>>().As<FormReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<HttpReplyMessage>>().As<HttpReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<ButtonTemplateReplyMessage>>().As<ButtonTemplateReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<CarouselReplyMessage>>().As<CarouselReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<ListReplyMessage>>().As<ListReplyBuilder>());
+            framework.AddService(s => s.Service<IReplyBuilder<CallReplyMessage>>().As<CallReplyBuilder>());
 
             framework.AddService(s => s.Service<IFormReplyCompletionAction>().As<TextFormReplyCompletionAction>().Keyed("text"));
             framework.AddService(s => s.Service<IFormReplyCompletionAction>().As<HttpFormReplyCompletionAction>().Keyed("http"));
-            
+
             framework.AddTransientService<IHandlerManager, HandlerManager>();
             framework.AddSingletonService<IReplyConfiguration, ReplyManager>();
             framework.AddSingletonService<IReplyFactory, ReplyFactory>();
             framework.AddSingletonService<IRoutingConfiguration, ReplyManager>();
             framework.AddSingletonService<IGenericExpressionFactory, GenericExpressionFactory>();
-            
+
             framework.AddService(s => s.Service<IRouter>().As<DefaultRouter>().Keyed(nameof(DefaultRouter)));
             framework.AddService(s => s.Service<IRouter>().As<RegexRouter>().Keyed(nameof(RegexRouter)).Lifetime(Lifetime.Singleton));
 

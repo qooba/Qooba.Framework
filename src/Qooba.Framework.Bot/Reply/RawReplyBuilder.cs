@@ -4,8 +4,12 @@ using Qooba.Framework.Bot.Abstractions.Models;
 
 namespace Qooba.Framework.Bot
 {
-    public class RawReplyBuilder : IReplyBuilder<ReplyMessage>
+    public class RawReplyBuilder : IReplyBuilder<RawReplyMessage>
     {
-        public Task<ReplyMessage> ExecuteAsync(IConversationContext context, ReplyMessage reply) => Task.FromResult(reply);
+        public Task<ReplyMessage> ExecuteAsync(IConversationContext context, RawReplyMessage reply) => Task.FromResult((ReplyMessage)reply);
+    }
+
+    public class RawReplyMessage : ReplyMessage
+    {
     }
 }

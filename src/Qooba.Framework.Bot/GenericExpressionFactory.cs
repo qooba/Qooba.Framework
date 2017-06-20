@@ -70,7 +70,12 @@ namespace Qooba.Framework.Bot
                 itemFunc = (Func<TInterface, IConversationContext, object, object>)itemFuncObj;
             }
 
-            var itemDataObj = this.serializer.Deserialize(itemDataText, cachedSubReplyType[itemType]);
+            object itemDataObj = null;
+            if (!string.IsNullOrEmpty(itemDataText))
+            {
+                itemDataObj = this.serializer.Deserialize(itemDataText, cachedSubReplyType[itemType]);
+            }
+
             return itemFunc(item, conversationContext, itemDataObj);
         }
     }

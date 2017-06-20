@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.DependencyInjection.SimpleContainer;
 using Xunit;
 
@@ -22,6 +25,12 @@ namespace Qooba.Framework.Bot.Azure.Tests
         public void RunShopping()
         {
             Run("Jadê do Arkadii chcê kupiæ spodnie");
+        }
+
+        [Fact]
+        public void RunReplyAction()
+        {
+            Run("Show replyAction");
         }
 
         [Fact]
@@ -85,10 +94,23 @@ namespace Qooba.Framework.Bot.Azure.Tests
             var container = new Container();
             container.RegisterInstance(null, typeof(IConfigurationRoot), this.configurationRootMock.Object);
 
+            FrameworkBuilder.Create().AddBotAction<TestReplyAction>("testReplyAction");
+
             string queueItem = QueueItem(message);
             BotRunner.Run(queueItem).Wait();
         }
 
         private string QueueItem(string message) => ("{\"connectorType\": \"Messanger\", \"message\":{\"sender\": {\"id\": \"USER_ID\"},\"recipient\": {\"id\": \"PAGE_ID\"},\"timestamp\": 1458692752478,\"message\": {\"mid\": \"mid.1457764197618:41d102a3e1ae206a38\",\"text\": \"" + message + "\",\"quick_reply\": {\"payload\": \"DEVELOPER_DEFINED_PAYLOAD\"}}}}").Replace("USER_ID", this.UserId);
+    }
+
+    public class TestReplyAction : IReplyAction<TextReplyMessage>
+    {
+        public async Task<TextReplyMessage> CreateReplyMessage(IConversationContext conversationContext, IDictionary<string, string> parameters)
+        {
+            return new TextReplyMessage
+            {
+                Text = "test"
+            };
+        }
     }
 }

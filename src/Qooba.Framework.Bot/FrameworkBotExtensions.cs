@@ -1,18 +1,33 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
 using System;
 using Qooba.Framework.Abstractions;
+using System.Reflection;
+using System.Linq;
 
 namespace Qooba.Framework.Bot
 {
     public static class FrameworkBotExtensions
     {
-        public static IFramework AddBotAction<T>(this IFramework framework, Func<IReplyAction<T>> replyActionFunc)
-            where T : class
+        public static IFramework AddBotAction<TReplyAction>(this IFramework framework, string replyType)
+            where TReplyAction : class, IReplyAction
         {
-            var replyAction = replyActionFunc();
-            framework.AddService(s => s.Service<IReplyBuilder>().As(sp => new ReplyActionBuilder<T>((IReplyBuilder<T>)sp.GetService(typeof(IReplyBuilder<T>))) { Action = replyActionFunc }).Keyed(replyAction.GetType().FullName));
-            return framework;
-        }
+            Type type = null;
+            foreach (var i in typeof(TReplyAction).GetTypeInfo().GetInterfaces())
+            {
+                if (i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition().Name.Contains("IReplyAction"))
+                {
+                    type = i.GetGenericArguments().FirstOrDefault();
+                    break;
+                }
+            }
 
+            var a = typeof(ReplyActionBuilder<,>);
+            var args = new[] { type, typeof(TReplyAction) };
+            var raType = a.MakeGenericType(args);
+
+            return framework
+                .AddTransientService<TReplyAction, TReplyAction>()
+                .AddService(s => s.Service<IReplyBuilder>().As(raType).Keyed(replyType));
+        }
     }
 }

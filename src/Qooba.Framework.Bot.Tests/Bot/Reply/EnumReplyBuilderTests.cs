@@ -28,11 +28,11 @@ namespace Qooba.Framework.Bot.Tests
         {
             var reply = new EnumReplyMessage
             {
-                Enum = new string[]
+                Enum = new []
                 {
-                    "Red",
-                    "Green",
-                    "Blue"
+                    new EnumReplyItem { Title = "Red", Payload = "Red"},
+                    new EnumReplyItem { Title = "Green", Payload = "Green"},
+                    new EnumReplyItem { Title = "Blue", Payload = "Blue"}
                 }
             };
 

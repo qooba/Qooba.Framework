@@ -13,7 +13,7 @@ namespace Qooba.Framework.Bot.Tests
 {
     public class RawReplyBuilderTests
     {
-        private IReplyBuilder<ReplyMessage> replyBuilder;
+        private IReplyBuilder<RawReplyMessage> replyBuilder;
 
         private Mock<IConversationContext> conversationContextMock;
 
@@ -26,7 +26,7 @@ namespace Qooba.Framework.Bot.Tests
         [Fact]
         public void BuildTest()
         {
-            ReplyMessage reply = new ReplyMessage
+            var reply = new RawReplyMessage
             {
                 Text = "hello"
             };

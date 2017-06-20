@@ -35,5 +35,15 @@ namespace Qooba.Framework.Bot.Tests
 
             Assert.True(replyMessage.Text == reply.Text);
         }
+
+        [Fact]
+        public void BuildNullTest()
+        {
+            TextReplyMessage reply = null;
+
+            var replyMessage = this.replyBuilder.ExecuteAsync(this.conversationContextMock.Object, null).Result;
+
+            Assert.True(replyMessage.Text == null);
+        }
     }
 }

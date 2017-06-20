@@ -24,7 +24,8 @@ namespace Qooba.Framework.Bot.Tests
             {
                 new Route { RouteId = "#hello", RouteText = "hello world"},
                 new Route { RouteId = "#default", RouteText = "hello lol", IsDefault = true},
-                new Route { RouteId = "#shopping", RouteText = "Jadę do {{shoppingMall}} chcę kupić {{product}}"}
+                new Route { RouteId = "#shopping", RouteText = "Jadę do {{shoppingMall}} chcę kupić {{product}}"},
+                new Route { RouteId = "#accountDetails", RouteText = "Moje {{account}}"}
             };
             this.routingConfigurationMock.Setup(x => x.RoutingTable).Returns(routeTable);
             this.router = new RegexRouter(this.routingConfigurationMock.Object);
@@ -52,6 +53,18 @@ namespace Qooba.Framework.Bot.Tests
             Assert.True(route.RouteId == id);
             Assert.True(route.RouteData["shoppingMall"].ToString() == "Arkadii");
             Assert.True(route.RouteData["product"].ToString() == "spodnie");
+        }
+
+        [Fact]
+        public void AccountRouteTest()
+        {
+            var text = "Moje konto 360";
+            var id = "#accountDetails";
+
+            var route = this.router.FindRouteAsync(text).Result;
+
+            Assert.True(route.RouteId == id);
+            Assert.True(route.RouteData["account"].ToString() == "konto 360");
         }
 
         //[Fact]

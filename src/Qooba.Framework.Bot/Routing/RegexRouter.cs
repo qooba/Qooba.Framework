@@ -9,7 +9,7 @@ namespace Qooba.Framework.Bot.Routing
 {
     public class RegexRouter : IRouter
     {
-        private const string RegexParameterPattern = @"[a-zA-Z0-9\._]+";
+        private const string RegexParameterPattern = @"[a-zA-Z0-9\._ ]+";
 
         private readonly IList<RegexRoute> regexRoutes;
 
