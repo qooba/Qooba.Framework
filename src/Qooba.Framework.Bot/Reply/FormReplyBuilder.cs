@@ -4,7 +4,6 @@ using Qooba.Framework.Bot.Abstractions.Models;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using Qooba.Framework.Serialization.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Form;
 
 namespace Qooba.Framework.Bot

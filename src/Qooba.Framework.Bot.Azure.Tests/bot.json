@@ -42,7 +42,7 @@
     },
     {
       "replyId": "testReplyAction",
-      "routes": [ "Show replyAction" ],
+      "routes": [ "Show replyAction", "Moje {{konto}}" ],
       "replyType": "testReplyAction"
     },
     {

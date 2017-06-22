@@ -26,10 +26,13 @@ namespace Qooba.Framework.Bot
 
         public object Create<TInterface>(string itemType, Func<string, TInterface> itemFactory, IConversationContext conversationContext, string itemDataText)
         {
-            conversationContext?.Route?.RouteData?.ToList().ForEach(d =>
+            if (!string.IsNullOrEmpty(itemDataText))
             {
-                itemDataText = itemDataText.Replace(string.Concat("{{", d.Key, "}}"), d.Value.ToString());
-            });
+                conversationContext?.Route?.RouteData?.ToList().ForEach(d =>
+                {
+                    itemDataText = itemDataText.Replace(string.Concat("{{", d.Key, "}}"), d.Value.ToString());
+                });
+            }
 
             var item = itemFactory(itemType);
             Func<TInterface, IConversationContext, object, object> itemFunc = null;

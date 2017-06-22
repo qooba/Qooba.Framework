@@ -30,7 +30,8 @@ namespace Qooba.Framework.Bot.Azure.Tests
         [Fact]
         public void RunReplyAction()
         {
-            Run("Show replyAction");
+            //Run("Show replyAction");
+            Run("Moje Konto 360");
         }
 
         [Fact]
