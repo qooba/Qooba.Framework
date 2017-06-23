@@ -29,7 +29,8 @@ namespace Qooba.Framework.Bot.Tests
             Func<object, IFormReplyCompletionAction> formReplyCompletionActionFunc = x => new TextFormReplyCompletionAction();
             Func<object, IFormReplyPropertyActiveConstraint> formReplyPropertyActiveConstraintFunc = x => null;
             Func<object, IFormReplyPropertyValidator> formReplyPropertyValidatorFunc = x => null;
-            this.replyBuilder = new FormReplyBuilder(this.replyFactoryMock.Object, routers, this.genericExpressionFactoryMock.Object, formReplyCompletionActionFunc, formReplyPropertyActiveConstraintFunc, formReplyPropertyValidatorFunc);
+            Func<object, IFormReplyPropertyConfirmation> formReplyPropertyConfirmationFunc = x => null;
+            this.replyBuilder = new FormReplyBuilder(this.replyFactoryMock.Object, routers, this.genericExpressionFactoryMock.Object, formReplyCompletionActionFunc, formReplyPropertyActiveConstraintFunc, formReplyPropertyValidatorFunc, formReplyPropertyConfirmationFunc);
 
             this.replyFactoryMock.Setup(x => x.CreateReplyAsync(It.IsAny<IConversationContext>(), It.IsAny<ReplyItem>())).Returns(Task.FromResult(new Reply
             {

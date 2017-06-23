@@ -3,15 +3,14 @@
 namespace Qooba.Framework.Bot.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class ActiveConstraintAttribute : Attribute
+    public class ActiveConstraintAttribute : BaseReplyAttribute
     {
-        public ActiveConstraintAttribute(string activeConstraintType)
+        public ActiveConstraintAttribute(string typeKey) : base(typeKey)
         {
-            this.ActiveConstraintType = activeConstraintType;
         }
 
-        public string ActiveConstraintType { get; private set; }
-
-        public virtual string ActiveConstraintData { get; }
+        public ActiveConstraintAttribute(Type type) : base(type)
+        {
+        }
     }
 }

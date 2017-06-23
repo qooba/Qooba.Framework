@@ -3,15 +3,14 @@
 namespace Qooba.Framework.Bot.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class PropertyReplyAttribute : Attribute
+    public class PropertyReplyAttribute : BaseReplyAttribute
     {
-        public PropertyReplyAttribute(string replyType)
+        public PropertyReplyAttribute(string typeKey) : base(typeKey)
         {
-            this.ReplyType = replyType;
         }
 
-        public string ReplyType { get; private set; }
-
-        public virtual string Reply { get; }
+        public PropertyReplyAttribute(Type type) : base(type)
+        {
+        }
     }
 }

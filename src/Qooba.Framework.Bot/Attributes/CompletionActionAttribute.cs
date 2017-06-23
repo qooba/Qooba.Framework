@@ -3,15 +3,14 @@
 namespace Qooba.Framework.Bot.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class CompletionActionAttribute : Attribute
+    public class CompletionActionAttribute : BaseReplyAttribute
     {
-        public CompletionActionAttribute(string completionActionType)
+        public CompletionActionAttribute(string typeKey) : base(typeKey)
         {
-            this.CompletionActionType = completionActionType;
         }
 
-        public string CompletionActionType { get; private set; }
-
-        public virtual string CompletionActionData { get; }
+        public CompletionActionAttribute(Type type) : base(type)
+        {
+        }
     }
 }

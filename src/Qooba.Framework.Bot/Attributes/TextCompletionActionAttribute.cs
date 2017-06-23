@@ -3,7 +3,7 @@
 namespace Qooba.Framework.Bot.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public abstract class TextCompletionActionAttribute : CompletionActionAttribute
+    public class TextCompletionActionAttribute : CompletionActionAttribute
     {
         private readonly string text;
 
@@ -12,6 +12,6 @@ namespace Qooba.Framework.Bot.Attributes
             this.text = text;
         }
 
-        public override string CompletionActionData => $"{{\"text\":\"{this.text}\"}}";
+        public override string Data => $"{{\"text\":\"{this.text}\"}}";
     }
 }

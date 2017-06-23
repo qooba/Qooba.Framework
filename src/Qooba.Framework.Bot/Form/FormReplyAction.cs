@@ -25,27 +25,30 @@ namespace Qooba.Framework.Bot.Form
                 formReplyMessage.CompletionActions = attributes
                     .Select(x => (x as CompletionActionAttribute))
                     .Where(x => x != null)
-                    .Select(x => new CompletionAction { CompletionActionType = x.CompletionActionType, CompletionActionData = x.CompletionActionData });
+                    .Select(x => new CompletionAction { CompletionActionType = x.TypeKey, CompletionActionData = x.Data });
 
                 var properties = modelTypeInfo.GetProperties();
                 var messageProperties = new List<FormReplyMessageProperty>();
                 foreach (var property in properties)
                 {
-                    var propertyTypeInfo = property.GetType().GetTypeInfo();
-                    var propertyAttributes = propertyTypeInfo.GetCustomAttributes();
+                    var propertyAttributes = property.GetCustomAttributes();
 
                     var replyType = (PropertyReplyAttribute)propertyAttributes.FirstOrDefault(x => x is PropertyReplyAttribute);
+                    var validators = propertyAttributes.Select(x => x as PropertyValidatorAttribute).Where(x => x != null);
+                    var confirmations = propertyAttributes.Select(x => x as PropertyConfirmAttribute).Where(x => x != null);
 
                     var prop = new FormReplyMessageProperty
                     {
-                        PropertyName = propertyTypeInfo.Name,
-                        PropertyType = propertyTypeInfo.ToString(),
+                        PropertyName = property.Name,
+                        PropertyType = property.PropertyType.ToString(),
                         ReplyItem = new Abstractions.Models.ReplyItem
                         {
-                            ReplyId = replyType.ReplyType,
-                            ReplyType = replyType.ReplyType,
-                            Reply = replyType.Reply
-                        }
+                            ReplyId = replyType.TypeKey,
+                            ReplyType = replyType.TypeKey,
+                            Reply = replyType.Data
+                        },
+                        Validators = validators.Select(x => new Validator { ValidatorType = x.TypeKey, ValidatorData = x.Data }),
+                        Confirmations = confirmations.Select(x => new Confirm { ConfirmType = x.TypeKey, ConfirmData = x.Data })
                     };
 
                     messageProperties.Add(prop);

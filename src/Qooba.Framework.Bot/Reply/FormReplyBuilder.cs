@@ -20,6 +20,8 @@ namespace Qooba.Framework.Bot
 
         private readonly Func<object, IFormReplyPropertyValidator> validatorFactory;
 
+        private readonly Func<object, IFormReplyPropertyConfirmation> confirmationFactory;
+
         private readonly Func<object, IFormReplyCompletionAction> completionActionFactory;
 
         public FormReplyBuilder(
@@ -28,7 +30,8 @@ namespace Qooba.Framework.Bot
             IGenericExpressionFactory genericExpressionFactory,
             Func<object, IFormReplyCompletionAction> completionActionFactory,
             Func<object, IFormReplyPropertyActiveConstraint> activeConstraintFactory,
-            Func<object, IFormReplyPropertyValidator> validatorFactory
+            Func<object, IFormReplyPropertyValidator> validatorFactory,
+            Func<object, IFormReplyPropertyConfirmation> confirmationFactory
             )
         {
             this.replyFactory = replyFactory;
@@ -37,6 +40,7 @@ namespace Qooba.Framework.Bot
             this.completionActionFactory = completionActionFactory;
             this.activeConstraintFactory = activeConstraintFactory;
             this.validatorFactory = validatorFactory;
+            this.confirmationFactory = confirmationFactory;
         }
 
         public async Task<ReplyMessage> ExecuteAsync(IConversationContext conversationContext, FormReplyMessage reply)
@@ -53,6 +57,8 @@ namespace Qooba.Framework.Bot
                     {
                         return validationMessage;
                     }
+
+                    //TODO: add confirmation propperty
 
                     if (conversationContext.Reply != null)
                     {
@@ -173,6 +179,8 @@ namespace Qooba.Framework.Bot
 
         public IEnumerable<Validator> Validators { get; set; }
 
+        public IEnumerable<Confirm> Confirmations { get; set; }
+
         public ReplyItem ReplyItem { get; set; }
     }
 
@@ -188,6 +196,13 @@ namespace Qooba.Framework.Bot
         public string ValidatorType { get; set; }
 
         public object ValidatorData { get; set; }
+    }
+
+    public class Confirm
+    {
+        public string ConfirmType { get; set; }
+
+        public object ConfirmData { get; set; }
     }
 
     public class CompletionAction

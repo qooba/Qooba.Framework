@@ -3,7 +3,7 @@
 namespace Qooba.Framework.Bot.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public abstract class HttpCompletionActionAttribute : CompletionActionAttribute
+    public class HttpCompletionActionAttribute : CompletionActionAttribute
     {
         private readonly string url;
 
@@ -12,6 +12,6 @@ namespace Qooba.Framework.Bot.Attributes
             this.url = url;
         }
 
-        public override string CompletionActionData => $"{{\"url\":\"{this.url}\"}}";
+        public override string Data => $"{{\"url\":\"{this.url}\"}}";
     }
 }

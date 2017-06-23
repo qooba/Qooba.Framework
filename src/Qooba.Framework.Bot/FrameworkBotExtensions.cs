@@ -6,11 +6,19 @@ using System.Linq;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Bot.Attributes;
 using Qooba.Framework.Bot.Form;
+using System.Collections.Concurrent;
+using Qooba.Framework.Bot.Abstractions.Form;
 
 namespace Qooba.Framework.Bot
 {
     public static class FrameworkBotExtensions
     {
+        private static ConcurrentBag<Type> registeredCompletionActions = new ConcurrentBag<Type>();
+
+        private static ConcurrentBag<Type> registeredValidators = new ConcurrentBag<Type>();
+
+        private static ConcurrentBag<Type> registeredActions = new ConcurrentBag<Type>();
+
         public static IFramework AddBotForm<TModel>(this IFramework framework)
             where TModel : class
         {
@@ -21,26 +29,62 @@ namespace Qooba.Framework.Bot
         public static IFramework AddBotForm<TModel>(this IFramework framework, string[] routes)
             where TModel : class
         {
+            var modelTypeInfo = typeof(TModel).GetTypeInfo();
+            var completionActions = modelTypeInfo.GetCustomAttributes().Select(x => x as CompletionActionAttribute).Where(x => x?.Type != null && !registeredCompletionActions.Contains(x.Type));
+            foreach (var completionAction in completionActions)
+            {
+                framework.AddService(s => s.Service<IFormReplyCompletionAction>().As(completionAction.Type).Keyed(completionAction.TypeKey));
+                registeredCompletionActions.Add(completionAction.Type);
+            }
+
+            var propertiesAttributes = modelTypeInfo.GetProperties().SelectMany(x => x.GetCustomAttributes());
+            var validators = propertiesAttributes.Select(x => x as PropertyValidatorAttribute).Where(x => x?.Type != null && !registeredValidators.Contains(x.Type)).Distinct();
+            foreach (var validator in validators)
+            {
+                framework.AddService(s => s.Service<IFormReplyPropertyValidator>().As(validator.Type).Keyed(validator.TypeKey));
+                registeredValidators.Add(validator.Type);
+            }
+
+            var actions = propertiesAttributes.Select(x => x as PropertyReplyAttribute).Where(x => x?.Type != null && !registeredActions.Contains(x.Type)).Distinct();
+            foreach (var action in actions)
+            {
+                AddBotAction(framework, action.Type, action.TypeKey);
+                registeredActions.Add(action.Type);
+            }
+
             return AddBotAction<FormReplyAction<TModel>>(framework, routes);
         }
 
         public static IFramework AddBotDefaultAction<TReplyAction>(this IFramework framework)
-            where TReplyAction : class, IReplyAction
-        {
-            return AddBotAction<TReplyAction>(framework, new[] { "#default" });
-        }
+            where TReplyAction : class, IReplyAction => AddBotDefaultAction(framework, typeof(TReplyAction));
+
 
         public static IFramework AddBotAction<TReplyAction>(this IFramework framework)
+            where TReplyAction : class, IReplyAction => AddBotAction<TReplyAction>(framework, typeof(TReplyAction));
+
+
+        public static IFramework AddBotAction<TReplyAction>(this IFramework framework, string[] routes)
+            where TReplyAction : class, IReplyAction => AddBotAction(framework, typeof(TReplyAction), routes);
+
+
+        public static IFramework AddBotAction<TReplyAction>(this IFramework framework, string replyType)
+        where TReplyAction : class, IReplyAction => AddBotAction(framework, typeof(TReplyAction), replyType);
+        
+        private static IFramework AddBotDefaultAction(this IFramework framework, Type replyActionType)
+        {
+            return AddBotAction(framework, replyActionType, new[] { "#default" });
+        }
+
+        private static IFramework AddBotAction<TReplyAction>(this IFramework framework, Type replyActionType)
             where TReplyAction : class, IReplyAction
         {
-            var routes = typeof(TReplyAction).GetTypeInfo().GetCustomAttributes().Select(x => (x as RouteAttribute)?.Route).Where(x => x != null).ToArray();
+            var routes = replyActionType.GetTypeInfo().GetCustomAttributes().Select(x => (x as RouteAttribute)?.Route).Where(x => x != null).ToArray();
             return AddBotAction<TReplyAction>(framework, routes);
         }
 
-        public static IFramework AddBotAction<TReplyAction>(this IFramework framework, string[] routes)
-            where TReplyAction : class, IReplyAction
+        private static IFramework AddBotAction(this IFramework framework, Type replyActionType, string[] routes)
         {
-            var replyId = typeof(TReplyAction).FullName;
+            var replyId = replyActionType.FullName;
             ((IFrameworkManager)framework).GetService<IReplyConfiguration>().AddConfiguration(new ReplyItem
             {
                 Routes = routes,
@@ -48,14 +92,13 @@ namespace Qooba.Framework.Bot
                 ReplyType = replyId
             });
 
-            return AddBotAction<TReplyAction>(framework, replyId);
+            return AddBotAction(framework, replyActionType, replyId);
         }
 
-        public static IFramework AddBotAction<TReplyAction>(this IFramework framework, string replyType)
-        where TReplyAction : class, IReplyAction
+        private static IFramework AddBotAction(this IFramework framework, Type replyActionType, string replyType)
         {
             Type type = null;
-            foreach (var i in typeof(TReplyAction).GetTypeInfo().GetInterfaces())
+            foreach (var i in replyActionType.GetTypeInfo().GetInterfaces())
             {
                 if (i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition().Name.Contains("IReplyAction"))
                 {
@@ -65,11 +108,11 @@ namespace Qooba.Framework.Bot
             }
 
             var a = typeof(ReplyActionBuilder<,>);
-            var args = new[] { type, typeof(TReplyAction) };
+            var args = new[] { type, replyActionType };
             var raType = a.MakeGenericType(args);
 
             return framework
-                .AddTransientService<TReplyAction, TReplyAction>()
+                .AddTransientService(replyActionType, replyActionType)
                 .AddService(s => s.Service<IReplyBuilder>().As(raType).Keyed(replyType));
         }
     }
