@@ -54,6 +54,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Logging.Con
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Bot.Aws", "src\Qooba.Framework.Bot.Aws\Qooba.Framework.Bot.Aws.csproj", "{7EE4A83A-6889-4B71-B058-74287DDC2EB2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.SimpleContainer.Tests", "src\Qooba.Framework.DependencyInjection.SimpleContainer.Tests\Qooba.Framework.DependencyInjection.SimpleContainer.Tests.csproj", "{48AEDA44-A5BC-44D6-A886-1108EE77632A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -268,6 +270,18 @@ Global
 		{7EE4A83A-6889-4B71-B058-74287DDC2EB2}.Release|x64.Build.0 = Release|Any CPU
 		{7EE4A83A-6889-4B71-B058-74287DDC2EB2}.Release|x86.ActiveCfg = Release|Any CPU
 		{7EE4A83A-6889-4B71-B058-74287DDC2EB2}.Release|x86.Build.0 = Release|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Debug|x64.Build.0 = Debug|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Debug|x86.Build.0 = Debug|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Release|x64.ActiveCfg = Release|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Release|x64.Build.0 = Release|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Release|x86.ActiveCfg = Release|Any CPU
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -295,5 +309,6 @@ Global
 		{8164F9FB-621A-47DD-839A-9A035F7DBC1E} = {C9A57FF2-B42E-4240-9AA0-A8E1F56069E9}
 		{F9463289-A5DC-4CA9-BB58-E7E5D18204B2} = {1FA59BD0-6808-45E8-88C4-B830AB6E64BE}
 		{7EE4A83A-6889-4B71-B058-74287DDC2EB2} = {BA5F342A-9FCF-4A6E-9D47-19592B669207}
+		{48AEDA44-A5BC-44D6-A886-1108EE77632A} = {136B7382-1EFD-44C6-9F08-91CC498DDB90}
 	EndGlobalSection
 EndGlobal

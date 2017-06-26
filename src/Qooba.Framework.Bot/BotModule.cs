@@ -85,7 +85,9 @@ namespace Qooba.Framework.Bot
             framework.AddTransientService<Func<object, IFormReplyCompletionAction>>(s => (Func<object, IFormReplyCompletionAction>)((key) => (IFormReplyCompletionAction)s.GetService(key, typeof(IFormReplyCompletionAction))));
             framework.AddTransientService<Func<object, IFormReplyPropertyActiveConstraint>>(s => (Func<object, IFormReplyPropertyActiveConstraint>)((key) => (IFormReplyPropertyActiveConstraint)s.GetService(key, typeof(IFormReplyPropertyActiveConstraint))));
             framework.AddTransientService<Func<object, IFormReplyPropertyValidator>>(s => (Func<object, IFormReplyPropertyValidator>)((key) => (IFormReplyPropertyValidator)s.GetService(key, typeof(IFormReplyPropertyValidator))));
-            framework.AddTransientService<Func<object, IFormReplyPropertyValidator>>(s => (Func<object, IFormReplyPropertyConfirmation>)((key) => (IFormReplyPropertyConfirmation)s.GetService(key, typeof(IFormReplyPropertyConfirmation))));
+            framework.AddTransientService<Func<object, IFormReplyPropertyConfirmation>>(s => (Func<object, IFormReplyPropertyConfirmation>)((key) => (IFormReplyPropertyConfirmation)s.GetService(key, typeof(IFormReplyPropertyConfirmation))));
+
+            framework.AddService(s => s.Service<ReplyItem>().As(new ReplyItem()));
         }
     }
 }

@@ -2,6 +2,7 @@
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Serialization.Abstractions;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Qooba.Framework.Bot.Tests
@@ -37,7 +38,7 @@ namespace Qooba.Framework.Bot.Tests
                 }
             });
 
-            var replyManager = new ReplyManager(this.configMock.Object, this.seriazlierMock.Object);
+            var replyManager = new ReplyManager(this.configMock.Object, this.seriazlierMock.Object, new ReplyItem[] { });
             this.routingConfiguration = replyManager;
             this.replyConfiguration = replyManager;
         }

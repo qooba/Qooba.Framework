@@ -84,13 +84,13 @@ namespace Qooba.Framework
             return this.Bootstrapp();
         }
 
-        public IFramework AddScopedService<TService>() where TService : class => this.AddService(s => s.Service<TService>().Lifetime(Lifetime.Scoped));
+        public IFramework AddScopedService<TService>() where TService : class => this.AddService(s => s.Service<TService>().As<TService>().Lifetime(Lifetime.Scoped));
 
         public IFramework AddScopedService(Type serviceType, Type implementationType) => this.AddService(s => s.Service(serviceType).As(implementationType).Lifetime(Lifetime.Scoped));
 
         public IFramework AddScopedService(Type serviceType, Func<Abstractions.IServiceProvider, object> implementationFactory) => this.AddService(s => s.Service(serviceType).As(implementationFactory).Lifetime(Lifetime.Scoped));
 
-        public IFramework AddScopedService(Type serviceType) => this.AddService(s => s.Service(serviceType).Lifetime(Lifetime.Scoped));
+        public IFramework AddScopedService(Type serviceType) => this.AddService(s => s.Service(serviceType).As(serviceType).Lifetime(Lifetime.Scoped));
 
         public IFramework AddScopedService<TService>(Func<Abstractions.IServiceProvider, object> implementationFactory)
             where TService : class
@@ -118,13 +118,13 @@ namespace Qooba.Framework
 
         public IFramework AddSingletonService<TService>()
             where TService : class
-            => this.AddService(s => s.Service<TService>().Lifetime(Lifetime.Singleton));
+            => this.AddService(s => s.Service<TService>().As<TService>().Lifetime(Lifetime.Singleton));
 
         public IFramework AddSingletonService(Type serviceType, Type implementationType) => this.AddService(s => s.Service(serviceType).As(implementationType).Lifetime(Lifetime.Singleton));
 
         public IFramework AddSingletonService(Type serviceType, Func<Abstractions.IServiceProvider, object> implementationFactory) => this.AddService(s => s.Service(serviceType).As(implementationFactory).Lifetime(Lifetime.Singleton));
 
-        public IFramework AddSingletonService(Type serviceType) => this.AddService(s => s.Service(serviceType).Lifetime(Lifetime.Singleton));
+        public IFramework AddSingletonService(Type serviceType) => this.AddService(s => s.Service(serviceType).As(serviceType).Lifetime(Lifetime.Singleton));
 
         public IFramework AddSingletonService<TService>(Func<Abstractions.IServiceProvider, object> implementationFactory)
             where TService : class
@@ -138,13 +138,13 @@ namespace Qooba.Framework
 
         public IFramework AddTransientService<TService>()
             where TService : class
-            => this.AddService(s => s.Service<TService>().Lifetime(Lifetime.Transistent));
+            => this.AddService(s => s.Service<TService>().As<TService>().Lifetime(Lifetime.Transistent));
 
         public IFramework AddTransientService(Type serviceType, Type implementationType) => this.AddService(s => s.Service(serviceType).As(implementationType).Lifetime(Lifetime.Transistent));
 
         public IFramework AddTransientService(Type serviceType, Func<Abstractions.IServiceProvider, object> implementationFactory) => this.AddService(s => s.Service(serviceType).As(implementationFactory).Lifetime(Lifetime.Transistent));
 
-        public IFramework AddTransientService(Type serviceType) => this.AddService(s => s.Service(serviceType).Lifetime(Lifetime.Transistent));
+        public IFramework AddTransientService(Type serviceType) => this.AddService(s => s.Service(serviceType).As(serviceType).Lifetime(Lifetime.Transistent));
 
         public IFramework AddTransientService<TService>(Func<Abstractions.IServiceProvider, object> implementationFactory)
             where TService : class

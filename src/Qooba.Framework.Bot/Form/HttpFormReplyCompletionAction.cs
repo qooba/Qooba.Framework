@@ -17,7 +17,7 @@ namespace Qooba.Framework.Bot.Form
             this.serializer = serializer;
         }
 
-        public async Task<ReplyMessage> ExecuteAsync(IConversationContext conversationContext, HttpFormReplyCompletionActionData completionActionData)
+        public async virtual Task<ReplyMessage> ExecuteAsync(IConversationContext conversationContext, HttpFormReplyCompletionActionData completionActionData)
         {
             using (var client = new HttpClient())
             {

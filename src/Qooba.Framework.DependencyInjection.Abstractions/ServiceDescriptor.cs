@@ -41,7 +41,7 @@ namespace Qooba.Framework.DependencyInjection.Abstractions
             return this;
         }
 
-        public IServiceDescriptor As<TImplementation>(TImplementation implementationInstance) where TImplementation : class => this.As(implementationInstance);
+        public IServiceDescriptor As<TImplementation>(TImplementation implementationInstance) where TImplementation : class => this.As((object)implementationInstance);
 
         public IServiceDescriptor Keyed(object key)
         {

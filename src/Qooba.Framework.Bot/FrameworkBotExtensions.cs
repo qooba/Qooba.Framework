@@ -33,23 +33,32 @@ namespace Qooba.Framework.Bot
             var completionActions = modelTypeInfo.GetCustomAttributes().Select(x => x as CompletionActionAttribute).Where(x => x?.Type != null && !registeredCompletionActions.Contains(x.Type));
             foreach (var completionAction in completionActions)
             {
-                framework.AddService(s => s.Service<IFormReplyCompletionAction>().As(completionAction.Type).Keyed(completionAction.TypeKey));
-                registeredCompletionActions.Add(completionAction.Type);
+                if (!registeredCompletionActions.Contains(completionAction.Type))
+                {
+                    framework.AddService(s => s.Service<IFormReplyCompletionAction>().As(completionAction.Type).Keyed(completionAction.TypeKey));
+                    registeredCompletionActions.Add(completionAction.Type);
+                }
             }
 
             var propertiesAttributes = modelTypeInfo.GetProperties().SelectMany(x => x.GetCustomAttributes());
-            var validators = propertiesAttributes.Select(x => x as PropertyValidatorAttribute).Where(x => x?.Type != null && !registeredValidators.Contains(x.Type)).Distinct();
+            var validators = propertiesAttributes.Select(x => x as PropertyValidatorAttribute).Where(x => x?.Type != null && !registeredValidators.Contains(x.Type));
             foreach (var validator in validators)
             {
-                framework.AddService(s => s.Service<IFormReplyPropertyValidator>().As(validator.Type).Keyed(validator.TypeKey));
-                registeredValidators.Add(validator.Type);
+                if (!registeredValidators.Contains(validator.Type))
+                {
+                    framework.AddService(s => s.Service<IFormReplyPropertyValidator>().As(validator.Type).Keyed(validator.TypeKey));
+                    registeredValidators.Add(validator.Type);
+                }
             }
 
-            var actions = propertiesAttributes.Select(x => x as PropertyReplyAttribute).Where(x => x?.Type != null && !registeredActions.Contains(x.Type)).Distinct();
+            var actions = propertiesAttributes.Select(x => x as PropertyReplyAttribute).Where(x => x?.Type != null && !registeredActions.Contains(x.Type));
             foreach (var action in actions)
             {
-                AddBotAction(framework, action.Type, action.TypeKey);
-                registeredActions.Add(action.Type);
+                if (!registeredActions.Contains(action.Type))
+                {
+                    AddBotAction(framework, action.Type, action.TypeKey);
+                    registeredActions.Add(action.Type);
+                }
             }
 
             return AddBotAction<FormReplyAction<TModel>>(framework, routes);
@@ -69,10 +78,10 @@ namespace Qooba.Framework.Bot
 
         public static IFramework AddBotAction<TReplyAction>(this IFramework framework, string replyType)
         where TReplyAction : class, IReplyAction => AddBotAction(framework, typeof(TReplyAction), replyType);
-        
+
         private static IFramework AddBotDefaultAction(this IFramework framework, Type replyActionType)
         {
-            return AddBotAction(framework, replyActionType, new[] { "#default" });
+            return AddBotAction(framework, replyActionType, new[] { "#default" }, true);
         }
 
         private static IFramework AddBotAction<TReplyAction>(this IFramework framework, Type replyActionType)
@@ -84,14 +93,21 @@ namespace Qooba.Framework.Bot
 
         private static IFramework AddBotAction(this IFramework framework, Type replyActionType, string[] routes)
         {
+            return AddBotAction(framework, replyActionType, routes, false);
+        }
+
+        private static IFramework AddBotAction(this IFramework framework, Type replyActionType, string[] routes, bool isDefault)
+        {
             var replyId = replyActionType.FullName;
-            ((IFrameworkManager)framework).GetService<IReplyConfiguration>().AddConfiguration(new ReplyItem
+            var replyItem = new ReplyItem
             {
                 Routes = routes,
                 ReplyId = replyId,
-                ReplyType = replyId
-            });
+                ReplyType = replyId,
+                IsDefault = isDefault
+            };
 
+            framework.AddService(s => s.Service(typeof(ReplyItem)).As(replyItem).Keyed(replyId).Lifetime(Lifetime.Singleton));
             return AddBotAction(framework, replyActionType, replyId);
         }
 
@@ -112,7 +128,7 @@ namespace Qooba.Framework.Bot
             var raType = a.MakeGenericType(args);
 
             return framework
-                .AddTransientService(replyActionType, replyActionType)
+                .AddTransientService(replyActionType)
                 .AddService(s => s.Service<IReplyBuilder>().As(raType).Keyed(replyType));
         }
     }

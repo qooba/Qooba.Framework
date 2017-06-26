@@ -7,7 +7,7 @@ namespace Qooba.Framework.Bot.Form
 {
     public class TextFormReplyCompletionAction : IFormReplyCompletionAction<TextFormReplyCompletionActionData>
     {
-        public async Task<ReplyMessage> ExecuteAsync(IConversationContext conversationContext, TextFormReplyCompletionActionData completionActionData)
+        public async virtual Task<ReplyMessage> ExecuteAsync(IConversationContext conversationContext, TextFormReplyCompletionActionData completionActionData)
         {
             return new ReplyMessage
             {

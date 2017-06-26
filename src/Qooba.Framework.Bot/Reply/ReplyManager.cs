@@ -19,7 +19,7 @@ namespace Qooba.Framework.Bot
 
         private static Route defaultRoute;
 
-        public ReplyManager(IBotConfig config, ISerializer serializer)
+        public ReplyManager(IBotConfig config, ISerializer serializer, IEnumerable<ReplyItem> registeredReplyItems)
         {
             var botConfigurationPath = config.BotConfigurationPath;
             if (!string.IsNullOrEmpty(botConfigurationPath))
@@ -36,6 +36,8 @@ namespace Qooba.Framework.Bot
                     IsDefault = x.IsDefault
                 })).ToList().ForEach(x => routingTable.Add(x));
             }
+
+            registeredReplyItems.Where(x => x.ReplyId != null).ToList().ForEach(x => this.AddConfiguration(x));
         }
 
         public IList<Route> RoutingTable => routingTable.ToList();
@@ -45,7 +47,7 @@ namespace Qooba.Framework.Bot
             if (!replyItems.ToList().Any(x => x.ReplyId == replyItem.ReplyId))
             {
                 replyItems.Add(replyItem);
-                
+
                 replyItem.Routes.ToList().ForEach(x =>
                 routingTable.Add(new Route
                 {
