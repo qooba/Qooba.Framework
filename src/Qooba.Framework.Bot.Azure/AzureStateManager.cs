@@ -3,6 +3,8 @@ using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Microsoft.WindowsAzure.Storage.Table;
 using Qooba.Framework.Serialization.Abstractions;
+using Microsoft.WindowsAzure.Storage;
+using System.Net;
 
 namespace Qooba.Framework.Bot.Azure
 {
@@ -22,16 +24,28 @@ namespace Qooba.Framework.Bot.Azure
 
         public async Task ClearContextAsync(IConversationContext context)
         {
-            var azureContext = new AzureConversationContext
+            try
             {
-                PartitionKey = context.ConnectorType.ToString(),
-                RowKey = context.Entry.Message.Sender.Id,
-                ETag = "*",
-                StateAction = context.StateAction
-            };
+                var azureContext = new AzureConversationContext
+                {
+                    PartitionKey = context.ConnectorType.ToString(),
+                    RowKey = context.Entry.Message.Sender.Id,
+                    ETag = "*",
+                    StateAction = context.StateAction
+                };
 
-            var deleteOperation = TableOperation.Delete(azureContext);
-            await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(deleteOperation);
+                var deleteOperation = TableOperation.Delete(azureContext);
+                await this.PrepareTable(this.config.BotConversationContextTableName).ExecuteAsync(deleteOperation);
+            }
+            catch (StorageException e)
+            {
+                if (e.RequestInformation.HttpStatusCode == (int)HttpStatusCode.NotFound)
+                {
+                    return;
+                }
+
+                throw;
+            }
         }
 
         public async Task<IConversationContext> FetchContextAsync(IConversationContext context)
