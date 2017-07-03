@@ -18,7 +18,12 @@ namespace Qooba.Framework.Bot.Handlers
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {
             var replyClient = this.replyClientFunc(conversationContext.ConnectorType);
-            await replyClient.SendAsync(conversationContext.Reply);
+
+            if (conversationContext.Reply != null)
+            {
+                await replyClient.SendAsync(conversationContext.Reply);
+            }
+
             await base.InvokeAsync(conversationContext);
         }
     }

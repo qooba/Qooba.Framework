@@ -31,11 +31,6 @@ namespace Qooba.Framework.Bot.Dispatch
         {
             using (var client = new HttpClient())
             {
-                if (reply == null)
-                {
-                    return;
-                }
-
                 var accessToken = this.config.MessangerAccessToken;
                 var request = this.serializer.Serialize(reply);
                 var content = new StringContent(request, Encoding.UTF8, "application/json");
