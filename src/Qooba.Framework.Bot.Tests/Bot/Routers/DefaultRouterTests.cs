@@ -13,8 +13,11 @@ namespace Qooba.Framework.Bot.Tests
 
         private Mock<IRoutingConfiguration> routingConfigurationMock;
 
+        private Mock<IConversationContext> conversationContextMock;
+
         public DefaultRouterTests()
         {
+            this.conversationContextMock = new Mock<IConversationContext>();
             this.routingConfigurationMock = new Mock<IRoutingConfiguration>();
             IList<Route> routeTable = new List<Route>()
             {
@@ -25,14 +28,13 @@ namespace Qooba.Framework.Bot.Tests
             this.routingConfigurationMock.Setup(x => x.RoutingTable).Returns(routeTable);
             this.router = new DefaultRouter(this.routingConfigurationMock.Object);
         }
-        
+
         [Fact]
         public void DefaultFindRouteTest()
         {
-            var text = "some text";
             var id = "#default";
-            
-            var route = this.router.FindRouteAsync(text).Result;
+
+            var route = this.router.FindRouteAsync(this.conversationContextMock.Object).Result;
 
             Assert.True(route.RouteId == id);
         }

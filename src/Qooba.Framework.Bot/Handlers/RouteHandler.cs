@@ -24,7 +24,7 @@ namespace Qooba.Framework.Bot.Handlers
             {
                 foreach (var router in this.routers)
                 {
-                    conversationContext.Route = await router.FindRouteAsync(conversationContext.Entry.Message.Message.Text);
+                    conversationContext.Route = await router.FindRouteAsync(conversationContext);
                     if (conversationContext.Route != null)
                     {
                         break;

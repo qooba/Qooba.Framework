@@ -29,20 +29,24 @@ namespace Qooba.Framework.Bot.Routing
 
         public int Priority => 0;
 
-        public async Task<Route> FindRouteAsync(string text)
+        public async Task<Route> FindRouteAsync(IConversationContext conversationContext)
         {
-            foreach (var regexRoute in this.regexRoutes)
+            var text = conversationContext?.Entry?.Message?.Message?.Text;
+            if (!string.IsNullOrEmpty(text))
             {
-                var routeData = PrepareRouteData(text, regexRoute);
-                if (routeData != null)
+                foreach (var regexRoute in this.regexRoutes)
                 {
-                    return new Route
+                    var routeData = PrepareRouteData(text, regexRoute);
+                    if (routeData != null)
                     {
-                        IsDefault = regexRoute.IsDefault,
-                        RouteData = routeData,
-                        RouteId = regexRoute.RouteId,
-                        RouteText = regexRoute.RouteText
-                    };
+                        return new Route
+                        {
+                            IsDefault = regexRoute.IsDefault,
+                            RouteData = routeData,
+                            RouteId = regexRoute.RouteId,
+                            RouteText = regexRoute.RouteText
+                        };
+                    }
                 }
             }
 

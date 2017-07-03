@@ -38,7 +38,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
 
             this.routeHandler.InvokeAsync(context).Wait();
 
-            this.routerMock.Verify(x => x.FindRouteAsync(text), Times.Once);
+            this.routerMock.Verify(x => x.FindRouteAsync(context), Times.Once);
         }
     }
 }

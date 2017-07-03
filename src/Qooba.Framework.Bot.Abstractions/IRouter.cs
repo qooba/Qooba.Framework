@@ -6,7 +6,7 @@ namespace Qooba.Framework.Bot.Abstractions
 {
     public interface IRouter
     {
-        Task<Route> FindRouteAsync(string text);
+        Task<Route> FindRouteAsync(IConversationContext conversationContext);
 
         Task<IDictionary<string, object>> FindRouteData(string text, IEnumerable<string> routeTexts);
 

@@ -17,8 +17,11 @@ namespace Qooba.Framework.Bot.Tests
 
         private Mock<IRoutingConfiguration> routingConfigurationMock;
 
+        private Mock<IConversationContext> conversationContextMock;
+
         public RegexRouterTests()
         {
+            this.conversationContextMock = new Mock<IConversationContext>();
             this.routingConfigurationMock = new Mock<IRoutingConfiguration>();
             IList<Route> routeTable = new List<Route>()
             {
@@ -35,9 +38,10 @@ namespace Qooba.Framework.Bot.Tests
         public void ExactFindRouteTest()
         {
             var text = "hello world";
+            PrepareContextMessage(text);
             var id = "#hello";
-            
-            var route = this.router.FindRouteAsync(text).Result;
+
+            var route = this.router.FindRouteAsync(this.conversationContextMock.Object).Result;
 
             Assert.True(route.RouteId == id);
         }
@@ -46,9 +50,10 @@ namespace Qooba.Framework.Bot.Tests
         public void ShoppingFindRouteTest()
         {
             var text = "Jadę do Arkadii chcę kupić spodnie";
+            PrepareContextMessage(text);
             var id = "#shopping";
-            
-            var route = this.router.FindRouteAsync(text).Result;
+
+            var route = this.router.FindRouteAsync(this.conversationContextMock.Object).Result;
 
             Assert.True(route.RouteId == id);
             Assert.True(route.RouteData["shoppingMall"].ToString() == "Arkadii");
@@ -59,9 +64,10 @@ namespace Qooba.Framework.Bot.Tests
         public void AccountRouteTest()
         {
             var text = "Moje konto 360";
+            PrepareContextMessage(text);
             var id = "#accountDetails";
 
-            var route = this.router.FindRouteAsync(text).Result;
+            var route = this.router.FindRouteAsync(this.conversationContextMock.Object).Result;
 
             Assert.True(route.RouteId == id);
             Assert.True(route.RouteData["account"].ToString() == "konto 360");
@@ -97,6 +103,11 @@ namespace Qooba.Framework.Bot.Tests
                 }
             }
 
+        }
+
+        private void PrepareContextMessage(string text)
+        {
+            this.conversationContextMock.Setup(x => x.Entry).Returns(new Entry { Message = new Messaging { Message = new EntryMessage { Text = text } } });
         }
     }
 }
