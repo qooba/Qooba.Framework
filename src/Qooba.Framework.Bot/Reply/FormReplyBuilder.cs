@@ -60,7 +60,7 @@ namespace Qooba.Framework.Bot
 
                     //TODO: add confirmation propperty
 
-                    if (conversationContext.Reply != null)
+                    if (conversationContext.Reply != null && conversationContext.Entry?.Message?.Message != null)
                     {
                         if (property.ReplyItem.Routes != null && property.ReplyItem.Routes.Any())
                         {
@@ -82,15 +82,8 @@ namespace Qooba.Framework.Bot
                             }
                         }
 
-                        i++;
-                        if (reply.Properties.Count() == i)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            property = reply.Properties.ElementAt(i);
-                        }
+                        conversationContext.Entry.Message.Message = null;
+                        continue;
                     }
 
                     if (!await this.CheckActive(conversationContext, reply, property))

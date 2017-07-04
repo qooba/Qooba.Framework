@@ -8,6 +8,7 @@ using Qooba.Framework.Bot.Attributes;
 using Qooba.Framework.Configuration;
 using Qooba.Framework.Serialization;
 using Qooba.Framework.Logging.AzureApplicationInsights;
+using Qooba.Framework.Bot.Abstractions.Form;
 
 namespace Qooba.Framework.Bot.Azure.Tests
 {
@@ -106,6 +107,16 @@ namespace Qooba.Framework.Bot.Azure.Tests
             Run("Show test model");
         }
 
+        [Fact]
+        public void RunTest1MyModel()
+        {
+            Run("Show test name MyValue");
+            Task.Delay(2000);
+            Run("MyName");
+            Task.Delay(2000);
+            Run("MySurnameName");
+        }
+
         private void Run(string message)
         {
             var container = new Container();
@@ -142,10 +153,18 @@ namespace Qooba.Framework.Bot.Azure.Tests
     }
 
     [Route("Show test model")]
+    [Route("Show test name {{value}}")]
+    [TextCompletionAction("#NAME: {{name}} , #VALUE: {{value}} , #SURNAME: {{surname}}")]
     public class MyModel
     {
         [PropertyReply(typeof(MyModelReplyAction))]
         public string Name { get; set; }
+
+        [PropertyReply(typeof(MyModel1ReplyAction))]
+        public string Value { get; set; }
+
+        [PropertyReply(typeof(MyModel2ReplyAction))]
+        public string Surname { get; set; }
     }
 
     public class MyModelReplyAction : IReplyAction<TextReplyMessage>
@@ -154,7 +173,29 @@ namespace Qooba.Framework.Bot.Azure.Tests
         {
             return new TextReplyMessage
             {
-                Text = "test"
+                Text = "What is name ?"
+            };
+        }
+    }
+
+    public class MyModel1ReplyAction : IReplyAction<TextReplyMessage>
+    {
+        public async Task<TextReplyMessage> CreateReplyMessage(IConversationContext conversationContext, IDictionary<string, string> parameters)
+        {
+            return new TextReplyMessage
+            {
+                Text = "What is value ?"
+            };
+        }
+    }
+
+    public class MyModel2ReplyAction : IReplyAction<TextReplyMessage>
+    {
+        public async Task<TextReplyMessage> CreateReplyMessage(IConversationContext conversationContext, IDictionary<string, string> parameters)
+        {
+            return new TextReplyMessage
+            {
+                Text = "What is surname ?"
             };
         }
     }
