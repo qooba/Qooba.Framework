@@ -143,7 +143,7 @@ namespace Qooba.Framework.Bot
         {
             foreach (var completionAction in formReplyMessage.CompletionActions)
             {
-                var message = await (Task<ReplyMessage>)this.genericExpressionFactory.Create(completionAction.CompletionActionType, this.completionActionFactory, conversationContext, completionAction.CompletionActionData.ToString());
+                var message = await (Task<ReplyMessage>)this.genericExpressionFactory.Create(completionAction.CompletionActionType, this.completionActionFactory, conversationContext, completionAction.CompletionActionData?.ToString());
 
                 if (message != null)
                 {

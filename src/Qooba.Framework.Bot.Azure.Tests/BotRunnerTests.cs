@@ -9,6 +9,7 @@ using Qooba.Framework.Configuration;
 using Qooba.Framework.Serialization;
 using Qooba.Framework.Logging.AzureApplicationInsights;
 using Qooba.Framework.Bot.Abstractions.Form;
+using Qooba.Framework.Bot.Abstractions.Models;
 
 namespace Qooba.Framework.Bot.Azure.Tests
 {
@@ -154,7 +155,8 @@ namespace Qooba.Framework.Bot.Azure.Tests
 
     [Route("Show test model")]
     [Route("Show test name {{value}}")]
-    [TextCompletionAction("#NAME: {{name}} , #VALUE: {{value}} , #SURNAME: {{surname}}")]
+    //[TextCompletionAction("#NAME: {{name}} , #VALUE: {{value}} , #SURNAME: {{surname}}")]
+    [CompletionAction(typeof(MyFormReplyCompletionAction))]
     public class MyModel
     {
         [PropertyReply(typeof(MyModelReplyAction))]
@@ -198,5 +200,20 @@ namespace Qooba.Framework.Bot.Azure.Tests
                 Text = "What is surname ?"
             };
         }
+    }
+
+    public class MyFormReplyCompletionAction : IFormReplyCompletionAction<MyFormReplyCompletionActionData>
+    {
+        public async virtual Task<ReplyMessage> ExecuteAsync(IConversationContext conversationContext, MyFormReplyCompletionActionData completionActionData)
+        {
+            return new ReplyMessage
+            {
+                Text = "Form completed :)"
+            };
+        }
+    }
+
+    public class MyFormReplyCompletionActionData
+    {    
     }
 }
