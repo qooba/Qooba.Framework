@@ -9,7 +9,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer.LifetimeManagers
 {
     public class SingletonLifetimeManager : ILifetimeManager
     {
-        private readonly static IDictionary<Type, Lazy<object>> singletons = new ConcurrentDictionary<Type, Lazy<object>>();
+        private readonly static IDictionary<Type, ConcurrentDictionary<object, Lazy<object>>> singletons = new ConcurrentDictionary<Type, ConcurrentDictionary<object, Lazy<object>>>();
 
         public Lifetime Lifetime
         {
@@ -19,15 +19,18 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer.LifetimeManagers
             }
         }
 
-        public Func<Type, object> Resolve(Type type, Func<Type, object> activator)
+        public Func<Type, object> Resolve(Type type, object fromKey, Func<Type, object> activator)
         {
-            Lazy<object> instance;
-            if(!singletons.TryGetValue(type, out instance))
+            if (!singletons.TryGetValue(type, out ConcurrentDictionary<object, Lazy<object>> dict))
             {
-                instance = new Lazy<object>(() => activator(type));
-                singletons[type] = instance;
+                singletons[type] = dict = new ConcurrentDictionary<object, Lazy<object>>();
             }
-            
+
+            if (!dict.TryGetValue(fromKey, out Lazy<object> instance))
+            {
+                dict[fromKey] = instance = new Lazy<object>(() => activator(type));
+            }
+
             return (t) => instance.Value;
         }
     }

@@ -7,6 +7,6 @@ namespace Qooba.Framework.DependencyInjection.Abstractions
     {
         Lifetime Lifetime { get; }
 
-        Func<Type, object> Resolve(Type type, Func<Type, object> activator);
+        Func<Type, object> Resolve(Type type, object fromKey, Func<Type, object> activator);
     }
 }

@@ -56,6 +56,23 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer.Tests
         }
 
         [Fact]
+        public void RegisterSingletonTypeKeyedTest()
+        {
+            var key = "key";
+            var key2 = "key2";
+            var container = new Container();
+            container.RegisterType(null, typeof(IService), typeof(SomeService), Framework.Abstractions.Lifetime.Singleton);
+            container.RegisterType(key, typeof(IClient), typeof(SomeClient), Framework.Abstractions.Lifetime.Singleton);
+            container.RegisterType(key2, typeof(IClient), typeof(SomeClient2), Framework.Abstractions.Lifetime.Singleton);
+
+            var o = container.Resolve(key, typeof(IClient));
+            var o2 = container.Resolve(key2, typeof(IClient));
+
+            Assert.True(o is SomeClient);
+            Assert.True(o2 is SomeClient2);
+        }
+
+        [Fact]
         public void RegisterGenericTest()
         {
             var container = new Container();

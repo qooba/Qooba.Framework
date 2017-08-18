@@ -8,6 +8,6 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer.LifetimeManagers
     {
         public Lifetime Lifetime => Lifetime.Transistent;
 
-        public Func<Type, object> Resolve(Type type, Func<Type, object> activator) => activator;
+        public Func<Type, object> Resolve(Type type, object fromKey, Func<Type, object> activator) => activator;
     }
 }

@@ -41,7 +41,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             if (!from.GetTypeInfo().IsGenericTypeDefinition)
             {
                 var activator = ObjectActivator.GetActivator(to, container, ctor);
-                container[from][fromKey] = WrappWithLifetimeManager(lifetime, from, (Func<Type, object>)activator);
+                container[from][fromKey] = WrappWithLifetimeManager(lifetime, from, fromKey, (Func<Type, object>)activator);
             }
             else
             {
@@ -60,7 +60,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
                             container[t] = new ConcurrentDictionary<object, Func<Type, object>>();
                         }
 
-                        container[t][fromKey] = WrappWithLifetimeManager(lifetime, t, act);
+                        container[t][fromKey] = WrappWithLifetimeManager(lifetime, t, fromKey, act);
                     }
 
                     return act(t);
@@ -76,7 +76,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
         {
             InitializeContainer(from);
             object fromKey = PrepareKey(key);
-            container[from][fromKey] = WrappWithLifetimeManager(lifetime, from, (t) => implementationFactory(this));
+            container[from][fromKey] = WrappWithLifetimeManager(lifetime, from, fromKey, (t) => implementationFactory(this));
             return this;
         }
 
@@ -128,7 +128,7 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
 
             return null;
         }
-        
+
         public override IEnumerable<object> ResolveAll(Type from)
         {
             var keys = container[from].Keys;
@@ -146,19 +146,19 @@ namespace Qooba.Framework.DependencyInjection.SimpleContainer
             }
         }
 
-        private Func<Type, object> WrappWithLifetimeManager(Lifetime lifetime, Type type, Func<Type, object> activator)
+        private Func<Type, object> WrappWithLifetimeManager(Lifetime lifetime, Type type, object fromKey, Func<Type, object> activator)
         {
             switch (lifetime)
             {
                 case Lifetime.Transistent:
-                    return (new TransistentLifetimeManager()).Resolve(type, activator);
+                    return (new TransistentLifetimeManager()).Resolve(type, fromKey, activator);
                 case Lifetime.Singleton:
-                    return (new SingletonLifetimeManager()).Resolve(type, activator);
+                    return (new SingletonLifetimeManager()).Resolve(type, fromKey, activator);
                 default:
-                    return (new TransistentLifetimeManager()).Resolve(type, activator);
+                    return (new TransistentLifetimeManager()).Resolve(type, fromKey, activator);
             }
         }
-        
+
         private static object PrepareKey(object key) => key ?? string.Empty;
     }
 }
