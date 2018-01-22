@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Logging.Abstractions</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net46;netstandard2.0;</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Logging.Abstractions</AssemblyName>
     <PackageId>Qooba.Framework.Logging.Abstractions</PackageId>
     <PackageTags>framework</PackageTags>
@@ -19,7 +19,4 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
-    <PackageReference Update="NETStandard.Library" Version="1.6.0-*" />
-  </ItemGroup>
 </Project>

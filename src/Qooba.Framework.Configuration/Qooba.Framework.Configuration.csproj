@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Configuration</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
     <AssemblyName>Qooba.Framework.Configuration</AssemblyName>
     <PackageId>Qooba.Framework.Configuration</PackageId>
     <PackageTags>framework</PackageTags>
@@ -32,11 +32,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
-    <PackageReference Update="NETStandard.Library" Version="1.6.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="1.0.1" />
   </ItemGroup>
   
 </Project>

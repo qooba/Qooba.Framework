@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Qooba.Tests Class Library</Description>
     <Authors>qba</Authors>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Tests</AssemblyName>
     <PackageId>Qooba.Framework.Tests</PackageId>
     <PackageTargetFallback>$(PackageTargetFallback);dnxcore50;net46;net461</PackageTargetFallback>
