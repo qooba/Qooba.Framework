@@ -6,6 +6,8 @@ namespace Qooba.Framework.Bot.Abstractions.Models
     {
         public string Text { get; set; }
         
+        public QuickReply Quick_reply { get; set; }
+
         public IList<QuickReply> Quick_replies { get; set; }
     }
 }

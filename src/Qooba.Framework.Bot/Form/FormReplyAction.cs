@@ -12,7 +12,7 @@ namespace Qooba.Framework.Bot.Form
     public class FormReplyAction<TModel> : IReplyAction<FormReplyMessage>
         where TModel : class
     {
-        private readonly IDictionary<Type, FormReplyMessage> formReplyMessageCache = new ConcurrentDictionary<Type, FormReplyMessage>();
+        private static readonly IDictionary<Type, FormReplyMessage> formReplyMessageCache = new ConcurrentDictionary<Type, FormReplyMessage>();
 
         public async Task<FormReplyMessage> CreateReplyMessage(IConversationContext conversationContext, IDictionary<string, string> parameters)
         {

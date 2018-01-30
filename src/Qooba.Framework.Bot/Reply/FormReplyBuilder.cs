@@ -45,6 +45,7 @@ namespace Qooba.Framework.Bot
 
         public async Task<ReplyMessage> ExecuteAsync(IConversationContext conversationContext, FormReplyMessage reply)
         {
+            EntryMessage entry = null;
             for (var i = 0; i < reply.Properties.Count(); i++)
             {
                 conversationContext.StateAction = StateAction.Keep;
@@ -82,6 +83,7 @@ namespace Qooba.Framework.Bot
                             }
                         }
 
+                        entry = conversationContext.Entry.Message.Message;
                         conversationContext.Entry.Message.Message = null;
                         continue;
                     }
@@ -101,6 +103,7 @@ namespace Qooba.Framework.Bot
                 }
             }
 
+            conversationContext.Entry.Message.Message = entry;
             conversationContext.StateAction = StateAction.Clear;
             return await this.Complete(conversationContext, reply);
         }

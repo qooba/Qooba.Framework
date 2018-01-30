@@ -31,7 +31,8 @@ namespace Qooba.Framework.Bot.Routing
 
         public async Task<Route> FindRouteAsync(IConversationContext conversationContext)
         {
-            var text = conversationContext?.Entry?.Message?.Message?.Text;
+            var message = conversationContext?.Entry?.Message?.Message;
+            var text = message?.Quick_reply?.Payload ?? message?.Text;
             if (!string.IsNullOrEmpty(text))
             {
                 foreach (var regexRoute in this.regexRoutes)
