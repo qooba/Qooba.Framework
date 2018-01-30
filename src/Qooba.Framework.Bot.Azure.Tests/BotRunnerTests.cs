@@ -30,7 +30,7 @@ namespace Qooba.Framework.Bot.Azure.Tests
         [Fact]
         public void RunShopping()
         {
-            Run("Jadê do Arkadii chcê kupiæ spodnie");
+            Run("Jadï¿½ do Arkadii chcï¿½ kupiï¿½ spodnie");
         }
 
         [Fact]
@@ -138,7 +138,7 @@ namespace Qooba.Framework.Bot.Azure.Tests
             BotRunner.Run(queueItem).Wait();
         }
 
-        private string QueueItem(string message) => ("{\"connectorType\": \"Messanger\", \"message\":{\"sender\": {\"id\": \"USER_ID\"},\"recipient\": {\"id\": \"PAGE_ID\"},\"timestamp\": 1458692752478,\"message\": {\"mid\": \"mid.1457764197618:41d102a3e1ae206a38\",\"text\": \"" + message + "\",\"quick_reply\": {\"payload\": \"DEVELOPER_DEFINED_PAYLOAD\"}}}}").Replace("USER_ID", this.UserId);
+        private string QueueItem(string message) => ("{\"connectorType\": \"Messanger\", \"message\":{\"sender\": {\"id\": \"USER_ID\"},\"recipient\": {\"id\": \"PAGE_ID\"},\"timestamp\": 1458692752478,\"message\": {\"mid\": \"mid.1457764197618:41d102a3e1ae206a38\",\"text\": \"" + message + "\",\"quick_reply\": {}}}}").Replace("USER_ID", this.UserId);
     }
 
     [Route("Show test reply action")]
