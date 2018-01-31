@@ -38,5 +38,13 @@ namespace Qooba.Framework.Bot
             var handler = await this.handlerManager.CreateAsync(context);
             await handler.InvokeAsync(context);
         }
+
+        public async Task Redirect(string routeText, IConversationContext conversationContext)
+        {
+            conversationContext.Entry.Message.Message.Text = routeText;
+            conversationContext.Entry.Message.Message.Quick_reply = null;
+            var handler = await this.handlerManager.CreateAsync(conversationContext);
+            await handler.InvokeAsync(conversationContext);
+        }
     }
 }

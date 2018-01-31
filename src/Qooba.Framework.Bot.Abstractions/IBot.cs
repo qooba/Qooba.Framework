@@ -8,5 +8,7 @@ namespace Qooba.Framework.Bot.Abstractions
         Task Run(string queueItem);
 
         Task Run(Entry entry);
+
+        Task Redirect(string routeText, IConversationContext conversationContext);
     }
 }
