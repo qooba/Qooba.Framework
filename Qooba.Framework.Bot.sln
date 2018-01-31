@@ -52,8 +52,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Configurati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Logging.Console", "src\Qooba.Framework.Logging.Console\Qooba.Framework.Logging.Console.csproj", "{F9463289-A5DC-4CA9-BB58-E7E5D18204B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Bot.Aws", "src\Qooba.Framework.Bot.Aws\Qooba.Framework.Bot.Aws.csproj", "{7EE4A83A-6889-4B71-B058-74287DDC2EB2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.SimpleContainer.Tests", "src\Qooba.Framework.DependencyInjection.SimpleContainer.Tests\Qooba.Framework.DependencyInjection.SimpleContainer.Tests.csproj", "{48AEDA44-A5BC-44D6-A886-1108EE77632A}"
 EndProject
 Global

@@ -2,6 +2,7 @@
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Bot.Routing;
+using Qooba.Framework.Bot.Common;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Xunit;
 using System.Linq;
 using System.Collections.Specialized;
 using Qooba.Framework.Serialization.Abstractions;
+using System;
 
 namespace Qooba.Framework.Bot.Tests
 {
@@ -75,6 +77,19 @@ namespace Qooba.Framework.Bot.Tests
 
             Assert.True(route.RouteId == id);
             Assert.True(route.RouteData["account"].ToString() == "konto 360");
+        }
+
+        [Fact]
+        public void ReplyShufle()
+        {
+            var text = "[Cześć|Witaj|Siemka] Kuba [Cześć1|Witaj1|Siemka1]";
+            var matches = Regex.Matches($"{text}", @"\[[a-zA-Z0-9śćźżłóę \.\-|]+\]", RegexOptions.IgnoreCase);
+            foreach (var match in matches)
+            {
+                var t = match.ToString();
+                var tt = t.TrimStart('[').TrimEnd(']').Split('|').PickRandom();
+                text = text.Replace(t, tt);
+            }
         }
 
         //[Fact]
