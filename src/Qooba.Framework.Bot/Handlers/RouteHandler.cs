@@ -6,34 +6,50 @@ using System.Linq;
 using System.Threading.Tasks;
 using Qooba.Framework.Serialization.Abstractions;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Qooba.Framework.Bot.Handlers
 {
     public class RouteHandler : BaseHandler, IHandler
     {
+        private static Regex rgx = new Regex("[^a-zA-Z0-9# -]", RegexOptions.Compiled);
+
         private readonly IEnumerable<IRouter> routers;
 
         private readonly ISerializer serializer;
 
-        public RouteHandler(IEnumerable<IRouter> routers, ISerializer serializer)
+        private readonly IDictionary<string, Route> globalRoutes;
+
+        public RouteHandler(IEnumerable<IRouter> routers, ISerializer serializer, IRoutingConfiguration routingConfiguration)
         {
-            this.routers = routers.OrderBy(x => x.Priority);
+            this.routers = routers.OrderBy(x => x.Priority).ToList();
             this.serializer = serializer;
+            this.globalRoutes = routingConfiguration.RoutingTable.Where(x => x.IsGlobalCommand).ToDictionary(x => RemoveAccents(x.RouteText), x => x);
         }
 
         public override int Priority => 2;
 
-        public static string RemoveAccents(string text) => Encoding.UTF8.GetString(Encoding.GetEncoding("ISO-8859-8").GetBytes(text.ToLowerInvariant()));
+        public static string RemoveAccents(string text)
+        {
+            text = Encoding.UTF8.GetString(Encoding.GetEncoding("ISO-8859-8").GetBytes(text.ToLowerInvariant()));
+            return rgx.Replace(text, "");
+        }
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
         {
+            var simplifiedText = RemoveAccents(conversationContext.Entry.Message.Message.Text);
+
+            Route globalRoute;
+            if (this.globalRoutes.TryGetValue(simplifiedText, out globalRoute))
+            {
+                conversationContext.Reply = null;
+                conversationContext.Route = globalRoute;
+                conversationContext.Entry.Message.Message.Quick_reply = null;
+            }
+
             if (conversationContext?.Reply?.Message?.Quick_replies?.Any() == true && conversationContext?.Entry?.Message?.Message?.Quick_reply == null)
             {
-                var quickReply = conversationContext.Reply.Message.Quick_replies.FirstOrDefault(x => RemoveAccents(x.Title) == RemoveAccents(conversationContext.Entry.Message.Message.Text));
-                if (quickReply != null)
-                {
-                    conversationContext.Entry.Message.Message.Quick_reply = quickReply;
-                }
+                conversationContext.Entry.Message.Message.Quick_reply = conversationContext.Reply.Message.Quick_replies.FirstOrDefault(x => RemoveAccents(x.Title) == simplifiedText);
             }
 
             var payloadRoute = PreparePayloadRoute(conversationContext);
@@ -80,6 +96,7 @@ namespace Qooba.Framework.Bot.Handlers
                 payloadRoute = this.serializer.Deserialize<Route>(payload);
                 if (payloadRoute?.RouteText != null)
                 {
+                    conversationContext.Reply = null;
                     conversationContext.Entry.Message.Message.Text = payloadRoute.RouteText;
                     payloadRoute.RouteData = payloadRoute.RouteData ?? new Dictionary<string, object>();
                     if (conversationContext?.Route?.RouteData != null)

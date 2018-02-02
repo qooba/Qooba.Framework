@@ -33,7 +33,8 @@ namespace Qooba.Framework.Bot
                 {
                     RouteId = x.ReplyId,
                     RouteText = r,
-                    IsDefault = x.IsDefault
+                    IsDefault = x.IsDefault,
+                    IsGlobalCommand = x.IsGlobalCommand
                 })).ToList().ForEach(x => routingTable.Add(x));
             }
 
@@ -53,7 +54,8 @@ namespace Qooba.Framework.Bot
                 {
                     RouteId = replyItem.ReplyId,
                     RouteText = x,
-                    IsDefault = replyItem.IsDefault
+                    IsDefault = replyItem.IsDefault,
+                    IsGlobalCommand = replyItem.IsGlobalCommand
                 }));
             }
         }

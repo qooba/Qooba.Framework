@@ -17,5 +17,7 @@ namespace Qooba.Framework.Bot.Abstractions.Models
         public object Reply { get; set; }
 
         public bool IsDefault { get; set; }
+
+        public bool IsGlobalCommand { get; set; }
     }
 }

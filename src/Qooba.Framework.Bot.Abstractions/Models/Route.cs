@@ -11,5 +11,7 @@ namespace Qooba.Framework.Bot.Abstractions.Models
         public IDictionary<string, object> RouteData { get; set; }
 
         public bool IsDefault { get; set; }
+
+        public bool IsGlobalCommand { get; set; }
     }
 }

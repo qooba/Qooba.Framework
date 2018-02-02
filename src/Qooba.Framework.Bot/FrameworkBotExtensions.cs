@@ -67,6 +67,8 @@ namespace Qooba.Framework.Bot
         public static IFramework AddBotDefaultAction<TReplyAction>(this IFramework framework)
             where TReplyAction : class, IReplyAction => AddBotDefaultAction(framework, typeof(TReplyAction));
 
+        public static IFramework AddBotGlobalCommandAction<TReplyAction>(this IFramework framework)
+            where TReplyAction : class, IReplyAction => AddBotGlobalCommandAction(framework, typeof(TReplyAction));
 
         public static IFramework AddBotAction<TReplyAction>(this IFramework framework)
             where TReplyAction : class, IReplyAction => AddBotAction<TReplyAction>(framework, typeof(TReplyAction));
@@ -81,7 +83,13 @@ namespace Qooba.Framework.Bot
 
         private static IFramework AddBotDefaultAction(this IFramework framework, Type replyActionType)
         {
-            return AddBotAction(framework, replyActionType, new[] { "#default" }, true);
+            return AddBotAction(framework, replyActionType, new[] { "#default" }, true, false);
+        }
+
+        private static IFramework AddBotGlobalCommandAction(this IFramework framework, Type replyActionType)
+        {
+            var routes = replyActionType.GetTypeInfo().GetCustomAttributes().Select(x => (x as RouteAttribute)?.Route).Where(x => x != null).ToArray();
+            return AddBotAction(framework, replyActionType, routes, false, true);
         }
 
         private static IFramework AddBotAction<TReplyAction>(this IFramework framework, Type replyActionType)
@@ -93,10 +101,10 @@ namespace Qooba.Framework.Bot
 
         private static IFramework AddBotAction(this IFramework framework, Type replyActionType, string[] routes)
         {
-            return AddBotAction(framework, replyActionType, routes, false);
+            return AddBotAction(framework, replyActionType, routes, false, false);
         }
 
-        private static IFramework AddBotAction(this IFramework framework, Type replyActionType, string[] routes, bool isDefault)
+        private static IFramework AddBotAction(this IFramework framework, Type replyActionType, string[] routes, bool isDefault, bool isGlobalCommand)
         {
             var replyId = replyActionType.FullName;
             var replyItem = new ReplyItem
@@ -104,7 +112,8 @@ namespace Qooba.Framework.Bot
                 Routes = routes,
                 ReplyId = replyId,
                 ReplyType = replyId,
-                IsDefault = isDefault
+                IsDefault = isDefault,
+                IsGlobalCommand = isGlobalCommand
             };
 
             framework.AddService(s => s.Service(typeof(ReplyItem)).As(replyItem).Keyed(replyId).Lifetime(Lifetime.Singleton));

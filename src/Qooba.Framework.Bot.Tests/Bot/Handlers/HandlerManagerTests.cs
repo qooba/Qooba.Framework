@@ -13,9 +13,12 @@ namespace Qooba.Framework.Bot.Tests.Handlers
 
         private Mock<ISerializer> serializerMock;
 
+        private Mock<IRoutingConfiguration> routingConfigurationMock;
+
         public HandlerManagerTests()
         {
             this.serializerMock = new Mock<ISerializer>();
+            this.routingConfigurationMock = new Mock<IRoutingConfiguration>();
         }
 
         [Fact]
@@ -24,7 +27,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
             var handlers = new List<IHandler>()
             {
                 new DispatchHandler(null),
-                new RouteHandler(new IRouter[]{ }, this.serializerMock.Object),
+                new RouteHandler(new IRouter[]{ }, this.serializerMock.Object, this.routingConfigurationMock.Object),
                 new ContextHandler(null),
                 new ContextKeeperHandler(null),
                 new ReplyHandler(null, null)

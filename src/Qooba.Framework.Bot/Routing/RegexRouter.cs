@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 using Qooba.Framework.Serialization.Abstractions;
 using System.Text;
 using Qooba.Framework.Bot.Handlers;
+using System.Collections.Concurrent;
 
 namespace Qooba.Framework.Bot.Routing
 {
     public class RegexRouter : IRouter
     {
         private const string RegexParameterPattern = @"[a-zA-Z0-9\._ ]+";
+
+        private static IDictionary<string, Regex> regexPatterns = new ConcurrentDictionary<string, Regex>();
 
         private readonly IList<RegexRoute> regexRoutes;
 
@@ -92,7 +95,7 @@ namespace Qooba.Framework.Bot.Routing
 
         private static IDictionary<string, object> PrepareRouteData(string text, RegexRoute regexRoute)
         {
-            var match = Regex.Match($"^{RouteHandler.RemoveAccents(text)}$", $"^{RouteHandler.RemoveAccents(regexRoute.RegexRoutePattern)}$", RegexOptions.IgnoreCase);
+            var match = PrepareRegexRoutePattern(regexRoute).Match(RouteHandler.RemoveAccents(text));
             if (match.Success)
             {
                 match = Regex.Match(text, regexRoute.RegexRoutePattern, RegexOptions.IgnoreCase);
@@ -108,6 +111,17 @@ namespace Qooba.Framework.Bot.Routing
             }
 
             return null;
+        }
+
+        private static Regex PrepareRegexRoutePattern(RegexRoute regexRoute)
+        {
+            Regex regex;
+            if (!regexPatterns.TryGetValue(regexRoute.RegexRoutePattern, out regex))
+            {
+                regex = regexPatterns[regexRoute.RegexRoutePattern] = new Regex($"^{RouteHandler.RemoveAccents(regexRoute.RegexRoutePattern)}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            }
+
+            return regex;
         }
 
         private class RegexRoute : Route

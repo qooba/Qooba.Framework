@@ -15,11 +15,13 @@ namespace Qooba.Framework.Bot.Tests.Handlers
 
         private Mock<ISerializer> serializerMock;
 
+        private Mock<IRoutingConfiguration> routingConfigurationMock;
         public RouteHandlerTests()
         {
+            this.routingConfigurationMock = new Mock<IRoutingConfiguration>();
             this.serializerMock = new Mock<ISerializer>();
             this.routerMock = new Mock<IRouter>();
-            this.routeHandler = new RouteHandler(new[] { routerMock.Object }, this.serializerMock.Object);
+            this.routeHandler = new RouteHandler(new[] { routerMock.Object }, this.serializerMock.Object, this.routingConfigurationMock.Object);
         }
 
         [Fact]
