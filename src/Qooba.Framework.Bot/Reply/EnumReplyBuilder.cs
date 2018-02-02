@@ -13,7 +13,7 @@ namespace Qooba.Framework.Bot
             return new ReplyMessage
             {
                 Text = reply.Text,
-                Quick_replies = reply.Enum.Select(x => new QuickReply { Content_type = ContentType.text, Title = x.Title, Payload = x.Payload ?? x.Title }).ToList()
+                Quick_replies = reply.Enum.Select(x => new QuickReply { Content_type = ContentType.text, Title = x.Title, Payload = x.Payload ?? "{}" }).ToList()
             };
         }
     }

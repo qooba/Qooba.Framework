@@ -36,7 +36,7 @@ namespace Qooba.Framework.Bot.Handlers
             var text = reply?.Message?.Text;
             if (text != null)
             {
-                var matches = Regex.Matches($"{text}", @"\[[a-zA-Z0-9śćźżłóę \.\-|]+\]", RegexOptions.IgnoreCase);
+                var matches = Regex.Matches($"{text}", @"\[[a-zA-Z0-9śćźżłóęą \.,\-|]+\]", RegexOptions.IgnoreCase);
                 foreach (var match in matches)
                 {
                     var t = match.ToString();

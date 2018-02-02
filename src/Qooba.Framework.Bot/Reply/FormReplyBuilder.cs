@@ -77,10 +77,6 @@ namespace Qooba.Framework.Bot
                         else
                         {
                             conversationContext.Route.RouteData[propertyName] = conversationContext.Entry.Message.Message.Text;
-                            if (conversationContext.Entry.Message.Message?.Quick_replies != null)
-                            {
-                                conversationContext.Route.RouteData[$"{Constants.QuickRepliesProperty}::{propertyName}"] = conversationContext.Entry.Message.Message?.Quick_replies.FirstOrDefault();
-                            }
                         }
 
                         entry = conversationContext.Entry.Message.Message;

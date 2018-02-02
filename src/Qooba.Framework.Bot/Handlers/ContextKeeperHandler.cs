@@ -1,6 +1,7 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Qooba.Framework.Bot.Handlers
 {
@@ -24,6 +25,10 @@ namespace Qooba.Framework.Bot.Handlers
             else if (conversationContext.StateAction == StateAction.Clear)
             {
                 await this.stateManager.ClearContextAsync(conversationContext);
+            }
+            else if (conversationContext.StateAction == StateAction.None && conversationContext?.Reply?.Message?.Quick_replies?.Any() == true)
+            {
+                await this.stateManager.SaveContextAsync(conversationContext);
             }
 
             await base.InvokeAsync(conversationContext);

@@ -5,12 +5,8 @@ using Qooba.Framework.Bot.Routing;
 using Qooba.Framework.Bot.Common;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Xunit;
-using System.Linq;
 using System.Collections.Specialized;
-using Qooba.Framework.Serialization.Abstractions;
-using System;
 
 namespace Qooba.Framework.Bot.Tests
 {
@@ -22,11 +18,8 @@ namespace Qooba.Framework.Bot.Tests
 
         private Mock<IConversationContext> conversationContextMock;
 
-        private Mock<ISerializer> serializerMock;
-
         public RegexRouterTests()
         {
-            this.serializerMock = new Mock<ISerializer>();
             this.conversationContextMock = new Mock<IConversationContext>();
             this.routingConfigurationMock = new Mock<IRoutingConfiguration>();
             IList<Route> routeTable = new List<Route>()
@@ -37,7 +30,7 @@ namespace Qooba.Framework.Bot.Tests
                 new Route { RouteId = "#accountDetails", RouteText = "Moje {{account}}"}
             };
             this.routingConfigurationMock.Setup(x => x.RoutingTable).Returns(routeTable);
-            this.router = new RegexRouter(this.routingConfigurationMock.Object, this.serializerMock.Object);
+            this.router = new RegexRouter(this.routingConfigurationMock.Object);
         }
 
         [Fact]

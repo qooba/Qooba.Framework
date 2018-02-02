@@ -2,6 +2,8 @@
 using Qooba.Framework.Bot.Handlers;
 using System.Collections.Generic;
 using Xunit;
+using Moq;
+using Qooba.Framework.Serialization.Abstractions;
 
 namespace Qooba.Framework.Bot.Tests.Handlers
 {
@@ -9,8 +11,11 @@ namespace Qooba.Framework.Bot.Tests.Handlers
     {
         private IHandlerManager handlerManager;
 
+        private Mock<ISerializer> serializerMock;
+
         public HandlerManagerTests()
         {
+            this.serializerMock = new Mock<ISerializer>();
         }
 
         [Fact]
@@ -19,7 +24,7 @@ namespace Qooba.Framework.Bot.Tests.Handlers
             var handlers = new List<IHandler>()
             {
                 new DispatchHandler(null),
-                new RouteHandler(new IRouter[]{ }),
+                new RouteHandler(new IRouter[]{ }, this.serializerMock.Object),
                 new ContextHandler(null),
                 new ContextKeeperHandler(null),
                 new ReplyHandler(null, null)

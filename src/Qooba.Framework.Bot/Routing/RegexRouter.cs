@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Qooba.Framework.Serialization.Abstractions;
+using System.Text;
+using Qooba.Framework.Bot.Handlers;
 
 namespace Qooba.Framework.Bot.Routing
 {
@@ -14,10 +16,8 @@ namespace Qooba.Framework.Bot.Routing
 
         private readonly IList<RegexRoute> regexRoutes;
 
-        private readonly ISerializer serializer;
-        public RegexRouter(IRoutingConfiguration routingConfiguration, ISerializer serializer)
+        public RegexRouter(IRoutingConfiguration routingConfiguration)
         {
-            this.serializer = serializer;
             this.regexRoutes = routingConfiguration.RoutingTable.Select(x =>
             {
                 var routeText = x.RouteText;
@@ -34,19 +34,7 @@ namespace Qooba.Framework.Bot.Routing
 
         public async Task<Route> FindRouteAsync(IConversationContext conversationContext)
         {
-            Route payloadRoute = null;
-            var message = conversationContext?.Entry?.Message?.Message;
-            var payload = message?.Quick_reply?.Payload;
-            var text = message?.Text;
-            if (payload != null)
-            {
-                payloadRoute = this.serializer.Deserialize<Route>(payload);
-                if (payloadRoute?.RouteText != null)
-                {
-                    text = payloadRoute.RouteText;
-                }
-            }
-
+            var text = conversationContext?.Entry?.Message?.Message?.Text;
             if (!string.IsNullOrEmpty(text))
             {
                 foreach (var regexRoute in this.regexRoutes)
@@ -54,14 +42,6 @@ namespace Qooba.Framework.Bot.Routing
                     var routeData = PrepareRouteData(text, regexRoute);
                     if (routeData != null)
                     {
-                        if (payloadRoute?.RouteData?.Any() == true)
-                        {
-                            foreach (var data in payloadRoute?.RouteData)
-                            {
-                                routeData[data.Key] = data.Value;
-                            }
-                        }
-
                         return new Route
                         {
                             IsDefault = regexRoute.IsDefault,
@@ -112,7 +92,7 @@ namespace Qooba.Framework.Bot.Routing
 
         private static IDictionary<string, object> PrepareRouteData(string text, RegexRoute regexRoute)
         {
-            var match = Regex.Match($"^{text}$", $"^{regexRoute.RegexRoutePattern}$", RegexOptions.IgnoreCase);
+            var match = Regex.Match($"^{RouteHandler.RemoveAccents(text)}$", $"^{RouteHandler.RemoveAccents(regexRoute.RegexRoutePattern)}$", RegexOptions.IgnoreCase);
             if (match.Success)
             {
                 match = Regex.Match(text, regexRoute.RegexRoutePattern, RegexOptions.IgnoreCase);
