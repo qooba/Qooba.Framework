@@ -32,7 +32,7 @@ namespace Qooba.Framework.Bot.Handlers
         public static string RemoveAccents(string text)
         {
             text = Encoding.UTF8.GetString(Encoding.GetEncoding("ISO-8859-8").GetBytes(text.ToLowerInvariant()));
-            return rgx.Replace(text, "");
+            return rgx.Replace(text, "").Trim(' ');
         }
 
         public override async Task InvokeAsync(IConversationContext conversationContext)
@@ -42,6 +42,12 @@ namespace Qooba.Framework.Bot.Handlers
             Route globalRoute;
             if (this.globalRoutes.TryGetValue(simplifiedText, out globalRoute))
             {
+                var reply = conversationContext.Reply;
+                var route = conversationContext.Route;
+                globalRoute.RouteData["#lastRouteId"] = route.RouteId;
+                globalRoute.RouteData["#lastRouteText"] = route.RouteText;
+                globalRoute.RouteData["#lastRouteData"] = route.RouteData;
+                globalRoute.RouteData["#lastReply"] = reply;
                 conversationContext.Reply = null;
                 conversationContext.Route = globalRoute;
                 conversationContext.Entry.Message.Message.Quick_reply = null;
@@ -49,7 +55,12 @@ namespace Qooba.Framework.Bot.Handlers
 
             if (conversationContext?.Reply?.Message?.Quick_replies?.Any() == true && conversationContext?.Entry?.Message?.Message?.Quick_reply == null)
             {
-                conversationContext.Entry.Message.Message.Quick_reply = conversationContext.Reply.Message.Quick_replies.FirstOrDefault(x => RemoveAccents(x.Title) == simplifiedText);
+                var quickReply = conversationContext.Reply.Message.Quick_replies.FirstOrDefault(x => RemoveAccents(x.Title) == simplifiedText);
+                if (quickReply != null)
+                {
+                    conversationContext.Entry.Message.Message.Quick_reply = quickReply;
+                    conversationContext.Entry.Message.Message.Text = quickReply.Title;
+                }
             }
 
             var payloadRoute = PreparePayloadRoute(conversationContext);
@@ -78,10 +89,7 @@ namespace Qooba.Framework.Bot.Handlers
                 conversationContext.Route.RouteData = conversationContext.Route.RouteData ?? new Dictionary<string, object>();
                 foreach (var data in payloadRoute?.RouteData)
                 {
-                    if (!conversationContext.Route.RouteData.ContainsKey(data.Key))
-                    {
-                        conversationContext.Route.RouteData[data.Key] = data.Value;
-                    }
+                    conversationContext.Route.RouteData[data.Key] = data.Value;
                 }
             }
         }
