@@ -42,18 +42,21 @@ namespace Qooba.Framework.Bot.Handlers
             Route globalRoute;
             if (this.globalRoutes.TryGetValue(simplifiedText, out globalRoute))
             {
-                var reply = conversationContext.Reply;
                 var route = conversationContext.Route;
-                globalRoute.RouteData["#lastRouteId"] = route.RouteId;
-                globalRoute.RouteData["#lastRouteText"] = route.RouteText;
-                globalRoute.RouteData["#lastRouteData"] = route.RouteData;
-                globalRoute.RouteData["#lastReply"] = reply;
-                conversationContext.Reply = null;
-                conversationContext.Route = globalRoute;
-                conversationContext.Entry.Message.Message.Quick_reply = null;
+                conversationContext.Route = new Route
+                {
+                    RouteId = globalRoute.RouteId,
+                    RouteText = globalRoute.RouteText,
+                    RouteData = new Dictionary<string, object>
+                    {
+                        { "#lastRouteId", route?.RouteId},
+                        { "#lastRouteText", route?.RouteText},
+                        { "#lastRouteData", route?.RouteData},
+                        { "#lastReply", conversationContext.Reply}
+                    }
+                };
             }
-
-            if (conversationContext?.Reply?.Message?.Quick_replies?.Any() == true && conversationContext?.Entry?.Message?.Message?.Quick_reply == null)
+            else if (conversationContext?.Reply?.Message?.Quick_replies?.Any() == true && conversationContext?.Entry?.Message?.Message?.Quick_reply == null)
             {
                 var quickReply = conversationContext.Reply.Message.Quick_replies.FirstOrDefault(x => RemoveAccents(x.Title) == simplifiedText);
                 if (quickReply != null)
