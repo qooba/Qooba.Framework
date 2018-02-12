@@ -1,8 +1,4 @@
-﻿#if NET46
-#else
-using Microsoft.AspNetCore.WebUtilities;
-#endif
-using Qooba.Framework.Bot.Abstractions;
+﻿using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Configuration.Abstractions;
 using System.IO;
@@ -29,7 +25,7 @@ namespace Qooba.Framework.Bot
             var queries = request.RequestUri.ParseQueryString();
             var hubMode = queries["hub.mode"];
 #else
-            var queries = QueryHelpers.ParseQuery(request.RequestUri.Query);
+            var queries = request.RequestUri.Query.Replace("?", "").Split('&').ToDictionary(x => x.Split('=')[0], x => x.Split('=')[1]);;
             queries.TryGetValue("hub.mode", out var hubMode);
 #endif
             if (hubMode == "subscribe")
