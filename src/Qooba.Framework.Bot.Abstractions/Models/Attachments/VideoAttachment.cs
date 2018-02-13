@@ -2,6 +2,6 @@
 {
     public class VideoAttachment : MediaAttachment
     {
-        public override AttachmentType Type => AttachmentType.video;
+        public AttachmentType Type { get; set; } = AttachmentType.video;
     }
 }

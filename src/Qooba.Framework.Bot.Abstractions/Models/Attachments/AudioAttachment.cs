@@ -2,6 +2,6 @@
 {
     public class AudioAttachment : MediaAttachment
     {
-        public override AttachmentType Type => AttachmentType.audio;
+        public AttachmentType Type { get; set; } = AttachmentType.audio;
     }
 }
