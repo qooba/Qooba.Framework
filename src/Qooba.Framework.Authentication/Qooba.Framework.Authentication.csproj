@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Authentication</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Authentication</AssemblyName>
     <PackageId>Qooba.Framework.Authentication</PackageId>
     <PackageTags>framework</PackageTags>
@@ -27,11 +27,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Authorization" Version="1.0.0-rc1-final" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="6.0.0-rc1-final" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>

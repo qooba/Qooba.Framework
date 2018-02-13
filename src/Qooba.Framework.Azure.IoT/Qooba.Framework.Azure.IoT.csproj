@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Qooba.Framework.Azure.IoT Class Library</Description>
     <Authors>qba</Authors>
-    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Azure.IoT</AssemblyName>
     <PackageId>Qooba.Framework.Azure.IoT</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
@@ -22,11 +22,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Devices" Version="1.0.0-preview-008" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>

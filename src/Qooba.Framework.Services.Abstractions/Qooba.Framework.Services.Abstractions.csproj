@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Services.Abstractions</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Services.Abstractions</AssemblyName>
     <PackageId>Qooba.Framework.Services.Abstractions</PackageId>
     <PackageTags>framework</PackageTags>
@@ -21,11 +21,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.10" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>

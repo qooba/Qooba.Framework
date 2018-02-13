@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Logging.Console</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Logging.Console</AssemblyName>
     <PackageId>Qooba.Framework.Logging.Console</PackageId>
     <PackageTags>framework</PackageTags>

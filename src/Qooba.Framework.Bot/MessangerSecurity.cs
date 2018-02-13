@@ -21,13 +21,9 @@ namespace Qooba.Framework.Bot
 
         public ChallengeResult IsChallengeRequest(HttpRequestMessage request)
         {
-#if NET46
-            var queries = request.RequestUri.ParseQueryString();
-            var hubMode = queries["hub.mode"];
-#else
             var queries = request.RequestUri.Query.Replace("?", "").Split('&').ToDictionary(x => x.Split('=')[0], x => x.Split('=')[1]);;
             queries.TryGetValue("hub.mode", out var hubMode);
-#endif
+
             if (hubMode == "subscribe")
             {
                 var hubChallenge = queries["hub.challenge"];

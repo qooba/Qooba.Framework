@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Specification</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Specification</AssemblyName>
     <PackageId>Qooba.Framework.Specification</PackageId>
     <PackageTags>framework</PackageTags>
@@ -17,11 +17,6 @@
     <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.DependencyInjection.Abstractions\Qooba.Framework.DependencyInjection.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Specification.Abstractions\Qooba.Framework.Specification.Abstractions.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>

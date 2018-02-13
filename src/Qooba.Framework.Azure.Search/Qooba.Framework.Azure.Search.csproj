@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Qooba.Framework.Azure.Search Class Library</Description>
     <Authors>qba</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Azure.Search</AssemblyName>
     <PackageId>Qooba.Framework.Azure.Search</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
@@ -22,11 +22,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Search" Version="1.1.1" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>

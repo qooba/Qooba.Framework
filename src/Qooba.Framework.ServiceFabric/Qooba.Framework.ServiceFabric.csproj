@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Qooba.Framework.ServiceFabric Class Library</Description>
     <Authors>qba</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.ServiceFabric</AssemblyName>
     <PackageId>Qooba.Framework.ServiceFabric</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
@@ -24,11 +24,6 @@
     <PackageReference Include="Microsoft.ServiceFabric.Actors" Version="2.0.135" />
     <PackageReference Include="Microsoft.ServiceFabric.Data" Version="2.0.135" />
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="2.0.135" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>

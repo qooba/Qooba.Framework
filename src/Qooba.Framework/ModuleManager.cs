@@ -4,10 +4,7 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using Qooba.Framework.Abstractions;
 using System;
-#if NET46
-#else
 using Microsoft.Extensions.DependencyModel;
-#endif
 using System.IO;
 
 namespace Qooba.Framework

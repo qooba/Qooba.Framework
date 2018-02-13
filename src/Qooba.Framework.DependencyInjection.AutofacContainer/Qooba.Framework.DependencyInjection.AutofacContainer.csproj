@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.DependencyInjection.AutofacContainer</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.DependencyInjection.AutofacContainer</AssemblyName>
     <PackageId>Qooba.Framework.DependencyInjection.AutofacContainer</PackageId>
     <PackageTags>framework</PackageTags>
@@ -23,11 +23,6 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.0.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>

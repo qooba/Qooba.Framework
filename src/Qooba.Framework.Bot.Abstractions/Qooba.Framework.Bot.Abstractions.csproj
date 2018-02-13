@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Bot.Abstractions</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Bot.Abstractions</AssemblyName>
     <PackageId>Qooba.Framework.Bot.Abstractions</PackageId>
     <PackageTags>framework</PackageTags>
@@ -19,8 +19,4 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
-  </ItemGroup>
-  
 </Project>

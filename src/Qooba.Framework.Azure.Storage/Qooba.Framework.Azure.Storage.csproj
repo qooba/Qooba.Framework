@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Azure.Storage</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Azure.Storage</AssemblyName>
     <PackageId>Qooba.Framework.Azure.Storage</PackageId>
     <PackageTags>framework</PackageTags>
@@ -28,15 +28,6 @@
 
   <ItemGroup>
     <PackageReference Include="WindowsAzure.Storage" Version="6.2.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.0.2" />
   </ItemGroup>
 
 </Project>

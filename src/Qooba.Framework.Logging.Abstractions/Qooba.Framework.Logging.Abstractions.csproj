@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Logging.Abstractions</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0;</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Logging.Abstractions</AssemblyName>
     <PackageId>Qooba.Framework.Logging.Abstractions</PackageId>
     <PackageTags>framework</PackageTags>

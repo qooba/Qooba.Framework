@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Abstractions</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Abstractions</AssemblyName>
     <PackageId>Qooba.Framework.Abstractions</PackageId>
     <PackageTags>framework</PackageTags>
@@ -12,11 +12,6 @@
     <PackageProjectUrl>https://github.com/qooba/Qooba.Framework</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/qooba/Qooba.Framework/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />

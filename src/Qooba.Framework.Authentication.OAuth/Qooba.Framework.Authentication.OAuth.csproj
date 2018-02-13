@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Authentication.OAuth</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Authentication.OAuth</AssemblyName>
     <PackageId>Qooba.Framework.Authentication.OAuth</PackageId>
     <PackageTags>framework</PackageTags>
@@ -32,11 +32,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.0.1" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>

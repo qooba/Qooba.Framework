@@ -4,7 +4,7 @@
     <AssemblyTitle>Qooba.Framework.Cqrs</AssemblyTitle>
     <VersionPrefix>3.0.0-alpha1</VersionPrefix>
     <Authors>Jakub Sołtys</Authors>
-    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Cqrs</AssemblyName>
     <PackageId>Qooba.Framework.Cqrs</PackageId>
     <PackageTags>framework</PackageTags>
@@ -24,11 +24,6 @@
     <ProjectReference Include="..\Qooba.Framework.DependencyInjection.Abstractions\Qooba.Framework.DependencyInjection.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.UnitOfWork.Abstractions\Qooba.Framework.UnitOfWork.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Mapping.Abstractions\Qooba.Framework.Mapping.Abstractions.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>

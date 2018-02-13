@@ -6,7 +6,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Qooba.Framework.Tests</AssemblyName>
     <PackageId>Qooba.Framework.Tests</PackageId>
-    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50;net46;net461</PackageTargetFallback>
     <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
   </PropertyGroup>
 
