@@ -1,4 +1,5 @@
-﻿using Qooba.Framework.Abstractions;
+﻿using Microsoft.Extensions.Configuration;
+using Qooba.Framework.Abstractions;
 using Qooba.Framework.Configuration.Abstractions;
 
 namespace Qooba.Framework.Configuration
@@ -11,7 +12,7 @@ namespace Qooba.Framework.Configuration
 
         public void Bootstrapp(IFramework framework)
         {
-            framework.AddSingletonService<IConfig, Config>();
+            
         }
     }
 }

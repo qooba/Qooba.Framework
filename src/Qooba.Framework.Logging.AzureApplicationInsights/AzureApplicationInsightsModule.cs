@@ -11,7 +11,7 @@ namespace Qooba.Framework.Logging.AzureApplicationInsights
 
         public void Bootstrapp(IFramework framework)
         {
-            framework.AddTransientService<ILogger, AzureApplicationInsightsLogger>();
+            framework.AddTransientService<ILogger, AzureApplicationInsightsLogger>(); ///replace this with extension
         }
     }
 }
