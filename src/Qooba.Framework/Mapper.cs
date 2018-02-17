@@ -1,4 +1,4 @@
-﻿using Qooba.Framework.Mapping.Abstractions;
+﻿using Qooba.Framework.Abstractions;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -7,9 +7,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Qooba.Framework.Mapping
+namespace Qooba.Framework
 {
-    public class QMap : IMapper
+    public class Mapper : IMapper
     {
         private static IDictionary<Type, ConcurrentDictionary<Type, object>> mappers = new ConcurrentDictionary<Type, ConcurrentDictionary<Type, object>>();
 
@@ -106,11 +106,11 @@ namespace Qooba.Framework.Mapping
 
                     if (outputPropertyType.IsArray)
                     {
-                        meth = typeof(QMap).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).FirstOrDefault(x => x.Name == "ParseArray").MakeGenericMethod(inputElementType, outputElementType);
+                        meth = typeof(Mapper).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).FirstOrDefault(x => x.Name == "ParseArray").MakeGenericMethod(inputElementType, outputElementType);
                     }
                     else
                     {
-                        meth = typeof(QMap).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).FirstOrDefault(x => x.Name == "ParseList").MakeGenericMethod(inputElementType, outputElementType);
+                        meth = typeof(Mapper).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).FirstOrDefault(x => x.Name == "ParseList").MakeGenericMethod(inputElementType, outputElementType);
                     }
 
                     var parsingExpression = Expression.Call(null, meth, inputPropertyGetter);

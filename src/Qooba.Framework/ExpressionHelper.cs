@@ -3,9 +3,9 @@ using System.Reflection;
 using System.Linq;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using Qooba.Framework.Expressions.Abstractions;
+using Qooba.Framework.Abstractions;
 
-namespace Qooba.Framework.Expressions
+namespace Qooba.Framework
 {
     using Expression = System.Linq.Expressions.Expression;
 

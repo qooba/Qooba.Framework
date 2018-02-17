@@ -67,6 +67,8 @@ namespace Qooba.Framework
             serviceManager.AddService(s => s.Service<IFactory>().As<Factory>().Lifetime(Lifetime.Singleton));
             serviceManager.AddService(s => s.Service(typeof(IFactory<>)).As(typeof(Factory<>)).Lifetime(Lifetime.Singleton));
             serviceManager.AddService(s => s.Service<ILogger>().As<Logger>().Lifetime(Lifetime.Singleton));
+            serviceManager.AddService(s => s.Service<IExpressionHelper>().As(new ExpressionHelper()).Lifetime(Lifetime.Singleton));
+            serviceManager.AddService(s => s.Service<IMapper>().As(new Mapper()).Lifetime(Lifetime.Singleton));
         }
 
         private void PrepareModules()

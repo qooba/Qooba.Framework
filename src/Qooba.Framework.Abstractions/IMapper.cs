@@ -1,4 +1,4 @@
-﻿namespace Qooba.Framework.Mapping.Abstractions
+﻿namespace Qooba.Framework.Abstractions
 {
     public interface IMapper
     {

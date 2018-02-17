@@ -1,4 +1,4 @@
-﻿namespace Qooba.Framework.Expressions.Abstractions
+﻿namespace Qooba.Framework.Abstractions
 {
     public interface IExpressionHelper
     {
