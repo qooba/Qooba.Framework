@@ -1,17 +1,16 @@
 ﻿using System;
-using Qooba.Framework.Logging.Abstractions;
-using Qooba.Framework.Logging.Abstractions.Models;
-using Qooba.Framework.Configuration.Abstractions;
+using Qooba.Framework.Abstractions;
 using Microsoft.ApplicationInsights;
 using System.Collections.Generic;
+using Qooba.Framework.Abstractions.Models;
 
 namespace Qooba.Framework.Logging.AzureApplicationInsights
 {
-    public class AzureApplicationInsightsLogger : ILogger
+    public class AzureApplicationInsightsLogger : ILogTarget
     {
-        private readonly IConfig config;
+        private readonly IConfiguration config;
 
-        public AzureApplicationInsightsLogger(IConfig config)
+        public AzureApplicationInsightsLogger(IConfiguration config)
         {
             this.config = config;
         }

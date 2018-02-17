@@ -1,11 +1,10 @@
 ﻿using Qooba.Framework.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Qooba.Framework.DependencyInjection.SimpleContainer.LifetimeManagers
+namespace Qooba.Framework.LifetimeManagers
 {
     public class SingletonLifetimeManager : ILifetimeManager
     {

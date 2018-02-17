@@ -34,6 +34,8 @@ namespace Qooba.Framework.Abstractions
 
         IFramework AddSingletonService(Type serviceType, Func<IServiceProvider, object> implementationFactory);
 
+        IFramework AddSingletonServiceWithConfiguration(Type serviceType, Func<IConfiguration, object> implementationInstanceFunc);
+
         IFramework AddSingletonService<TService, TImplementation>() where TService : class where TImplementation : class, TService;
 
         IFramework AddSingletonService(Type serviceType);

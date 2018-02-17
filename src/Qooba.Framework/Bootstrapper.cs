@@ -42,6 +42,13 @@ namespace Qooba.Framework
                 serviceManager = ((IServiceManagerModule)containerBootstrapper).CreateServiceManager();
                 this.serviceBootstrapper.SetServiceManager(serviceManager);
             }
+            else
+            {
+                var container = new Container();
+                container.RegisterInstance(null, typeof(Abstractions.IServiceProvider), container);
+                container.RegisterInstance(null, typeof(IContainer), container);
+                this.serviceBootstrapper.SetServiceManager(container);
+            }
 
             foreach (var module in modules)
             {
@@ -52,6 +59,14 @@ namespace Qooba.Framework
             {
                 serviceManager.AddService(service);
             }
+        }
+
+        private void BootstrappCore(IServiceManager serviceManager)
+        {
+            serviceManager.AddService(s => s.Service<IConfiguration>().As(new Configuration()).Lifetime(Lifetime.Singleton));
+            serviceManager.AddService(s => s.Service<IFactory>().As<Factory>().Lifetime(Lifetime.Singleton));
+            serviceManager.AddService(s => s.Service(typeof(IFactory<>)).As(typeof(Factory<>)).Lifetime(Lifetime.Singleton));
+            serviceManager.AddService(s => s.Service<ILogger>().As<Logger>().Lifetime(Lifetime.Singleton));
         }
 
         private void PrepareModules()

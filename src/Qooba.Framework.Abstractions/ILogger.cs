@@ -1,7 +1,7 @@
-﻿using Qooba.Framework.Logging.Abstractions.Models;
+﻿using Qooba.Framework.Abstractions.Models;
 using System;
 
-namespace Qooba.Framework.Logging.Abstractions
+namespace Qooba.Framework.Abstractions
 {
     public interface ILogger
     {

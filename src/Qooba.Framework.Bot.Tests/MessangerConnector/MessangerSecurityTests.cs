@@ -2,7 +2,7 @@
 using Moq;
 using System.Net.Http;
 using Qooba.Framework.Bot.Abstractions;
-using Qooba.Framework.Configuration.Abstractions;
+using Qooba.Framework.Abstractions;
 using Xunit;
 
 namespace Qooba.Framework.Bot.Tests

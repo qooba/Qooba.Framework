@@ -130,6 +130,12 @@ namespace Qooba.Framework
             where TService : class
             => this.AddService(s => s.Service<TService>().As(implementationFactory).Lifetime(Lifetime.Singleton));
 
+        public IFramework AddSingletonServiceWithConfiguration(Type serviceType, Func<IConfiguration, object> implementationInstanceFunc)
+        {
+            var configuration = this.GetService<IConfiguration>();
+            return this.AddSingletonService(serviceType, implementationInstanceFunc(configuration));
+        }
+
         public IFramework AddSingletonService<TService>(TService implementationInstance)
             where TService : class
             => this.AddService(s => s.Service<TService>().As(implementationInstance).Lifetime(Lifetime.Singleton));

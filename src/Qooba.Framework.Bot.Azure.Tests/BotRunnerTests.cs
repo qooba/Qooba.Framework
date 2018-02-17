@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Qooba.Framework.Bot.Abstractions;
-using Qooba.Framework.DependencyInjection.SimpleContainer;
 using Xunit;
 using Qooba.Framework.Bot.Attributes;
-using Qooba.Framework.Configuration;
 using Qooba.Framework.Serialization;
 using Qooba.Framework.Logging.AzureApplicationInsights;
 using Qooba.Framework.Bot.Abstractions.Form;
@@ -124,8 +122,6 @@ namespace Qooba.Framework.Bot.Azure.Tests
             container.RegisterInstance(null, typeof(IConfigurationRoot), this.configurationRootMock.Object);
 
             FrameworkBuilder.Create()
-            .AddModule(m => m.Module(new SimpleContainerModule()))
-            .AddModule(m => m.Module(new ConfigModule()))
             .AddModule(m => m.Module(new SerializationModule()))
             .AddModule(m => m.Module(new BotModule()))
             .AddModule(m => m.Module(new BotAzureModule()))

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Qooba.Framework.DependencyInjection.Abstractions
+namespace Qooba.Framework.Abstractions
 {
     public interface IContainer : IServiceManager
     {

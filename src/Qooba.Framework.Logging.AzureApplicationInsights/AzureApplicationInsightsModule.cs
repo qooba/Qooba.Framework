@@ -1,5 +1,4 @@
 ﻿using Qooba.Framework.Abstractions;
-using Qooba.Framework.Logging.Abstractions;
 
 namespace Qooba.Framework.Logging.AzureApplicationInsights
 {

@@ -19,7 +19,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj"/>
-    <ProjectReference Include="..\Qooba.Framework.Configuration.Abstractions\Qooba.Framework.Configuration.Abstractions.csproj"/>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0"/>

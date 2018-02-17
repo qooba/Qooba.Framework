@@ -1,7 +1,7 @@
 ﻿using System;
 using Qooba.Framework.Abstractions;
 
-namespace Qooba.Framework.DependencyInjection.Abstractions
+namespace Qooba.Framework.Abstractions
 {
     public class ServiceDescriptor : IServiceDescriptor
     {

@@ -22,7 +22,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Azure.DocumentDb.Abstractions\Qooba.Framework.Azure.DocumentDb.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.Configuration.Abstractions\Qooba.Framework.Configuration.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

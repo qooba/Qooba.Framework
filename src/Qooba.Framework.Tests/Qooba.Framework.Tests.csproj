@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Qooba.Framework.DependencyInjection.SimpleContainer\Qooba.Framework.DependencyInjection.SimpleContainer.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Serialization.Abstractions\Qooba.Framework.Serialization.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Serialization\Qooba.Framework.Serialization.csproj" />
     <ProjectReference Include="..\Qooba.Framework\Qooba.Framework.csproj" />

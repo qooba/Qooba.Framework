@@ -15,9 +15,6 @@
     <ProjectReference Include="..\..\src\Qooba.Framework.Expressions.Abstractions\Qooba.Framework.Expressions.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Qooba.Framework.Specification\Qooba.Framework.Specification.csproj" />
     <ProjectReference Include="..\..\src\Qooba.Framework.Specification.Abstractions\Qooba.Framework.Specification.Abstractions.csproj" />
-    <ProjectReference Include="..\..\src\Qooba.Framework.DependencyInjection.SimpleContainer\Qooba.Framework.DependencyInjection.SimpleContainer.csproj" />
-    <ProjectReference Include="..\..\src\Qooba.Framework.DependencyInjection.ContainerFactory\Qooba.Framework.DependencyInjection.ContainerFactory.csproj" />
-    <ProjectReference Include="..\..\src\Qooba.Framework.DependencyInjection.Abstractions\Qooba.Framework.DependencyInjection.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

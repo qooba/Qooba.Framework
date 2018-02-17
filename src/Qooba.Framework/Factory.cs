@@ -1,9 +1,8 @@
 ﻿using Qooba.Framework.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Qooba.Framework.DependencyInjection.ContainerFactory
+namespace Qooba.Framework
 {
     public class Factory<T> : IFactory<T>
         where T : class

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Net.Http;
 using Qooba.Framework.Bot.Abstractions;
-using Qooba.Framework.Logging.Abstractions;
+using Qooba.Framework.Abstractions;
 using Newtonsoft.Json.Linq;
 using Qooba.Framework.Bot.Abstractions.Models;
 

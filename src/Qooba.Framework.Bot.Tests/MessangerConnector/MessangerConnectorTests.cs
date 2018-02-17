@@ -1,7 +1,7 @@
 ﻿using Moq;
 using System.Net.Http;
 using Qooba.Framework.Bot.Abstractions;
-using Qooba.Framework.Logging.Abstractions;
+using Qooba.Framework.Abstractions;
 using Xunit;
 using Qooba.Framework.Bot.Abstractions.Models;
 

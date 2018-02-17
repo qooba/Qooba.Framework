@@ -1,9 +1,9 @@
-﻿using Qooba.Framework.Configuration.Abstractions;
+﻿using Qooba.Framework.Abstractions;
 using Microsoft.Extensions.Configuration;
 
 namespace Qooba.Framework.Configuration
 {
-    public class Config : IConfig
+    public class Config : Abstractions.IConfiguration
     {
         private IConfigurationRoot configuration;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Qooba.Framework.Logging.Abstractions.Models
+namespace Qooba.Framework.Abstractions.Models
 {
     public enum LogLevel
     {

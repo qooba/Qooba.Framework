@@ -20,7 +20,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Qooba.Framework.Configuration.Abstractions\Qooba.Framework.Configuration.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Serialization.Abstractions\Qooba.Framework.Serialization.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Azure.Storage.Abstractions\Qooba.Framework.Azure.Storage.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.UnitOfWork.Abstractions\Qooba.Framework.UnitOfWork.Abstractions.csproj" />

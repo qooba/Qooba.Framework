@@ -1,6 +1,6 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Qooba.Framework.Configuration.Abstractions;
+using Qooba.Framework.Abstractions;
 using System.IO;
 using System.Linq;
 using System.Net;

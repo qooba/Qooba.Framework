@@ -1,7 +1,6 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using Qooba.Framework.Abstractions;
-using Qooba.Framework.Configuration.Abstractions;
 
 namespace Qooba.Framework.Configuration
 {
@@ -9,38 +8,23 @@ namespace Qooba.Framework.Configuration
     {
         private static ConfigurationBuilder builder = new ConfigurationBuilder();
 
-        private static IConfig config;
+        private static Lazy<Abstractions.IConfiguration> config = new Lazy<Abstractions.IConfiguration>(() => new Config(builder.Build()));
 
         public static IFramework AddConfigurationRoot(this IFramework framework, IConfigurationRoot configurationRoot)
         {
-            config = new Config(configurationRoot);
-            framework.AddSingletonService(typeof(IConfig), config);
-            return framework;
+            return framework.AddSingletonService(typeof(Abstractions.IConfiguration), new Config(configurationRoot));   
         }
 
         public static IFramework AddConfiguration(this IFramework framework, Func<IConfigurationBuilder, IConfigurationBuilder> configuration)
         {
-            configuration(builder);
-            return framework;
+            var configurationRoot = configuration(builder).Build();
+            return framework.AddConfigurationRoot(configurationRoot);
         }
 
         public static IFramework AddConfigurationJsonFile(this IFramework framework, string path)
         {
             builder.AddJsonFile(path);
-            return framework;
-        }
-
-        public static IFramework BuildConfiguration(this IFramework framework)
-        {
-            config = new Config(builder.Build());
-            framework.AddSingletonService(typeof(IConfig), config);
-            return framework;
-        }
-
-        public static IFramework AddSingletonService(this IFramework framework, Type serviceType, Func<IConfig, object> implementationInstanceFunc)
-        {
-            framework.AddSingletonService(serviceType, implementationInstanceFunc(config));
-            return framework;
+            return framework.AddSingletonService(typeof(Abstractions.IConfiguration), s => config.Value);   
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Qooba.Framework.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
-using Qooba.Framework.DependencyInjection.SimpleContainer.LifetimeManagers;
+using Qooba.Framework.LifetimeManagers;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -9,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Qooba.Framework.DependencyInjection.SimpleContainer
+namespace Qooba.Framework
 {
     public class Container : BaseContainer
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections;
 
-namespace Qooba.Framework.DependencyInjection.SimpleContainer
+namespace Qooba.Framework
 {
     public class ObjectActivator
     {

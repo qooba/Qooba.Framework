@@ -1,8 +1,7 @@
 ﻿using Qooba.Framework.Abstractions;
-using Qooba.Framework.DependencyInjection.Abstractions;
 using System;
 
-namespace Qooba.Framework.DependencyInjection.SimpleContainer.LifetimeManagers
+namespace Qooba.Framework.LifetimeManagers
 {
     public class TransistentLifetimeManager : ILifetimeManager
     {

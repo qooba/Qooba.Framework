@@ -1,15 +1,15 @@
 ﻿using System;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Qooba.Framework.Configuration.Abstractions;
+using Qooba.Framework.Abstractions;
 
 namespace Qooba.Framework.Bot
 {
     public class BotConfig : IBotConfig
     {
-        private readonly IConfig config;
+        private readonly IConfiguration config;
 
-        public BotConfig(IConfig config)
+        public BotConfig(IConfiguration config)
         {
             this.config = config;
         }

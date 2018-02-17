@@ -1,7 +1,7 @@
 ﻿using Qooba.Framework.Abstractions;
 using System;
 
-namespace Qooba.Framework.DependencyInjection.Abstractions
+namespace Qooba.Framework.Abstractions
 {
     public interface ILifetimeManager
     {

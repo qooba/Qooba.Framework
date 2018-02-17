@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using Moq;
-using Qooba.Framework.DependencyInjection.SimpleContainer;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;

@@ -26,11 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Bot.Tests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{1FA59BD0-6808-45E8-88C4-B830AB6E64BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Logging.Abstractions", "src\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj", "{22CCFB9C-2F9D-48F7-961E-E62E6C110DF6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{C9A57FF2-B42E-4240-9AA0-A8E1F56069E9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Configuration.Abstractions", "src\Qooba.Framework.Configuration.Abstractions\Qooba.Framework.Configuration.Abstractions.csproj", "{805B72B1-F217-4DB9-9995-1235EF58B0A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Bot.Azure", "src\Qooba.Framework.Bot.Azure\Qooba.Framework.Bot.Azure.csproj", "{B3269F9C-51FF-4BEC-A8F8-CA5C0E613F7A}"
 EndProject
@@ -46,13 +42,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework", "src\Qoob
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Logging.AzureApplicationInsights", "src\Qooba.Framework.Logging.AzureApplicationInsights\Qooba.Framework.Logging.AzureApplicationInsights.csproj", "{473CFA3F-4E37-405C-AFD6-E644551BE33D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.SimpleContainer", "src\Qooba.Framework.DependencyInjection.SimpleContainer\Qooba.Framework.DependencyInjection.SimpleContainer.csproj", "{5CF0C692-C320-4784-BDD0-E179C0FBF3F8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Configuration", "src\Qooba.Framework.Configuration\Qooba.Framework.Configuration.csproj", "{8164F9FB-621A-47DD-839A-9A035F7DBC1E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Logging.Console", "src\Qooba.Framework.Logging.Console\Qooba.Framework.Logging.Console.csproj", "{F9463289-A5DC-4CA9-BB58-E7E5D18204B2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.SimpleContainer.Tests", "src\Qooba.Framework.DependencyInjection.SimpleContainer.Tests\Qooba.Framework.DependencyInjection.SimpleContainer.Tests.csproj", "{48AEDA44-A5BC-44D6-A886-1108EE77632A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

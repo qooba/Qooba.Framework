@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Qooba.Framework.Abstractions;
 using System.Linq;
 
-namespace Qooba.Framework.DependencyInjection.Abstractions
+namespace Qooba.Framework
 {
     public abstract class BaseContainer : IContainer
     {

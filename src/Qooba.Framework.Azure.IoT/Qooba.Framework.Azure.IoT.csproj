@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Qooba.Framework.Azure.IoT.Abstractions\Qooba.Framework.Azure.IoT.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.Configuration.Abstractions\Qooba.Framework.Configuration.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Serialization.Abstractions\Qooba.Framework.Serialization.Abstractions.csproj" />
   </ItemGroup>
 
