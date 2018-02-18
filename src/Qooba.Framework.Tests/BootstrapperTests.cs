@@ -1,45 +1,52 @@
-using Qooba.Framework.Serialization.Abstractions;
-using Qooba.Framework.Serialization;
 using Xunit;
-using Qooba.Framework.DependencyInjection.SimpleContainer;
 
 namespace Qooba.Framework.Tests
 {
     public class BootstrapperTests
     {
-        [Fact]
-        public void AddAllAssembliesTest()
-        {
-            var serializer = FrameworkBuilder.Create()
-                .AddAssembly(a => a.All())
-                .Bootstrapp()
-                .GetService<ISerializer>();
+        // [Fact]
+        // public void AddAllAssembliesTest()
+        // {
+        //     var serializer = FrameworkBuilder.Create()
+        //         .AddAssembly(a => a.All())
+        //         .Bootstrapp()
+        //         .GetService<ISerializer>();
 
-            Assert.True(serializer is JsonSerializer);
-        }
+        //     Assert.True(serializer is JsonSerializer);
+        // }
 
-        [Fact]
-        public void AddModulesTest()
-        {
-            var serializer = FrameworkBuilder.Create()
-                .AddModule(m => m.Module(new SimpleContainerModule()))
-                .AddModule(m => m.Module(new SerializationModule()))
-                .Bootstrapp()
-                .GetService<ISerializer>();
+        // [Fact]
+        // public void AddModulesTest()
+        // {
+        //     var serializer = FrameworkBuilder.Create()
+        //         .AddModule(m => m.Module(new SimpleContainerModule()))
+        //         .AddModule(m => m.Module(new SerializationModule()))
+        //         .Bootstrapp()
+        //         .GetService<ISerializer>();
 
-            Assert.True(serializer is JsonSerializer);
-        }
+        //     Assert.True(serializer is JsonSerializer);
+        // }
 
         [Fact]
         public void AddServiceTest()
         {
-            var serializer = FrameworkBuilder.Create()
-                .AddModule(m => m.Module(new SimpleContainerModule()))
-                .AddService(s => s.Service<ISerializer>().As<JsonSerializer>())
+            var test = FrameworkBuilder.Create()
+                .AddService(s => s.Service<ITest>().As<Test>())
                 .Bootstrapp()
-                .GetService<ISerializer>();
+                .GetService<ITest>();
 
-            Assert.True(serializer is JsonSerializer);
+            Assert.True(test is Test);
         }
+
+        public interface ITest
+        {
+            string Run();
+        }
+
+        public class Test : ITest
+        {
+            public string Run() => "hello";
+        }
+
     }
 }

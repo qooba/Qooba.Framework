@@ -47,6 +47,7 @@ namespace Qooba.Framework
                 var container = new Container();
                 container.RegisterInstance(null, typeof(Abstractions.IServiceProvider), container);
                 container.RegisterInstance(null, typeof(IContainer), container);
+                serviceManager = container;
                 this.serviceBootstrapper.SetServiceManager(container);
             }
 

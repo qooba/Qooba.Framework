@@ -1,6 +1,6 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Qooba.Framework.Logging.Abstractions;
+using Qooba.Framework.Abstractions;
 using Qooba.Framework.Serialization.Abstractions;
 using System.Threading.Tasks;
 
