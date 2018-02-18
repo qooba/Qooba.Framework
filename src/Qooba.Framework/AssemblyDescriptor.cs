@@ -4,10 +4,10 @@ using Qooba.Framework.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-#if NET46
-#else
-using Microsoft.Extensions.DependencyModel;
-#endif
+// #if NET46
+// #else
+// using Microsoft.Extensions.DependencyModel;
+// #endif
 
 namespace Qooba.Framework
 {
@@ -27,20 +27,20 @@ namespace Qooba.Framework
 
         public IAssemblyDescriptor All()
         {
-            IEnumerable<AssemblyName> assemblyNames;
-#if NET46
-            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            var d = new System.IO.DirectoryInfo(path);
-            assemblyNames = d.GetFiles("*.dll", System.IO.SearchOption.AllDirectories)
-                .Where(x => this.Patterns.Any(i => x.FullName.Contains(i)))
-                .Select(x => AssemblyName.GetAssemblyName(x.FullName)).Where(x => this.Patterns.Any(i => x.FullName.Contains(i)));
-#else
-            assemblyNames = DependencyContext.Default.GetDefaultAssemblyNames().Where(x => this.Patterns.Any(i => x.FullName.Contains(i)));
-#endif
-            foreach (var assemblyName in assemblyNames)
-            {
-                this.Assembly(assemblyName);
-            }
+//             IEnumerable<AssemblyName> assemblyNames;
+// #if NET46
+//             var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+//             var d = new System.IO.DirectoryInfo(path);
+//             assemblyNames = d.GetFiles("*.dll", System.IO.SearchOption.AllDirectories)
+//                 .Where(x => this.Patterns.Any(i => x.FullName.Contains(i)))
+//                 .Select(x => AssemblyName.GetAssemblyName(x.FullName)).Where(x => this.Patterns.Any(i => x.FullName.Contains(i)));
+// #else
+//             assemblyNames = DependencyContext.Default.GetDefaultAssemblyNames().Where(x => this.Patterns.Any(i => x.FullName.Contains(i)));
+// #endif
+//             foreach (var assemblyName in assemblyNames)
+//             {
+//                 this.Assembly(assemblyName);
+//             }
 
             return this;
         }

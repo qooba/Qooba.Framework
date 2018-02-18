@@ -12,10 +12,10 @@
     <PackageProjectUrl>https://github.com/qooba/Qooba.Framework</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/qooba/Qooba.Framework/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
-
+<!-- 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.4" />    
-  </ItemGroup>
+  </ItemGroup> -->
 
   <ItemGroup>
     <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
