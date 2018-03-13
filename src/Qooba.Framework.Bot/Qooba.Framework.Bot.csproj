@@ -26,8 +26,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj" />
     <ProjectReference Include="..\Qooba.Framework.Bot.Abstractions\Qooba.Framework.Bot.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj" />
-    <ProjectReference Include="..\Qooba.Framework.Serialization.Abstractions\Qooba.Framework.Serialization.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

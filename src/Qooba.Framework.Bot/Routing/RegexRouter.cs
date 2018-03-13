@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Qooba.Framework.Serialization.Abstractions;
 using System.Text;
 using Qooba.Framework.Bot.Handlers;
 using System.Collections.Concurrent;

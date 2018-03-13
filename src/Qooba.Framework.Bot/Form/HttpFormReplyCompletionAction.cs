@@ -1,7 +1,7 @@
-﻿using Qooba.Framework.Bot.Abstractions;
+﻿using Qooba.Framework.Abstractions;
+using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Form;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Qooba.Framework.Serialization.Abstractions;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;

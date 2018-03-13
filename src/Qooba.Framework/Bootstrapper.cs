@@ -70,6 +70,7 @@ namespace Qooba.Framework
             serviceManager.AddService(s => s.Service<ILogger>().As<Logger>().Lifetime(Lifetime.Singleton));
             serviceManager.AddService(s => s.Service<IExpressionHelper>().As(new ExpressionHelper()).Lifetime(Lifetime.Singleton));
             serviceManager.AddService(s => s.Service<IMapper>().As(new Mapper()).Lifetime(Lifetime.Singleton));
+            serviceManager.AddService(s => s.Service<ISerializer>().As(new JSON()).Lifetime(Lifetime.Singleton));
         }
 
         private void PrepareModules()

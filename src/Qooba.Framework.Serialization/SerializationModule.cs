@@ -1,5 +1,4 @@
 ﻿using Qooba.Framework.Abstractions;
-using Qooba.Framework.Serialization.Abstractions;
 
 namespace Qooba.Framework.Serialization
 {

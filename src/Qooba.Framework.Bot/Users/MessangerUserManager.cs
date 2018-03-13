@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions.Models;
 using System.Net.Http;
-using Qooba.Framework.Serialization.Abstractions;
+using Qooba.Framework.Abstractions;
 
 namespace Qooba.Framework.Bot.Users
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Qooba.Framework.Serialization.Abstractions
+namespace Qooba.Framework.Abstractions
 {
     public interface ISerializer
     {

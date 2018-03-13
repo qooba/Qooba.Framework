@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Qooba.Framework.Serialization.Abstractions;
 using System.Text;
 using System.Text.RegularExpressions;
+using Qooba.Framework.Abstractions;
 
 namespace Qooba.Framework.Bot.Handlers
 {

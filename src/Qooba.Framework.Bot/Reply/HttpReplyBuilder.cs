@@ -1,9 +1,9 @@
 ﻿using Qooba.Framework.Bot.Abstractions;
 using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Qooba.Framework.Serialization.Abstractions;
 using System.Net.Http;
 using System.Text;
+using Qooba.Framework.Abstractions;
 
 namespace Qooba.Framework.Bot
 {

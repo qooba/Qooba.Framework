@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Qooba.Framework.Serialization.Abstractions;
+using Qooba.Framework.Abstractions;
 using System;
 
 namespace Qooba.Framework.Serialization

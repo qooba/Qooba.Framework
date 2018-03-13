@@ -1,5 +1,5 @@
-﻿using Qooba.Framework.Bot.Abstractions;
-using Qooba.Framework.Serialization.Abstractions;
+﻿using Qooba.Framework.Abstractions;
+using Qooba.Framework.Bot.Abstractions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
