@@ -1,5 +1,4 @@
 ﻿using Qooba.Framework.Configuration;
-using Qooba.Framework.DependencyInjection.SimpleContainer;
 using Qooba.Framework.Logging.Console;
 using Qooba.Framework.Serialization;
 using System;

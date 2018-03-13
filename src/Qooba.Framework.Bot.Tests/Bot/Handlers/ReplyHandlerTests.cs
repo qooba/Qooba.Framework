@@ -2,7 +2,6 @@
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Bot.Handlers;
-using Qooba.Framework.Serialization.Abstractions;
 using System;
 using System.Threading.Tasks;
 using Xunit;

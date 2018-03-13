@@ -42,13 +42,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Azure.Stora
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serialization", "Serialization", "{590D8BD8-36F1-4C4D-A3D0-42921BC4DA4A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Serialization.Abstractions", "src\Qooba.Framework.Serialization.Abstractions\Qooba.Framework.Serialization.Abstractions.csproj", "{E265F38F-A771-49BF-97C2-764CBD5DA231}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitOfWork", "UnitOfWork", "{40987646-A9AA-494F-81AF-D61557B87AFE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.UnitOfWork.Abstractions", "src\Qooba.Framework.UnitOfWork.Abstractions\Qooba.Framework.UnitOfWork.Abstractions.csproj", "{24213BA4-2219-4B55-AB03-E3C81B7A0308}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.SimpleContainer", "src\Qooba.Framework.DependencyInjection.SimpleContainer\Qooba.Framework.DependencyInjection.SimpleContainer.csproj", "{F9582C21-ED16-4689-8CD9-C4BAAC03BDD8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specification", "Specification", "{3971B12E-FF55-456A-AA11-7AC545E8A3E2}"
 EndProject

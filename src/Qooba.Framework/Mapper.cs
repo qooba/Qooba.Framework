@@ -84,6 +84,7 @@ namespace Qooba.Framework
                 var name = property.Name;
                 var inputPropertyType = inputProperties.FirstOrDefault(x => x.Name == name).PropertyType;
                 var outputPropertyType = outputProperties.FirstOrDefault(x => x.Name == name).PropertyType;
+                Type nullableType;
                 if (inputPropertyType == outputPropertyType)
                 {
                     var inputPropertyGetter = Expression.Property(input, name);
@@ -92,9 +93,10 @@ namespace Qooba.Framework
                 }
                 else if (outputPropertyType == typeof(string))
                 {
-                    var inputPropertyGetter = Expression.Call(Expression.Property(input, name), inputPropertyType.GetTypeInfo().GetMethod("ToString", new Type[] { }));
+                    var inputProperty = Expression.Property(input, name);
+                    var inputPropertyGetter = Expression.Call(inputProperty, inputPropertyType.GetTypeInfo().GetMethod("ToString", new Type[] { }));
                     var outputPropertyGetter = Expression.Property(outputLocal, name);
-                    assignExpressions.Add(CheckIsNull(inputPropertyGetter, inputPropertyType, Expression.Assign(outputPropertyGetter, inputPropertyGetter)));
+                    assignExpressions.Add(CheckIsNull(inputProperty, inputPropertyType, Expression.Assign(outputPropertyGetter, inputPropertyGetter)));
                 }
                 else if (outputPropertyType.GetTypeInfo().GetInterfaces().Contains(typeof(IEnumerable)))
                 {
@@ -115,6 +117,21 @@ namespace Qooba.Framework
 
                     var parsingExpression = Expression.Call(null, meth, inputPropertyGetter);
                     assignExpressions.Add(CheckIsNull(inputPropertyGetter, inputPropertyType, Expression.Assign(outputPropertyGetter, parsingExpression)));
+                }
+                else if ((nullableType = Nullable.GetUnderlyingType(outputPropertyType)) != null)
+                {
+                    var inputPropertyGetter = Expression.Property(input, name);
+                    var outputPropertyGetter = Expression.Property(outputLocal, name);
+
+                    var parsed = Expression.Parameter(nullableType, string.Concat(name, "Parsed"));
+                    localVariables.Add(parsed);
+                    var meth = nullableType.GetTypeInfo().GetMethod("TryParse", new[] { typeof(string), nullableType.MakeByRefType() });
+                    if (meth != null)
+                    {
+                        var parsingExpression = Expression.Call(null, meth, Expression.Call(inputPropertyGetter, inputPropertyType.GetTypeInfo().GetMethod("ToString", new Type[] { })), parsed);
+                        assignExpressions.Add(CheckIsNull(inputPropertyGetter, inputPropertyType, parsingExpression));
+                        assignExpressions.Add(CheckIsNull(inputPropertyGetter, inputPropertyType, Expression.Assign(outputPropertyGetter, Expression.Convert(parsed, outputPropertyType))));
+                    }
                 }
                 else if (outputPropertyType.GetTypeInfo().IsClass)
                 {
@@ -193,69 +210,6 @@ namespace Qooba.Framework
             decimal i;
             decimal.TryParse(input, out i);
             return i;
-        }
-
-
-        public class ITest
-        {
-            public string Name { get; set; }
-
-            public string LastName { get; set; }
-
-            public int Age { get; set; }
-
-            public string Amount { get; set; }
-
-            public string DAmount { get; set; }
-
-            public string Sex { get; set; }
-
-            public INested Nested { get; set; }
-
-            public IList<INested> Items { get; set; }
-
-            public INested[] AItems { get; set; }
-        }
-
-        public class INested
-        {
-            public string Name { get; set; }
-
-            public string LastName { get; set; }
-        }
-
-        public class OTest
-        {
-            public string Name { get; set; }
-
-            public string LastName { get; set; }
-
-            public string Age { get; set; }
-
-            public int Amount { get; set; }
-
-            public double DAmount { get; set; }
-
-            public Sex Sex { get; set; }
-
-            public ONested Nested { get; set; }
-
-            public IList<ONested> Items { get; set; }
-
-            public ONested[] AItems { get; set; }
-        }
-
-        public class ONested
-        {
-            public string Name { get; set; }
-
-            public string LastName { get; set; }
-        }
-
-        public enum Sex
-        {
-            Male,
-            Female
         }
     }
 }

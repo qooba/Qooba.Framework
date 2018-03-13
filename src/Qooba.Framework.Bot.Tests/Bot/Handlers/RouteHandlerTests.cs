@@ -3,7 +3,6 @@ using Qooba.Framework.Abstractions;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Qooba.Framework.Bot.Handlers;
-using Qooba.Framework.Serialization.Abstractions;
 using Xunit;
 
 namespace Qooba.Framework.Bot.Tests.Handlers

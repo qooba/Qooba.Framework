@@ -3,7 +3,7 @@ using Qooba.Framework.Abstractions;
 using Qooba.Framework.DependencyInjection.Abstractions;
 using Qooba.Framework.DependencyInjection.DefaultContainer;
 
-namespace Qooba.Framework.DependencyInjection.SimpleContainer
+namespace Qooba.Framework.DependencyInjection.DefaultContainer
 {
     public class DefaultContainerModule : IServiceManagerModule
     {

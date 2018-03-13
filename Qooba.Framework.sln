@@ -14,8 +14,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework", "src\Qoob
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Abstractions", "src\Qooba.Framework.Abstractions\Qooba.Framework.Abstractions.csproj", "{B6C550AF-E0E5-4E4A-BD49-B517A954BC6F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.SimpleContainer", "src\Qooba.Framework.DependencyInjection.SimpleContainer\Qooba.Framework.DependencyInjection.SimpleContainer.csproj", "{2FF2659D-8B29-4448-BA91-1569451D4575}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DependencyInjection", "DependencyInjection", "{136B7382-1EFD-44C6-9F08-91CC498DDB90}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.ContainerFactory", "src\Qooba.Framework.DependencyInjection.ContainerFactory\Qooba.Framework.DependencyInjection.ContainerFactory.csproj", "{02F52D3D-9224-4466-966C-C1FABC393DCC}"
@@ -37,8 +35,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Expressions", "Expressions", "{8F822956-A873-4744-9414-E6E21A9B1CB3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Expressions.Abstractions", "src\Qooba.Framework.Expressions.Abstractions\Qooba.Framework.Expressions.Abstractions.csproj", "{89B29B3A-DA77-4EF6-8E80-601DB2C44EC1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Serialization.Abstractions", "src\Qooba.Framework.Serialization.Abstractions\Qooba.Framework.Serialization.Abstractions.csproj", "{001619DA-6D74-44CC-892A-C4568A487911}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Serialization", "src\Qooba.Framework.Serialization\Qooba.Framework.Serialization.csproj", "{CE9AF30F-BA9C-4CBA-986B-3430B9A15D6F}"
 EndProject
@@ -147,8 +143,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{00DA0173-6DE5-451E-95C8-5ECDEB50040A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Logging.Abstractions", "src\Qooba.Framework.Logging.Abstractions\Qooba.Framework.Logging.Abstractions.csproj", "{92EC9378-22B5-4A7E-83F0-9EAEAAD23A73}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.SimpleContainer.Tests", "src\Qooba.Framework.DependencyInjection.SimpleContainer.Tests\Qooba.Framework.DependencyInjection.SimpleContainer.Tests.csproj", "{EE1E7E82-A9F0-45A1-ABBB-04DBBAC0C157}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Tests", "src\Qooba.Framework.Tests\Qooba.Framework.Tests.csproj", "{2B444BEA-C57A-4855-8742-6BFBA35AD124}"
 EndProject

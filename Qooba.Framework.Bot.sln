@@ -32,8 +32,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Bot.Azure.T
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serialization", "Serialization", "{E316ADF0-1F5A-4130-9099-6310D4FDA3C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Serialization.Abstractions", "src\Qooba.Framework.Serialization.Abstractions\Qooba.Framework.Serialization.Abstractions.csproj", "{F57E2533-908A-4C4C-8D72-B4193C475BC8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.Serialization", "src\Qooba.Framework.Serialization\Qooba.Framework.Serialization.csproj", "{DACCEDA6-896B-42AD-96C0-6A8AD98DE7C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework", "src\Qooba.Framework\Qooba.Framework.csproj", "{6E6956AA-6C27-4050-8A88-5E5FC25DF5D3}"

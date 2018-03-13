@@ -2,7 +2,6 @@
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
 using Microsoft.WindowsAzure.Storage.Table;
-using Qooba.Framework.Serialization.Abstractions;
 using Microsoft.WindowsAzure.Storage;
 using System.Net;
 using Qooba.Framework.Abstractions;

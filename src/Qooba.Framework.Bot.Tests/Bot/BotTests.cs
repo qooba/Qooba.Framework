@@ -1,7 +1,6 @@
 ﻿using Moq;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Abstractions;
-using Qooba.Framework.Serialization.Abstractions;
 using System.Threading.Tasks;
 using Xunit;
 

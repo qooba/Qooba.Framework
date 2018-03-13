@@ -2,7 +2,6 @@
 using Qooba.Framework.Abstractions;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Qooba.Framework.Serialization.Abstractions;
 using System.Collections.Generic;
 using Xunit;
 

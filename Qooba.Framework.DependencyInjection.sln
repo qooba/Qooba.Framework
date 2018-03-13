@@ -20,8 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.DefaultContainer", "src\Qooba.Framework.DependencyInjection.DefaultContainer\Qooba.Framework.DependencyInjection.DefaultContainer.csproj", "{7E8F81FA-E7E1-4D21-BAED-E1C84008A881}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qooba.Framework.DependencyInjection.SimpleContainer", "src\Qooba.Framework.DependencyInjection.SimpleContainer\Qooba.Framework.DependencyInjection.SimpleContainer.csproj", "{8298C25C-DD56-4D20-9C8B-8C7B51915103}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

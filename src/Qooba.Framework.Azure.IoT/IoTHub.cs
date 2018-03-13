@@ -1,7 +1,6 @@
 ﻿using Qooba.Framework.Azure.IoT.Abstractions;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices;
-using Qooba.Framework.Serialization.Abstractions;
 using System.Text;
 
 namespace Qooba.Framework.Azure.IoT

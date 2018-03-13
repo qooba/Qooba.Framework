@@ -3,7 +3,6 @@ using Qooba.Framework.Bot.Handlers;
 using System.Collections.Generic;
 using Xunit;
 using Moq;
-using Qooba.Framework.Serialization.Abstractions;
 using Qooba.Framework.Abstractions;
 
 namespace Qooba.Framework.Bot.Tests.Handlers

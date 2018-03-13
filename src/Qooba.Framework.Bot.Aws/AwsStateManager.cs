@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Qooba.Framework.Bot.Abstractions;
 using Qooba.Framework.Bot.Abstractions.Models;
-using Qooba.Framework.Serialization.Abstractions;
 using Amazon.DynamoDBv2;
 using System.Collections.Generic;
 using Amazon.DynamoDBv2.Model;
